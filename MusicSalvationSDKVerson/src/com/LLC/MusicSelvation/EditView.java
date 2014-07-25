@@ -45,7 +45,9 @@ implements SurfaceHolder.Callback {
 	MediaPlayer mp=null;
 	String tittle="未選擇";
 
-	chartLine line[]=new chartLine[20];
+	
+	int chartObject=20;
+	chartLine line[]=new chartLine[chartObject];
 	
 	Bitmap 
 		cr_on
@@ -54,10 +56,10 @@ implements SurfaceHolder.Callback {
 		,cx_on
 		,c_off;
 	chartBottom 
-		 cr_btm[]=new chartBottom[20]
-		,cs_btm[]=new chartBottom[20]
-	    ,ct_btm[]=new chartBottom[20]
-	    ,cx_btm[]=new chartBottom[20];
+		 cr_btm[]=new chartBottom[chartObject]
+		,cs_btm[]=new chartBottom[chartObject]
+	    ,ct_btm[]=new chartBottom[chartObject]
+	    ,cx_btm[]=new chartBottom[chartObject];
 	boolean cr_btm_flag=false;
 	boolean cs_btm_flag=false;
 	boolean ct_btm_flag=false;
@@ -201,7 +203,7 @@ implements SurfaceHolder.Callback {
 			if(mp!=null){
 				if(cr_btm_flag){//按鍵圓產生
 					BtR.append(mp.getCurrentPosition(), true);
-					for(int i=0;i<20;i++){
+					for(int i=0;i<chartObject;i++){
 						if(!cr_btm[i].getFlag()){
 							cr_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition());
 							cr_btm_flag=false;
@@ -211,7 +213,7 @@ implements SurfaceHolder.Callback {
 				}
 				if(cs_btm_flag){//按鍵方產生
 					BtS.append(mp.getCurrentPosition(), true);
-					for(int i=0;i<20;i++){
+					for(int i=0;i<chartObject;i++){
 						if(!cs_btm[i].getFlag()){
 							cs_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition());
 							cs_btm_flag=false;
@@ -221,7 +223,7 @@ implements SurfaceHolder.Callback {
 				}
 				if(ct_btm_flag){//按鍵三角產生
 					BtT.append(mp.getCurrentPosition(), true);
-					for(int i=0;i<20;i++){
+					for(int i=0;i<chartObject;i++){
 						if(!ct_btm[i].getFlag()){
 							ct_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition());
 							ct_btm_flag=false;
@@ -231,7 +233,7 @@ implements SurfaceHolder.Callback {
 				}
 				if(cx_btm_flag){//按鍵X產生
 					BtX.append(mp.getCurrentPosition(), true);
-					for(int i=0;i<20;i++){
+					for(int i=0;i<chartObject;i++){
 						if(!cx_btm[i].getFlag()){
 							cx_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition());
 							cx_btm_flag=false;
@@ -244,7 +246,7 @@ implements SurfaceHolder.Callback {
 					for(int time=(mp.getCurrentPosition()-target_dis*2);time<mp.getCurrentPosition();time+=1){
 						if(BtR.get(time)!=null){///按鈕_圓 偵測
 							if(BtR.get(time)){
-								for(int i=0;i<20;i++){
+								for(int i=0;i<chartObject;i++){
 									if(!cr_btm[i].getFlag()){
 										cr_btm[i].start(time, target_dis, time);
 										break;
@@ -254,7 +256,7 @@ implements SurfaceHolder.Callback {
 						}
 						if(BtS.get(time)!=null){///按鈕_方 偵測
 							if(BtS.get(time)){
-								for(int i=0;i<20;i++){
+								for(int i=0;i<chartObject;i++){
 									if(!cs_btm[i].getFlag()){
 										cs_btm[i].start(time, target_dis, time);
 										break;
@@ -264,7 +266,7 @@ implements SurfaceHolder.Callback {
 						}
 						if(BtT.get(time)!=null){///按鈕_三 偵測
 							if(BtT.get(time)){
-								for(int i=0;i<20;i++){
+								for(int i=0;i<chartObject;i++){
 									if(!ct_btm[i].getFlag()){
 										ct_btm[i].start(time, target_dis, time);
 										break;
@@ -274,7 +276,7 @@ implements SurfaceHolder.Callback {
 						}
 						if(BtX.get(time)!=null){///按鈕_X 偵測
 							if(BtX.get(time)){
-								for(int i=0;i<20;i++){
+								for(int i=0;i<chartObject;i++){
 									if(!cx_btm[i].getFlag()){
 										cx_btm[i].start(time, target_dis, time);
 										break;
@@ -283,7 +285,7 @@ implements SurfaceHolder.Callback {
 							}
 						}
 						if(time%5000<=10&&time>=0&&time<mp.getDuration()){//時間基準線偵測
-							for(int i=0;i<20;i++){
+							for(int i=0;i<chartObject;i++){
 								if(line[i].getFlag()==false &&(time-this.last_line)>1000){
 									line[i].start(time, target_dis);
 									this.last_line=time;
@@ -298,7 +300,7 @@ implements SurfaceHolder.Callback {
 					for(int j=0;j<50;j++){//按鈕_圓 偵測
 						if(BtR.get((mp.getCurrentPosition()+target_dis+j))!=null){
 							if(BtR.get((mp.getCurrentPosition()+target_dis+j))){
-								for(int i=0;i<20;i++){
+								for(int i=0;i<chartObject;i++){
 									if(!cr_btm[i].getFlag()){
 										cr_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
 										break;
@@ -308,7 +310,7 @@ implements SurfaceHolder.Callback {
 						}
 						if(BtS.get((mp.getCurrentPosition()+target_dis+j))!=null){
 							if(BtS.get((mp.getCurrentPosition()+target_dis+j))){
-								for(int i=0;i<20;i++){
+								for(int i=0;i<chartObject;i++){
 									if(!cs_btm[i].getFlag()){
 										cs_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
 										break;
@@ -318,7 +320,7 @@ implements SurfaceHolder.Callback {
 						}
 						if(BtT.get((mp.getCurrentPosition()+target_dis+j))!=null){
 							if(BtT.get((mp.getCurrentPosition()+target_dis+j))){
-								for(int i=0;i<20;i++){
+								for(int i=0;i<chartObject;i++){
 									if(!ct_btm[i].getFlag()){
 										ct_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
 										break;
@@ -328,7 +330,7 @@ implements SurfaceHolder.Callback {
 						}
 						if(BtX.get((mp.getCurrentPosition()+target_dis+j))!=null){
 							if(BtX.get((mp.getCurrentPosition()+target_dis+j))){
-								for(int i=0;i<20;i++){
+								for(int i=0;i<chartObject;i++){
 									if(!cx_btm[i].getFlag()){
 										cx_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
 										break;
@@ -338,7 +340,7 @@ implements SurfaceHolder.Callback {
 						}
 					}
 					if((mp.getCurrentPosition()+target_dis)%5000<=100 &&mp.isPlaying()&&(mp.getCurrentPosition()+target_dis)<mp.getDuration()){//時間基準線偵測
-						for(int i=0;i<20;i++){
+						for(int i=0;i<chartObject;i++){
 							if(line[i].getFlag()==false &&(mp.getCurrentPosition()+target_dis-this.last_line)>1000){
 								line[i].start(mp.getCurrentPosition(), target_dis);
 								this.last_line=(mp.getCurrentPosition()+target_dis);
@@ -347,7 +349,7 @@ implements SurfaceHolder.Callback {
 						}
 					}
 					int draw_time=mp.getCurrentPosition();
-					for(int i=0;i<20;i++){////按鈕/時間基準線繪圖
+					for(int i=0;i<chartObject;i++){////按鈕/時間基準線繪圖
 						if(line[i].getFlag()){
 							line[i].drawChatrLine(draw_time, canvas, paint);
 						}
@@ -507,8 +509,12 @@ implements SurfaceHolder.Callback {
 						}
 					}
 					if(msb.isOn(pointx, pointy)){
-						for(int i=0;i<20;i++){
+						for(int i=0;i<chartObject;i++){
 							line[i].flag=false;
+							cr_btm[i].flag=false;
+							cs_btm[i].flag=false;
+							ct_btm[i].flag=false;
+							cx_btm[i].flag=false;
 						}
 						last_line=-1002;
 						chart_FullScanFlag=true;

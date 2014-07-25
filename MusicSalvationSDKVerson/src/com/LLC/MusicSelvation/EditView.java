@@ -299,7 +299,7 @@ implements SurfaceHolder.Callback {
 						if(BtR.get((mp.getCurrentPosition()+target_dis+j))!=null){
 							if(BtR.get((mp.getCurrentPosition()+target_dis+j))){
 								for(int i=0;i<20;i++){
-									if(cr_btm[i].getFlag()){
+									if(!cr_btm[i].getFlag()){
 										cr_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
 										break;
 									}
@@ -309,7 +309,7 @@ implements SurfaceHolder.Callback {
 						if(BtS.get((mp.getCurrentPosition()+target_dis+j))!=null){
 							if(BtS.get((mp.getCurrentPosition()+target_dis+j))){
 								for(int i=0;i<20;i++){
-									if(cs_btm[i].getFlag()){
+									if(!cs_btm[i].getFlag()){
 										cs_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
 										break;
 									}
@@ -319,7 +319,7 @@ implements SurfaceHolder.Callback {
 						if(BtT.get((mp.getCurrentPosition()+target_dis+j))!=null){
 							if(BtT.get((mp.getCurrentPosition()+target_dis+j))){
 								for(int i=0;i<20;i++){
-									if(ct_btm[i].getFlag()){
+									if(!ct_btm[i].getFlag()){
 										ct_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
 										break;
 									}
@@ -329,7 +329,7 @@ implements SurfaceHolder.Callback {
 						if(BtX.get((mp.getCurrentPosition()+target_dis+j))!=null){
 							if(BtX.get((mp.getCurrentPosition()+target_dis+j))){
 								for(int i=0;i<20;i++){
-									if(cx_btm[i].getFlag()){
+									if(!cx_btm[i].getFlag()){
 										cx_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
 										break;
 									}

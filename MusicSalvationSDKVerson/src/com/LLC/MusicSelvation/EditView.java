@@ -346,21 +346,22 @@ implements SurfaceHolder.Callback {
 							}
 						}
 					}
+					int draw_time=mp.getCurrentPosition();
 					for(int i=0;i<20;i++){////按鈕/時間基準線繪圖
 						if(line[i].getFlag()){
-							line[i].drawChatrLine(mp.getCurrentPosition(), canvas, paint);
+							line[i].drawChatrLine(draw_time, canvas, paint);
 						}
 						if(cr_btm[i].getFlag()){
-							cr_btm[i].drawChartBottom(mp.getCurrentPosition(), canvas, paint);
+							cr_btm[i].drawChartBottom(draw_time, canvas, paint);
 						}
 						if(cs_btm[i].getFlag()){
-							cs_btm[i].drawChartBottom(mp.getCurrentPosition(), canvas, paint);
+							cs_btm[i].drawChartBottom(draw_time, canvas, paint);
 						}
 						if(ct_btm[i].getFlag()){
-							ct_btm[i].drawChartBottom(mp.getCurrentPosition(), canvas, paint);
+							ct_btm[i].drawChartBottom(draw_time, canvas, paint);
 						}
 						if(cx_btm[i].getFlag()){
-							cx_btm[i].drawChartBottom(mp.getCurrentPosition(), canvas, paint);
+							cx_btm[i].drawChartBottom(draw_time, canvas, paint);
 						}
 					}
 				}

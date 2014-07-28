@@ -298,8 +298,9 @@ implements SurfaceHolder.Callback {
 				}//¥þµe­±±½´y**********************************************************************************************************************
 				else{
 					for(int j=0;j<50;j++){//«ö¶s_¶ê °»´ú
-						if(BtR.get((mp.getCurrentPosition()+target_dis+j))!=null){
-							if(BtR.get((mp.getCurrentPosition()+target_dis+j))){
+						int BtTime=mp.getCurrentPosition()+target_dis+j;
+						if(BtR.get(BtTime)!=null){
+							if(BtR.get(BtTime)){
 								for(int i=0;i<chartObject;i++){
 									if(!cr_btm[i].getFlag()){
 										cr_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
@@ -308,8 +309,8 @@ implements SurfaceHolder.Callback {
 								}
 							}
 						}
-						if(BtS.get((mp.getCurrentPosition()+target_dis+j))!=null){
-							if(BtS.get((mp.getCurrentPosition()+target_dis+j))){
+						if(BtS.get(BtTime)!=null){
+							if(BtS.get(BtTime)){
 								for(int i=0;i<chartObject;i++){
 									if(!cs_btm[i].getFlag()){
 										cs_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
@@ -318,8 +319,8 @@ implements SurfaceHolder.Callback {
 								}
 							}
 						}
-						if(BtT.get((mp.getCurrentPosition()+target_dis+j))!=null){
-							if(BtT.get((mp.getCurrentPosition()+target_dis+j))){
+						if(BtT.get(BtTime)!=null){
+							if(BtT.get(BtTime)){
 								for(int i=0;i<chartObject;i++){
 									if(!ct_btm[i].getFlag()){
 										ct_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
@@ -328,8 +329,8 @@ implements SurfaceHolder.Callback {
 								}
 							}
 						}
-						if(BtX.get((mp.getCurrentPosition()+target_dis+j))!=null){
-							if(BtX.get((mp.getCurrentPosition()+target_dis+j))){
+						if(BtX.get(BtTime)!=null){
+							if(BtX.get(BtTime)){
 								for(int i=0;i<chartObject;i++){
 									if(!cx_btm[i].getFlag()){
 										cx_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());

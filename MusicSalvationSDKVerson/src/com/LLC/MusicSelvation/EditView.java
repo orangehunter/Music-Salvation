@@ -177,7 +177,12 @@ implements SurfaceHolder.Callback {
 					} catch (IllegalStateException e) {
 					} catch (IOException e) {
 					}
-
+					try {
+						FileData.read(activity, uri);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					uriFlag=false;
 					loadFlag=false;
 					chart_FullScanFlag=true;
@@ -475,7 +480,9 @@ implements SurfaceHolder.Callback {
 						activity.changeView(7);
 					}
 					if(save.isIn(pointx, pointy)){
-
+						if(FileData.IfData(activity)){
+							FileData.write(activity, uri, BtR, BtS, BtT, BtX);
+						}
 					}
 					if(btm_r.isIn(pointx, pointy)){
 						btm_r.setBottomTo(true);

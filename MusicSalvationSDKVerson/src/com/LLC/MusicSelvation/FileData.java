@@ -52,16 +52,20 @@ public class FileData {
 			}
 
 			// 判斷目錄是否存在
-			File vPath = new File( vSDCard.getParent() + vSDCard.getName() + "/MusicSalvationDATA" );
+			File vPath = new File( vSDCard.getParent() + vSDCard.getName()  );
 			if( vPath.exists() ){
 				return true;
 			}else{
+				try{
 				vPath.mkdirs();
 				activity.callToast("創建資料夾");
 				return true;
+				}catch(Exception e) {
+					activity.callToast("創建資料夾失敗");
+					return false;
+				}
 			}
 		} catch (Exception e) {
-			activity.callToast("創建資料夾失敗");
 			return false;
 		}
 	}
@@ -77,7 +81,7 @@ public class FileData {
 		String stemp="a";
 		boolean btemp;
 		File vSDCard = Environment.getExternalStorageDirectory();
-		File read=new File( vSDCard.getParent() + vSDCard.getName() + "/MusicSalvationDATA/"+turnUriToName(uri)+".txt" );
+		File read=new File( vSDCard.getParent() + vSDCard.getName() +turnUriToName(uri)+".txt" );
 
 		if(read.exists()){
 			try {
@@ -178,7 +182,7 @@ public class FileData {
 		FileWriter fw=null;
 		BufferedWriter bw = null;
 		File vSDCard = Environment.getExternalStorageDirectory();
-		File file=new File( vSDCard.getParent() + vSDCard.getName() + "/MusicSalvationDATA/"+turnUriToName(uri)+".txt" );
+		File file=new File( vSDCard.getParent() + vSDCard.getName() +turnUriToName(uri)+".txt" );
 		if(file.exists()){
 			new AlertDialog.Builder(activity)
 			.setTitle("+++警告+++")
@@ -197,7 +201,7 @@ public class FileData {
 			})
 			.show();
 		}else{
-			try {
+			/*try {
 				file.createNewFile();
 				Constant.FileDataFlag=true;
 				activity.callToast("建立新檔");
@@ -205,11 +209,12 @@ public class FileData {
 				e.printStackTrace();
 				Constant.FileDataFlag=false;
 				activity.callToast("建檔失敗");
-			}
+			}*/
+			Constant.FileDataFlag=true;
 		}
 		if(Constant.FileDataFlag){
 			try{
-				fw=new FileWriter(file,false);
+				fw=new FileWriter( vSDCard.getParent() + vSDCard.getName() +turnUriToName(uri)+".txt" ,false);
 				bw=new BufferedWriter(fw);
 				String temp = null;
 				for(int i=0;i<=sR.size();i++){

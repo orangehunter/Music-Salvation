@@ -52,18 +52,18 @@ public class FileData {
 			}
 
 			// 判斷目錄是否存在
-			File vPath = new File( vSDCard.getParent() + vSDCard.getName()  );
+			File vPath = new File( vSDCard.getParent() + vSDCard.getName() );
 			if( vPath.exists() ){
 				return true;
 			}else{
-				try{
-				vPath.mkdirs();
+				
+				if(vPath.mkdirs()){
 				activity.callToast("創建資料夾");
 				return true;
-				}catch(Exception e) {
-					activity.callToast("創建資料夾失敗");
-					return false;
-				}
+				}else{
+				activity.callToast("創建資料夾失敗");
+				return false;
+				}				
 			}
 		} catch (Exception e) {
 			return false;

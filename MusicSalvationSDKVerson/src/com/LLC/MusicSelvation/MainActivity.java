@@ -110,23 +110,14 @@ public class MainActivity extends Activity{
 
 	}
 
-	public void callToast(int what)//Toast訊息傳送
+	public void callToast(String what)//Toast訊息傳送
 	{
-		Message msg = toastHandler.obtainMessage(what); 
+		Message msg = toastHandler.obtainMessage(1,what); 
 		toastHandler.sendMessage(msg);
 	} 
 	Handler toastHandler = new Handler(){//處理各個SurfaceView傳送的Toast訊息
 		public void handleMessage(Message msg) {
-			switch(msg.what)//
-			{
-			case 0:
-				createToast("");
-				break;
-			case 1:
-				createToast("");
-				break;
-		
-			}
+			createToast((String)msg.obj);
 		}
 	};
 	public void createToast(String msg){//顯示Toast

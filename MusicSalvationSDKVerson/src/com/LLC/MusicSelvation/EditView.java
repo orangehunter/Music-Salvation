@@ -34,7 +34,7 @@ implements SurfaceHolder.Callback {
 	Bitmap bottom[]=new Bitmap[5];
 	Bottom btm_r,btm_s,btm_t,btm_x;
 
-	SparseArray<Boolean> 
+	static SparseArray<Boolean> 
 	         BtR=new SparseArray<Boolean>()
 			,BtS=new SparseArray<Boolean>()
 			,BtT=new SparseArray<Boolean>()

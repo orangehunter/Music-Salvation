@@ -17,6 +17,8 @@ static float GAME_WIDTH_UNIT;
 static float SCREEN_HEIGHT_UNIT;
 
 static boolean Flag;
+static boolean FileDataFlag;
+
 
 public static void setFlag(boolean set){	
 	Constant.Flag=set;

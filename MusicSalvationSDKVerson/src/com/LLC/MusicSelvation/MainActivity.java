@@ -282,7 +282,7 @@ public class MainActivity extends Activity{
 			e.printStackTrace();
 		}
 		try {
-			String fileName=turnUriToName(uri);
+			String fileName=turnUriToName(uri)+"txt";
 			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
 			writer.close();
 

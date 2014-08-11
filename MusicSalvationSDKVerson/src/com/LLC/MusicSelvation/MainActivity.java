@@ -1,8 +1,16 @@
 package com.LLC.MusicSelvation;
 
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
@@ -11,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
@@ -236,6 +245,55 @@ public class MainActivity extends Activity{
 		return uri;
 	}
 	
+	public static String turnUriToName(Uri u){
+		String a=u.toString(),b="";
+		for(int i=a.length();i>0;i--){
+			if(a.substring(i-1, i).equals("/")){
+				break;
+			}else if(a.substring(i-3, i).equals("%20")){
+				b+=" ";
+				i-=2;
+			}else b+=a.substring(i-1, i);
+		}
+
+		return Reversion(b);
+	}
+	public static String Reversion(String temp){
+		String c="";
+		for(int i=temp.length();i>0;i--){
+			c+=temp.subSequence(i-1, i);
+		}
+		return c;
+	}
+	
+	public void read(Uri uri){
+		
+	}
+	
+	public  void write(Uri uri,SparseArray<Boolean> sR,SparseArray<Boolean> sS,SparseArray<Boolean> sT,SparseArray<Boolean> sX){
+		JSONObject json=new JSONObject();
+		try {
+			json.put("R", sR);
+			json.put("S", sS);
+			json.put("T",sT);
+			json.put("X", sX);
+		} catch (JSONException e) {
+			callToast("無法將參數導入json");
+			e.printStackTrace();
+		}
+		try {
+			String fileName=turnUriToName(uri);
+			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
+			writer.close();
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Override 
 	public void onResume(){

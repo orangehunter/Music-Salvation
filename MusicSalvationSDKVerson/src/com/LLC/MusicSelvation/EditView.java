@@ -166,7 +166,7 @@ implements SurfaceHolder.Callback {
 			if(uriFlag){//音訊路徑狀態
 				uri=activity.sendUri();
 				if(uri!=null&& loadFlag){
-					tittle=FileData.turnUriToName(uri);
+					tittle=MainActivity.turnUriToName(uri);
 
 					if(mp==null)//偵測撥放器物件
 						mp=new MediaPlayer();
@@ -177,12 +177,7 @@ implements SurfaceHolder.Callback {
 					} catch (IllegalStateException e) {
 					} catch (IOException e) {
 					}
-					try {
-						FileData.read(activity, uri);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					activity.read( uri);
 					uriFlag=false;
 					loadFlag=false;
 					chart_FullScanFlag=true;
@@ -480,9 +475,16 @@ implements SurfaceHolder.Callback {
 						activity.changeView(7);
 					}
 					if(save.isIn(pointx, pointy)){
-						if(FileData.IfData(activity)){
-							FileData.write(activity, uri, BtR, BtS, BtT, BtX);
-						}
+						//if(FileData.IfData(activity)){
+						new Thread(){
+							@SuppressLint("WrongCall")
+							public void run()
+							{
+								activity.write( uri, BtR, BtS, BtT, BtX);
+							}
+						}.start();
+							//FileData.write(activity, uri, BtR, BtS, BtT, BtX);
+						//}
 					}
 					if(btm_r.isIn(pointx, pointy)){
 						btm_r.setBottomTo(true);

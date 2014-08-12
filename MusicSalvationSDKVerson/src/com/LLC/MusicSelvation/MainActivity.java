@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
-import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
@@ -294,13 +293,13 @@ public class MainActivity extends Activity{
 
 	}
 
-	public  void write(Uri uri,SparseArray<Boolean> sR,SparseArray<Boolean> sS,SparseArray<Boolean> sT,SparseArray<Boolean> sX){
+	public  void write(Uri uri,JSONObject btR,JSONObject btS,JSONObject btT,JSONObject btX){
 		JSONObject json=new JSONObject();
 		try {
-			json.put("R", sR);
-			json.put("S", sS);
-			json.put("T",sT);
-			json.put("X", sX);
+			json.put("R", btR);
+			json.put("S", btS);
+			json.put("T",btT);
+			json.put("X", btX);
 		} catch (JSONException e) {
 			callToast("無法將參數導入json");
 			e.printStackTrace();
@@ -310,7 +309,7 @@ public class MainActivity extends Activity{
 			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
 			writer.write(json.toString().getBytes());
 			writer.close();
-
+			callToast("資料寫入成功");
 		} catch (FileNotFoundException e) {
 			callToast("FileNotFoundException");
 			e.printStackTrace();

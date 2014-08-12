@@ -2,6 +2,9 @@ package com.LLC.MusicSelvation;
 
 import java.io.IOException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.example.musicsalvationsdkverson.R;
 
 import android.annotation.SuppressLint;
@@ -158,6 +161,7 @@ implements SurfaceHolder.Callback {
 		}.start();
 	}
 
+	@SuppressWarnings("unchecked")
 	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {//重新定義的繪制方法
@@ -177,14 +181,27 @@ implements SurfaceHolder.Callback {
 					} catch (IllegalStateException e) {
 					} catch (IOException e) {
 					}
-					activity.read( uri);
+					JSONObject json=null;
+					json=activity.read( uri);
 					uriFlag=false;
 					loadFlag=false;
 					chart_FullScanFlag=true;
+					if(json==null){
 					BtR.append(mp.getDuration(), false);
 					BtS.append(mp.getDuration(), false);
 					BtT.append(mp.getDuration(), false);
 					BtX.append(mp.getDuration(), false);
+					}else{
+						try {
+							BtR=(SparseArray<Boolean>) json.get("R");
+							BtS=(SparseArray<Boolean>) json.get("S");
+							BtT=(SparseArray<Boolean>) json.get("T");
+							BtX=(SparseArray<Boolean>) json.get("X");
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				}
 			}
 			//底色

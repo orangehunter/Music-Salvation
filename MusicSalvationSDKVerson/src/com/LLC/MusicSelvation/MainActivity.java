@@ -1,6 +1,7 @@
 package com.LLC.MusicSelvation;
 
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class MainActivity extends Activity{
 		myHandler.sendMessage(msg);
 		nowActivity=what;
 	} 
-	
+
 	Handler myHandler = new Handler(){//處理各個SurfaceView傳送的訊息
 		public void handleMessage(Message msg) {
 			switch(msg.what)//
@@ -75,7 +76,7 @@ public class MainActivity extends Activity{
 			}
 		}
 	};
-	
+
 
 	protected void goToEditView() {
 		if(editview==null)
@@ -132,7 +133,7 @@ public class MainActivity extends Activity{
 	public void createToast(String msg){//顯示Toast
 		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -207,33 +208,33 @@ public class MainActivity extends Activity{
 		startActivityForResult( deintent, 0 );									// 切換到檔案選擇器 (它的處理結果, 會觸發 onActivityResult 事件)
 	}
 	@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, data);
-        
-        // 有選擇檔案
-       // Looper.prepare();
-        if ( resultCode == RESULT_OK )
-        {
-            // 取得檔案的 Uri
-            uri = data.getData();
-            if( uri != null )
-            {
-            	Toast.makeText(this, "檔案已選擇!", Toast.LENGTH_SHORT).show();
-            	this.changeView(6);
-            	Constant.Flag=true;
-            }
-            else
-            {
-            	Toast.makeText(this, "無效的檔案路徑 !", Toast.LENGTH_SHORT).show();
-            }
-        }
-        else
-        {
-        	Toast.makeText(this, "取消選擇檔案 !", Toast.LENGTH_SHORT).show();
-        }
-        //Looper.loop();
-    }
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+
+		// 有選擇檔案
+		// Looper.prepare();
+		if ( resultCode == RESULT_OK )
+		{
+			// 取得檔案的 Uri
+			uri = data.getData();
+			if( uri != null )
+			{
+				Toast.makeText(this, "檔案已選擇!", Toast.LENGTH_SHORT).show();
+				this.changeView(6);
+				Constant.Flag=true;
+			}
+			else
+			{
+				Toast.makeText(this, "無效的檔案路徑 !", Toast.LENGTH_SHORT).show();
+			}
+		}
+		else
+		{
+			Toast.makeText(this, "取消選擇檔案 !", Toast.LENGTH_SHORT).show();
+		}
+		//Looper.loop();
+	}
 	/*public String checkType(Uri uri){
 		ContextWrapper context = null;
 		ContentResolver cR = context.getContentResolver();
@@ -244,7 +245,7 @@ public class MainActivity extends Activity{
 	public Uri sendUri(){
 		return uri;
 	}
-	
+
 	public static String turnUriToName(Uri u){
 		String a=u.toString(),b="";
 		for(int i=a.length();i>0;i--){
@@ -265,11 +266,34 @@ public class MainActivity extends Activity{
 		}
 		return c;
 	}
-	
-	public void read(Uri uri){
-		
+
+	public JSONObject read(Uri uri){
+		String fileName=turnUriToName(uri)+".chart";
+		JSONObject json=null;
+		String content=""; //內容
+		byte[] buff = new byte[1024];
+
+		try {
+			FileInputStream file=openFileInput(fileName);
+			while((file.read(buff))!=-1){
+				content+=new String(buff).trim();
+			}
+			json=new JSONObject(content);
+			file.close();
+		} catch (FileNotFoundException e) {
+			callToast("找不到檔案");
+			e.printStackTrace();
+		} catch (IOException e) {
+			callToast("讀取檔案失敗");
+			e.printStackTrace();
+		} catch (JSONException e) {
+			callToast("寫入json失敗");
+			e.printStackTrace();
+		};
+		return json;
+
 	}
-	
+
 	public  void write(Uri uri,SparseArray<Boolean> sR,SparseArray<Boolean> sS,SparseArray<Boolean> sT,SparseArray<Boolean> sX){
 		JSONObject json=new JSONObject();
 		try {
@@ -282,15 +306,16 @@ public class MainActivity extends Activity{
 			e.printStackTrace();
 		}
 		try {
-			String fileName=turnUriToName(uri)+"txt";
+			String fileName=turnUriToName(uri)+".chart";
 			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
+			writer.write(json.toString().getBytes());
 			writer.close();
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			callToast("FileNotFoundException");
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			callToast("IOException");
 			e.printStackTrace();
 		}
 	}

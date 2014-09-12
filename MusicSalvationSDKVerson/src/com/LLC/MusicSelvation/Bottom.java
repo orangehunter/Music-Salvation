@@ -24,7 +24,7 @@ public class Bottom {
 		this.x=Coordinate.CoordinateX(x)-(this.width/2);
 		this.y=Coordinate.CoordinateY(y)-(this.height/2);
 	}
-	/*............................*/
+	
 	
 	public void drawBtm(Canvas canvas,Paint paint){//Ã¸»s«ö¶s
 		if(isOn)

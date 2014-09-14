@@ -69,6 +69,7 @@ implements SurfaceHolder.Callback {
 	int target_dis=10000;
 	int last_line=-1001;
 	boolean chart_FullScanFlag=false;
+	chartScan chartscan;
 
 	Bitmap Sbar,Sbtm;
 	MySeekBar msb;
@@ -185,7 +186,7 @@ implements SurfaceHolder.Callback {
 					loadFlag=false;
 					chart_FullScanFlag=true;
 					if(json==null){
-
+						
 					}else{
 						try {
 							BtR=json.getJSONObject("R");
@@ -197,6 +198,7 @@ implements SurfaceHolder.Callback {
 							e.printStackTrace();
 						}
 					}
+					chartscan=new chartScan(BtR,BtS,BtT,BtX);
 				}
 			}
 			//©³¦â
@@ -454,9 +456,11 @@ implements SurfaceHolder.Callback {
 			save.drawBtm(canvas, paint);
 
 			paint.reset();
+			chartscan.checkTime(mp.getCurrentPosition());
 		}
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
 		int pointx = (int) event.getX();
@@ -464,15 +468,19 @@ implements SurfaceHolder.Callback {
 		if(editFlag==0){
 			switch(event.getAction())
 			{
-			case MotionEvent.ACTION_DOWN://«ö¤U
+			case MotionEvent.ACTION_DOWN: //«ö¤U
 				if(deTouchJump==true){
 					if(mp!=null){
 						if(playBtm.isIn(pointx, pointy)){
 							playBtm.setBottom();
-							if(mp.isPlaying())
+							if(mp.isPlaying()){
 								mp.pause();
-							else
+								chartscan.pause();
+							}
+							else{
 								mp.start();
+								chartscan.Start();
+							}
 						}
 
 						if(msb.isOn(pointx, pointy)){

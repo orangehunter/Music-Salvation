@@ -3,15 +3,28 @@ package com.LLC.MusicSelvation;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.json.JSONObject;
+
+
 public class chartScan {
 	
 	int scan_time_flag;
 	Timer timer;
 	TimerTask task;
+	
+	JSONObject 
+	BtR=new JSONObject()
+	,BtS=new JSONObject()
+	,BtT=new JSONObject()
+	,BtX=new JSONObject();
 
-	public chartScan(){
+	public chartScan(JSONObject R,JSONObject S,JSONObject T,JSONObject X){
 		timer = new Timer();
 		scan_time_flag=0;
+		BtR=R;
+		BtS=S;
+		BtT=T;
+		BtX=X;
 	}
 	public void Start(){
 		timer.schedule( new TimerTask(){
@@ -24,17 +37,23 @@ public class chartScan {
 	public void pause(){
 		timer.cancel();
 	}
-	public void resume(){
-		timer.schedule( new TimerTask(){
-			@Override
-			public void run() {
-				mainScan();
-			}
-		},0,1 );
-	}
-	public void check(int currentTime){
+	public void checkTime(int currentTime){
 		if(currentTime!=scan_time_flag){
 			scan_time_flag=currentTime;
+		}
+	}
+	public void checkChart(JSONObject R,JSONObject S,JSONObject T,JSONObject X){
+		if(!R.equals(BtR)){
+			BtR=R;
+		}
+		if(!S.equals(BtS)){
+			BtS=S;
+		}
+		if(!T.equals(BtT)){
+			BtT=T;
+		}
+		if(!X.equals(BtX)){
+			BtX=X;
 		}
 	}
 	public void Stop(){
@@ -44,5 +63,17 @@ public class chartScan {
 	
 	public void mainScan(){
 		scan_time_flag++;
+		if(BtR.optBoolean(Integer.toString(scan_time_flag))){
+			Constant.R_scan_flag=true;
+		}
+		if(BtS.optBoolean(Integer.toString(scan_time_flag))){
+			Constant.S_scan_flag=true;
+		}
+		if(BtT.optBoolean(Integer.toString(scan_time_flag))){
+			Constant.T_scan_flag=true;
+		}
+		if(BtX.optBoolean(Integer.toString(scan_time_flag))){
+			Constant.X_scan_flag=true;
+		}
 	}
 }

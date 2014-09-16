@@ -7,11 +7,18 @@ import org.json.JSONObject;
 
 
 public class chartScan {
-	
+
 	int scan_time_flag;
 	Timer timer;
 	TimerTask task;
 	
+
+	boolean R_scan_flag=false;
+	boolean S_scan_flag=false;
+	boolean T_scan_flag=false;
+	boolean X_scan_flag=false;
+
+
 	JSONObject 
 	BtR=new JSONObject()
 	,BtS=new JSONObject()
@@ -19,6 +26,9 @@ public class chartScan {
 	,BtX=new JSONObject();
 
 	public chartScan(JSONObject R,JSONObject S,JSONObject T,JSONObject X){
+		build(R,S,T,X);
+	}
+	public void build(JSONObject R,JSONObject S,JSONObject T,JSONObject X){
 		timer = new Timer();
 		scan_time_flag=0;
 		BtR=R;
@@ -36,6 +46,10 @@ public class chartScan {
 	}
 	public void pause(){
 		timer.cancel();
+	}
+	public void resume(JSONObject R,JSONObject S,JSONObject T,JSONObject X){
+		build(R,S,T,X);
+		Start();
 	}
 	public void checkTime(int currentTime){
 		if(currentTime!=scan_time_flag){
@@ -60,20 +74,23 @@ public class chartScan {
 		timer.cancel();
 		scan_time_flag=0;
 	}
-	
+
 	public void mainScan(){
 		scan_time_flag++;
 		if(BtR.optBoolean(Integer.toString(scan_time_flag))){
-			Constant.R_scan_flag=true;
+			R_scan_flag=true;
 		}
 		if(BtS.optBoolean(Integer.toString(scan_time_flag))){
-			Constant.S_scan_flag=true;
+			S_scan_flag=true;
 		}
 		if(BtT.optBoolean(Integer.toString(scan_time_flag))){
-			Constant.T_scan_flag=true;
+			T_scan_flag=true;
 		}
 		if(BtX.optBoolean(Integer.toString(scan_time_flag))){
-			Constant.X_scan_flag=true;
+			X_scan_flag=true;
 		}
+	}
+	public int getTime(){
+		return scan_time_flag;
 	}
 }

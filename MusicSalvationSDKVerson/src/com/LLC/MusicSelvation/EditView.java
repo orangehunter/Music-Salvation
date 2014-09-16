@@ -176,6 +176,7 @@ implements SurfaceHolder.Callback {
 					try{
 						mp.setDataSource(activity, uri);//載入音檔
 						mp.prepare();
+						chartscan.checkTime(mp.getCurrentPosition());
 					} catch (IllegalArgumentException e) {
 					} catch (IllegalStateException e) {
 					} catch (IOException e) {
@@ -323,42 +324,46 @@ implements SurfaceHolder.Callback {
 					chart_FullScanFlag=false;
 				}//全畫面掃描**********************************************************************************************************************
 				else{
-					for(int j=0;j<50;j++){//按鈕_圓 偵測
-						int BtTime=mp.getCurrentPosition()+target_dis+j;
-						if(BtR.optBoolean(Integer.toString(BtTime))){
+					//for(int j=0;j<50;j++){//按鈕_圓 偵測
+						//int BtTime=mp.getCurrentPosition()+target_dis+j;
+						if(Constant.R_scan_flag){//BtR.optBoolean(Integer.toString(BtTime))){
 							for(int i=0;i<chartObject;i++){
 								if(!cr_btm[i].getFlag()){
 									cr_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+									Constant.R_scan_flag=false;
 									break;
 								}
 							}
 						}
-						if(BtS.optBoolean(Integer.toString(BtTime))){
+						if(Constant.S_scan_flag){//BtS.optBoolean(Integer.toString(BtTime))){
 							for(int i=0;i<chartObject;i++){
 								if(!cs_btm[i].getFlag()){
 									cs_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+									Constant.S_scan_flag=false;
 									break;
 								}
 							}
 						}
-						if(BtT.optBoolean(Integer.toString(BtTime))){
+						if(Constant.T_scan_flag){//BtT.optBoolean(Integer.toString(BtTime))){
 							for(int i=0;i<chartObject;i++){
 								if(!ct_btm[i].getFlag()){
 									ct_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+									Constant.T_scan_flag=false;
 									break;
 								}
 							}
 						}
-						if(BtX.optBoolean(Integer.toString(BtTime))){
+						if(Constant.X_scan_flag){//BtX.optBoolean(Integer.toString(BtTime))){
 							for(int i=0;i<chartObject;i++){
 								if(!cx_btm[i].getFlag()){
 									cx_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+									Constant.X_scan_flag=false;
 									break;
 								}
 							}
-						}
+						//}
 					}
-					if((mp.getCurrentPosition()+target_dis)%5000<=100 &&mp.isPlaying()&&(mp.getCurrentPosition()+target_dis)<mp.getDuration()){//時間基準線偵測
+					if((mp.getCurrentPosition()+target_dis)%1000<=100 &&mp.isPlaying()&&(mp.getCurrentPosition()+target_dis)<mp.getDuration()){//時間基準線偵測
 						for(int i=0;i<chartObject;i++){
 							if(line[i].getFlag()==false &&(mp.getCurrentPosition()+target_dis-this.last_line)>1000){
 								line[i].start(mp.getCurrentPosition(), target_dis);
@@ -456,7 +461,6 @@ implements SurfaceHolder.Callback {
 			save.drawBtm(canvas, paint);
 
 			paint.reset();
-			chartscan.checkTime(mp.getCurrentPosition());
 		}
 	}
 

@@ -45,7 +45,7 @@ implements SurfaceHolder.Callback {
 
 	Bitmap mp_play,mp_pause;
 	Bottom playBtm;
-	 MediaPlayer mp=null;
+	static MediaPlayer mp=null;
 	String tittle="未選擇";
 
 
@@ -67,7 +67,7 @@ implements SurfaceHolder.Callback {
 	boolean cs_btm_flag=false;
 	boolean ct_btm_flag=false;
 	boolean cx_btm_flag=false;
-	int target_dis=5000;
+	static int target_dis=5000;
 	int last_line=-1001;
 	boolean chart_FullScanFlag=false;
 	chartScan chartscan;
@@ -217,9 +217,10 @@ implements SurfaceHolder.Callback {
 			Graphic.drawLine(canvas, Color.GREEN, 20+(960-20)/2, 25, 20+(960-20)/2, 450, 3, paint);
 
 			if(mp!=null){
+				//TODO
 				if(cr_btm_flag){//按鍵圓產生
 					try {
-						BtR.put(Integer.toString(mp.getCurrentPosition()), true);
+						BtR.put(Integer.toString(mp.getCurrentPosition()/10), true);
 					} catch (JSONException e) {
 						activity.callToast("產生R失敗");
 						e.printStackTrace();
@@ -232,9 +233,10 @@ implements SurfaceHolder.Callback {
 						}
 					}
 				}
+				//TODO
 				if(cs_btm_flag){//按鍵方產生
 					try {
-						BtS.put(Integer.toString(mp.getCurrentPosition()), true);
+						BtS.put(Integer.toString(mp.getCurrentPosition()/10), true);
 					} catch (JSONException e) {
 						activity.callToast("產生S失敗");
 						e.printStackTrace();
@@ -247,9 +249,10 @@ implements SurfaceHolder.Callback {
 						}
 					}
 				}
+				//TODO
 				if(ct_btm_flag){//按鍵三角產生
 					try {
-						BtT.put(Integer.toString(mp.getCurrentPosition()), true);
+						BtT.put(Integer.toString(mp.getCurrentPosition()/10), true);
 					} catch (JSONException e) {
 						activity.callToast("產生T失敗");
 						e.printStackTrace();
@@ -262,9 +265,10 @@ implements SurfaceHolder.Callback {
 						}
 					}
 				}
+				//TODO
 				if(cx_btm_flag){//按鍵X產生
 					try {
-						BtX.put(Integer.toString(mp.getCurrentPosition()), true);
+						BtX.put(Integer.toString(mp.getCurrentPosition()/10), true);
 					} catch (JSONException e) {
 						activity.callToast("產生X失敗");
 						e.printStackTrace();
@@ -279,7 +283,7 @@ implements SurfaceHolder.Callback {
 				}
 				//全畫面掃描===============================================
 				if(chart_FullScanFlag){
-					for(int time=(mp.getCurrentPosition()-target_dis*2);time<mp.getCurrentPosition();time+=1){
+					for(int time=(mp.getCurrentPosition()-target_dis*2)/10;time<mp.getCurrentPosition()/10;time+=1){
 						if(BtR.optBoolean(Integer.toString(time))){///按鈕_圓 偵測
 							for(int i=0;i<chartObject;i++){
 								if(!cr_btm[i].getFlag()){
@@ -458,7 +462,7 @@ implements SurfaceHolder.Callback {
 				if(msbFlag)
 					msb.setSeekBarFloat((float)mp.getCurrentPosition()/mp.getDuration()*100);
 				if(mp.isPlaying()){
-					//chartscan.checkTime(mp.getCurrentPosition());
+					chartscan.checkTime(mp.getCurrentPosition());
 					chartscan.checkChart(BtR, BtS, BtT, BtX);
 					playBtm.setBottomTo(true);
 				}
@@ -555,16 +559,17 @@ implements SurfaceHolder.Callback {
 							msbFlag=true;
 						}
 					}
-					if(msb.isOn(pointx, pointy)){
-						for(int i=0;i<chartObject;i++){
-							line[i].flag=false;
-							cr_btm[i].flag=false;
-							cs_btm[i].flag=false;
-							ct_btm[i].flag=false;
-							cx_btm[i].flag=false;
-						}
-						last_line=-1002;
-						chart_FullScanFlag=true;
+					if(msb.isOn(pointx, pointy)){						
+							chartscan.reset();
+							for(int i=0;i<chartObject;i++){
+								line[i].flag=false;
+								cr_btm[i].flag=false;
+								cs_btm[i].flag=false;
+								ct_btm[i].flag=false;
+								cx_btm[i].flag=false;
+							}
+							last_line=-1002;
+							chart_FullScanFlag=true;
 					}
 				}
 				if(btm_r.getBottom()){
@@ -591,6 +596,7 @@ implements SurfaceHolder.Callback {
 	}
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
 		if(mp!=null){
+			chartscan.Stop();
 			mp.release();
 		}
 		Constant.Flag=false;

@@ -5,6 +5,8 @@ import java.util.TimerTask;
 
 import org.json.JSONObject;
 
+import android.util.Log;
+
 
 public class chartScan {
 
@@ -63,11 +65,6 @@ public class chartScan {
 		 t_last=-10;
 		 x_last=-10;
 	}
-	public void checkTime(int currentTime){
-		if(currentTime!=scan_time_flag){
-			scan_time_flag=currentTime;
-		}
-	}
 	public void checkChart(JSONObject R,JSONObject S,JSONObject T,JSONObject X){
 		if(!R.equals(BtR)){
 			BtR=R;
@@ -88,7 +85,8 @@ public class chartScan {
 	}
 
 	public void mainScan(){
-		scan_time_flag=EditView.mp.getCurrentPosition()+EditView.target_dis;
+		scan_time_flag=EditView.mp.getCurrentPosition();
+		Log.v("scan_time_flag", String.valueOf(scan_time_flag));
 		if(BtR.optBoolean(Integer.toString(scan_time_flag/10))&&scan_time_flag-r_last>=10){
 			r_last=scan_time_flag;
 			R_scan_flag=true;

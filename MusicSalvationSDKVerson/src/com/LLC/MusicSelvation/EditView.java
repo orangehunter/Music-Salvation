@@ -67,7 +67,9 @@ implements SurfaceHolder.Callback {
 	boolean cs_btm_flag=false;
 	boolean ct_btm_flag=false;
 	boolean cx_btm_flag=false;
+	
 	static int target_dis=5000;
+	
 	int last_line=-1001;
 	boolean chart_FullScanFlag=false;
 	chartScan chartscan;
@@ -462,7 +464,6 @@ implements SurfaceHolder.Callback {
 				if(msbFlag)
 					msb.setSeekBarFloat((float)mp.getCurrentPosition()/mp.getDuration()*100);
 				if(mp.isPlaying()){
-					chartscan.checkTime(mp.getCurrentPosition());
 					chartscan.checkChart(BtR, BtS, BtT, BtX);
 					playBtm.setBottomTo(true);
 				}
@@ -560,7 +561,8 @@ implements SurfaceHolder.Callback {
 						}
 					}
 					if(msb.isOn(pointx, pointy)){						
-							chartscan.reset();
+							chartscan.pause();
+							chartscan.resume(BtR, BtS, BtT, BtX);
 							for(int i=0;i<chartObject;i++){
 								line[i].flag=false;
 								cr_btm[i].flag=false;

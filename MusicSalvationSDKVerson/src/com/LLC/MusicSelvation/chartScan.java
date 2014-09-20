@@ -88,7 +88,7 @@ public class chartScan {
 	}
 
 	public void mainScan(){
-		scan_time_flag=EditView.mp.getCurrentPosition()+EditView.target_dis;
+		scan_time_flag=EditView.mp.getCurrentPosition();
 		if(BtR.optBoolean(Integer.toString(scan_time_flag/10))&&scan_time_flag-r_last>=10){
 			r_last=scan_time_flag;
 			R_scan_flag=true;

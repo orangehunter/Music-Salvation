@@ -220,7 +220,7 @@ implements SurfaceHolder.Callback {
 				//TODO
 				if(cr_btm_flag){//按鍵圓產生
 					try {
-						BtR.put(Integer.toString(mp.getCurrentPosition()/10), true);
+						BtR.put(Integer.toString((mp.getCurrentPosition()+target_dis)/10), true);
 					} catch (JSONException e) {
 						activity.callToast("產生R失敗");
 						e.printStackTrace();
@@ -236,7 +236,7 @@ implements SurfaceHolder.Callback {
 				//TODO
 				if(cs_btm_flag){//按鍵方產生
 					try {
-						BtS.put(Integer.toString(mp.getCurrentPosition()/10), true);
+						BtS.put(Integer.toString((mp.getCurrentPosition()+target_dis)/10), true);
 					} catch (JSONException e) {
 						activity.callToast("產生S失敗");
 						e.printStackTrace();
@@ -252,7 +252,7 @@ implements SurfaceHolder.Callback {
 				//TODO
 				if(ct_btm_flag){//按鍵三角產生
 					try {
-						BtT.put(Integer.toString(mp.getCurrentPosition()/10), true);
+						BtT.put(Integer.toString((mp.getCurrentPosition()+target_dis)/10), true);
 					} catch (JSONException e) {
 						activity.callToast("產生T失敗");
 						e.printStackTrace();
@@ -268,7 +268,7 @@ implements SurfaceHolder.Callback {
 				//TODO
 				if(cx_btm_flag){//按鍵X產生
 					try {
-						BtX.put(Integer.toString(mp.getCurrentPosition()/10), true);
+						BtX.put(Integer.toString((mp.getCurrentPosition()+target_dis)/10), true);
 					} catch (JSONException e) {
 						activity.callToast("產生X失敗");
 						e.printStackTrace();

@@ -196,7 +196,6 @@ implements SurfaceHolder.Callback{
 			//.....................................................................................
 			case MotionEvent.ACTION_UP://抬起
 				if(deJump==false){//防止彈跳part2
-					this.toEditView = false;
 					if(startbtm.isIn(pointx, pointy)){
 						//進入地圖畫面
 						activity.changeView(2);
@@ -206,9 +205,10 @@ implements SurfaceHolder.Callback{
 						if(this.toEditView){
 							activity.changeView(6);
 						}else {
-						//TODO 離開遊戲未寫
+						activity.changeView(255);
 						}
 					}
+					this.toEditView = false;
 				}
 				deJump=true;
 				break;

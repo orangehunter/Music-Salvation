@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-@SuppressLint({ "ViewConstructor", "WrongCall" })
+@SuppressLint({ "ViewConstructor", "WrongCall", "ClickableViewAccessibility" })
 public class MapView extends SurfaceView
 implements SurfaceHolder.Callback{
 
@@ -61,6 +61,8 @@ implements SurfaceHolder.Callback{
 	Bottom left_btm3;
 	Bottom left_btm4;
 	Bottom left_btm5;
+	MySeekBar music_Volume;
+	MySeekBar se_Volume;
 	
 	Bottom sebtm1;
 	Bottom sebtm2;
@@ -202,10 +204,7 @@ implements SurfaceHolder.Callback{
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, wmap, 1280/2, 720/2, 0, 255, paint);//地圖
-			rot-= 0.5;
-			if(rot == -360){
-				rot = 0;
-			}
+			
 			//離開按鈕
 			x+=alpha;
 			if(x >= 250){
@@ -234,6 +233,10 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, sechange,344, 504, 0, sebaralpha ,paint);
 			if(menuFlag == 1)  
 			{
+				rot-= 0.5;
+				if(rot == -360){
+					rot = 0;
+				}
 				//左menu背景
 				mbgx=Coordinate.AnalogSpeedMove(mbgx, mbgx2);
 				menubtm.drawBtm(canvas, paint);

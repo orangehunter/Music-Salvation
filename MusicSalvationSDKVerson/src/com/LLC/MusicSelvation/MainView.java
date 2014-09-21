@@ -60,7 +60,7 @@ implements SurfaceHolder.Callback{
 	int alpha2 = 0;
 
 	Paint paint;			//畫筆的參考
-	int i=0,j=5;
+	int i=0,j=10;
 	MainActivity activity;
 
 	public MainView(MainActivity mainActivity) {
@@ -154,13 +154,14 @@ implements SurfaceHolder.Callback{
 				Graphic.drawPic(canvas, main_right, mrx, mry, 0, 255, paint);//Right
 				mrx=Coordinate.AnalogSpeedMove(mrx, mrx1);
 				
-				alpha2+=alpha;
+				/*alpha2+=alpha;
 				if(alpha2 > 250){
 					alpha = -10;
 				}
 				if(alpha2 <100){
 					alpha = 10;
-				}
+				}*/
+				alpha2=255;
 				startbtm.drawBtm(canvas, paint,alpha2);
 				exitbtm.drawBtm(canvas, paint,alpha2);
 			}
@@ -178,6 +179,12 @@ implements SurfaceHolder.Callback{
 				mainFlag=1;
 				}
 				deJump = false;
+				break;
+			case MotionEvent.ACTION_UP://抬起
+				if(deJump==false){//防止彈跳part2
+					
+				}
+				deJump = true;
 				break;
 			}
 		}
@@ -198,7 +205,9 @@ implements SurfaceHolder.Callback{
 				if(deJump==false){//防止彈跳part2
 					if(startbtm.isIn(pointx, pointy)){
 						//進入地圖畫面
+						if(this.toEditView){
 						activity.changeView(2);
+						}
 					}
 					
 					if(exitbtm.isIn(pointx, pointy)){

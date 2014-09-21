@@ -21,15 +21,15 @@ public class Coordinate {
 	public static int AnalogSpeedMove(int now,int tomove){
 		if(now>tomove){
 			if(now-tomove>20)
-				now-=(now-tomove)/10;
+				now-=(now-tomove)/5;
 			if(now-tomove<=20)
-				now-=1;
+				now-=4;
 		}
 		if(tomove>now){
 			if(tomove-now>20)
-				now+=(tomove-now)/10;
+				now+=(tomove-now)/5;
 			if(tomove-now<=20)
-				now+=1;
+				now+=4;
 		}
 		return now;
 	}

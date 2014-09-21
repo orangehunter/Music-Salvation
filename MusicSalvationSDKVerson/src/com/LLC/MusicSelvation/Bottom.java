@@ -32,6 +32,14 @@ public class Bottom {
 		else
 			canvas.drawBitmap(offBitmap, x, y,paint);
 	}
+	public void drawBtm(Canvas canvas,Paint paint,int a){//Ã¸»s«ö¶s
+		paint.setAlpha(a);
+		if(isOn)
+			canvas.drawBitmap(onBitmap, x, y, paint);
+		else
+			canvas.drawBitmap(offBitmap, x, y,paint);
+		paint.reset();
+	} 
 	
 	
 	public void setBottom(){//¤Á´««ö¶sª¬ºA

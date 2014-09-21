@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
@@ -37,7 +38,12 @@ public class MainActivity extends Activity{
 	Intent intent;
 	Intent deintent;
 	Uri uri;
-
+	
+	//存檔用參數====================================
+	static float mp_Voiume;
+	static float sp_Voiume;
+	static int sp_num;
+	//存檔用參數-----------------------------------------------------------------
 	public void changeView(int what)//
 	{
 		Message msg = myHandler.obtainMessage(what); 
@@ -174,6 +180,7 @@ public class MainActivity extends Activity{
 		Constant.GAME_WIDTH_UNIT= ((float)Constant.SCREEN_WIDTH/Constant.DEFULT_WITH);
 		Constant.SCREEN_HEIGHT_UNIT= ((float)Constant.SCREEN_HIGHT/Constant.DEFULT_HIGHT);
 		//Toast.makeText(this, "widthPixels"+dm.widthPixels+"heightPixels"+dm.heightPixels, Toast.LENGTH_LONG).show();
+		readData();
 		changeView(0);//進入"歡迎界面"
 	}
 
@@ -275,7 +282,7 @@ public class MainActivity extends Activity{
 		return c;
 	}
 
-	public JSONObject read(Uri uri){
+	public JSONObject read(Uri uri){//譜面讀取
 		String fileName=turnUriToName(uri)+".chart";
 		JSONObject json=null;
 		String content=""; //內容
@@ -302,7 +309,7 @@ public class MainActivity extends Activity{
 
 	}
 
-	public  void write(Uri uri,JSONObject btR,JSONObject btS,JSONObject btT,JSONObject btX){
+	public  void write(Uri uri,JSONObject btR,JSONObject btS,JSONObject btT,JSONObject btX){//譜面寫入
 		JSONObject json=new JSONObject();
 		try {
 			json.put("R", btR);
@@ -327,6 +334,62 @@ public class MainActivity extends Activity{
 			e.printStackTrace();
 		}
 	}
+	
+	public void readData(){//存檔讀取
+		String fileName="Data.save";
+		JSONObject json=null;
+		String content=""; //內容
+		byte[] buff = new byte[1024];
+
+		try {
+			FileInputStream file=openFileInput(fileName);
+			while((file.read(buff))!=-1){
+				content+=new String(buff).trim();
+			}
+			json=new JSONObject(content);
+			mp_Voiume=Float.valueOf(json.getString("mp_Voiume"));
+			sp_Voiume=Float.valueOf(json.getString("sp_Voiume"));
+			sp_num=json.getInt("sp_num");
+			file.close();
+		} catch (FileNotFoundException e) {
+			mp_Voiume=1;
+			sp_Voiume=1;
+			sp_num=0;
+			Log.v("Data", "Data not found");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.v("Data","讀取檔案失敗");
+			e.printStackTrace();
+		} catch (JSONException e) {
+			Log.v("Data","寫入json失敗");
+			e.printStackTrace();
+		};
+	}
+	
+	public  void writeData(){//存檔寫入
+		JSONObject json=new JSONObject();
+		try {
+			json.put("mp_Voiume", String.valueOf(mp_Voiume));
+			json.put("sp_Voiume", String.valueOf(sp_Voiume));
+			json.put("sp_num",sp_num);
+		} catch (JSONException e) {
+			Log.v("Data","無法將參數導入json");
+			e.printStackTrace();
+		}
+		try {
+			String fileName="Data.save";
+			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
+			writer.write(json.toString().getBytes());
+			writer.close();
+			Log.v("Data", "Data saved");
+		} catch (FileNotFoundException e) {
+			Log.v("Data","FileNotFoundException");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.v("Data","IOException");
+			e.printStackTrace();
+		}
+	}
 
 	@Override 
 	public void onResume(){
@@ -338,4 +401,10 @@ public class MainActivity extends Activity{
 		Constant.setFlag(false);
 		super.onPause();		
 	}
+	@Override
+	protected void onDestroy() {
+		writeData();
+		super.onDestroy();
+	}
+	
 }

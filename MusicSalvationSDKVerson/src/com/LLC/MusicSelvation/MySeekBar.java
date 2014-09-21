@@ -19,6 +19,10 @@ public class MySeekBar {
 	float bar_width;//搜尋條的寬
 	float bar_height;//搜尋條的高
 	
+	float bar_btn_dis;
+	
+	Boolean isOn;
+	
 	Bitmap Bar;//搜尋條
 	Bitmap Btm;//按鈕
 	
@@ -26,6 +30,7 @@ public class MySeekBar {
 		this.activity=activity;
 		this.Bar=Bar;
 		this.Btm=Btm;
+		this.isOn=false;
 		
 		this.bar_width=this.Bar.getWidth();
 		this.bar_height=this.Bar.getHeight();

@@ -10,6 +10,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -61,14 +63,17 @@ implements SurfaceHolder.Callback{
 	Bottom left_btm3;
 	Bottom left_btm4;
 	Bottom left_btm5;
-	MySeekBar music_Volume;
-	MySeekBar se_Volume;
+	MySeekBar mp_Volume_bar;
+	MySeekBar sp_Volume_bar;
 	
 	Bottom sebtm1;
 	Bottom sebtm2;
 	Bottom sebtm3;
 	Bottom sebtm4;
 	Bottom sebtm5;
+	
+	SoundPool sp;
+	int sp_id[];
 
 	int pointx;//觸控到螢幕的x座標
 	int pointy;//觸控到螢幕的y座標
@@ -172,7 +177,18 @@ implements SurfaceHolder.Callback{
 		sebtm3 = new Bottom(activity, se03, se03l, 393, 511);
 		sebtm4 = new Bottom(activity, se04, se04l, 393, 569);
 		sebtm5 = new Bottom(activity, se05, se05l, 393, 628);
-
+		
+		mp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, -300);
+		sp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, -300);
+		
+		sp=new SoundPool(5, AudioManager.STREAM_MUSIC, 5);
+		sp_id=new int[5];
+		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
+		sp_id[1]=sp.load(activity, R.raw.drum, 1);
+		sp_id[2]=sp.load(activity, R.raw.drum, 1);
+		sp_id[3]=sp.load(activity, R.raw.drum, 1);
+		sp_id[4]=sp.load(activity, R.raw.drum, 1);
+		
 		Constant.Flag=true;
 		new Thread(){
 			@SuppressLint("WrongCall")
@@ -213,8 +229,7 @@ implements SurfaceHolder.Callback{
 			if(x < 10){
 				alpha = 5;
 			}
-			if(menuFlag == 0)
-			{
+			if(menuFlag == 0){
 				menubtm.drawBtm(canvas, paint);
 				Graphic.drawPic(canvas, menubtn, 66, 34, 0, 255, paint);
 				Graphic.drawPic(canvas, menubtn2, 66, 34, 0, x, paint);
@@ -227,12 +242,13 @@ implements SurfaceHolder.Callback{
 				sevolmx = Coordinate.AnalogSpeedMove(sevolmx, -100);
 				baralpha = 0;
 			}
+			if(mbgx!=-500){
 			Graphic.drawPic(canvas, left_back, mbgx, 374, rot, 255, paint);
 			Graphic.drawPic(canvas, volchback,sevolmx, 167, 0, baralpha, paint);
 			Graphic.drawPic(canvas, volchback,songvolmx, 259, 0, baralpha, paint);
 			Graphic.drawPic(canvas, sechange,344, 504, 0, sebaralpha ,paint);
-			if(menuFlag == 1)  
-			{
+			}
+			if(menuFlag == 1)  {
 				rot-= 0.5;
 				if(rot == -360){
 					rot = 0;
@@ -290,8 +306,6 @@ implements SurfaceHolder.Callback{
 				left_btm3.drawBtm(canvas, paint);
 				left_btm4.drawBtm(canvas, paint);
 				left_btm5.drawBtm(canvas, paint);
-
-
 			}
 
 

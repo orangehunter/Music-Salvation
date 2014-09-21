@@ -178,8 +178,11 @@ implements SurfaceHolder.Callback{
 		sebtm4 = new Bottom(activity, se04, se04l, 393, 569);
 		sebtm5 = new Bottom(activity, se05, se05l, 393, 628);
 		
-		mp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, -300);
-		sp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, -300);
+		mp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, 259);
+		mp_Volume_bar.setSeekBarInt((int)(activity.mp_Voiume*100));
+		sp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, 167);
+		sp_Volume_bar.setSeekBarInt((int)(activity.sp_Voiume*100));
+		
 		
 		sp=new SoundPool(5, AudioManager.STREAM_MUSIC, 5);
 		sp_id=new int[5];
@@ -221,7 +224,7 @@ implements SurfaceHolder.Callback{
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, wmap, 1280/2, 720/2, 0, 255, paint);//地圖
 			
-			//離開按鈕
+			
 			x+=alpha;
 			if(x >= 250){
 				alpha = -5;
@@ -239,14 +242,11 @@ implements SurfaceHolder.Callback{
 				leftbtmmx3 = Coordinate.AnalogSpeedMove(leftbtmmx3,-400);
 				leftbtmmx4 = Coordinate.AnalogSpeedMove(leftbtmmx4,-400);
 				leftbtmmx5 = Coordinate.AnalogSpeedMove(leftbtmmx5,-400);
-				sevolmx = Coordinate.AnalogSpeedMove(sevolmx, -100);
+					sevolmx = Coordinate.AnalogSpeedMove(sevolmx, -300);
+					songvolmx= Coordinate.AnalogSpeedMove(songvolmx, -300);
+					sp_Volume_bar.Move(sevolmx, 167);
+					mp_Volume_bar.Move(songvolmx, 259);
 				baralpha = 0;
-			}
-			if(mbgx!=-500){
-			Graphic.drawPic(canvas, left_back, mbgx, 374, rot, 255, paint);
-			Graphic.drawPic(canvas, volchback,sevolmx, 167, 0, baralpha, paint);
-			Graphic.drawPic(canvas, volchback,songvolmx, 259, 0, baralpha, paint);
-			Graphic.drawPic(canvas, sechange,344, 504, 0, sebaralpha ,paint);
 			}
 			if(menuFlag == 1)  {
 				rot-= 0.5;
@@ -258,32 +258,6 @@ implements SurfaceHolder.Callback{
 				menubtm.drawBtm(canvas, paint);
 				Graphic.drawPic(canvas, left_exit, 66, 34, 0, 255, paint);
 				Graphic.drawPic(canvas, left_exit2, 66, 34, 0, x, paint);
-				
-				if(left_btm1.getBottom()){
-					sevolmx = Coordinate.AnalogSpeedMove(sevolmx, sevolmovex);
-					baralpha = 255;
-				}
-				else if(!left_btm1.getBottom()){
-					sevolmx = Coordinate.AnalogSpeedMove(sevolmx, -300);
-				}
-				if(left_btm2.getBottom()){
-					songvolmx = Coordinate.AnalogSpeedMove(songvolmx, songvolmovex);
-					baralpha = 255;
-				}
-				else if(!left_btm2.getBottom()){
-					songvolmx = Coordinate.AnalogSpeedMove(songvolmx, -300);
-				}
-				if(left_btm3.getBottom()){
-					sebtm1.drawBtm(canvas, paint);
-					sebtm2.drawBtm(canvas, paint);
-					sebtm3.drawBtm(canvas, paint);
-					sebtm4.drawBtm(canvas, paint);
-					sebtm5.drawBtm(canvas, paint);
-					sebaralpha = 255;
-				}
-				else if(!left_btm3.getBottom()){
-					sebaralpha = 0;
-				}
 				
 				Graphic.drawPic(canvas, left_btmback,leftbtmmx1, 166, 0, 255, paint);
 				Graphic.drawPic(canvas, left_btmback,leftbtmmx2, 257, 0, 255, paint);
@@ -307,6 +281,46 @@ implements SurfaceHolder.Callback{
 				left_btm4.drawBtm(canvas, paint);
 				left_btm5.drawBtm(canvas, paint);
 			}
+			//選單按鈕===============================================================
+			if(left_btm1.getBottom()){
+				sevolmx = Coordinate.AnalogSpeedMove(sevolmx, sevolmovex);
+				baralpha = 255;
+				sp_Volume_bar.Move(sevolmx, 167);
+			}
+			else {
+				sevolmx = Coordinate.AnalogSpeedMove(sevolmx, -300);
+				sp_Volume_bar.Move(sevolmx, 167);
+			}
+			if(left_btm2.getBottom()){
+				songvolmx = Coordinate.AnalogSpeedMove(songvolmx, songvolmovex);
+				baralpha = 255;
+				mp_Volume_bar.Move(songvolmx, 259);
+			}
+			else{
+				songvolmx = Coordinate.AnalogSpeedMove(songvolmx, -300);
+				mp_Volume_bar.Move(songvolmx, 259);
+			}
+			if(left_btm3.getBottom()){
+				sebtm1.drawBtm(canvas, paint);
+				sebtm2.drawBtm(canvas, paint);
+				sebtm3.drawBtm(canvas, paint);
+				sebtm4.drawBtm(canvas, paint);
+				sebtm5.drawBtm(canvas, paint);
+				sebaralpha = 255;
+			}
+			else{
+				sebaralpha = 0;
+			}
+			//選單按鈕----------------------------------------------------------------------------------------------------
+			if(mbgx!=-500){
+				Graphic.drawPic(canvas, left_back, mbgx, 374, rot, 255, paint);
+				Graphic.drawPic(canvas, sechange,344, 504, 0, sebaralpha ,paint);
+				
+				Graphic.drawPic(canvas, volchback,sevolmx, 167, 0, baralpha, paint);
+				Graphic.drawPic(canvas, volchback,songvolmx, 259, 0, baralpha, paint);
+				mp_Volume_bar.drawSeekBar(canvas, paint);
+				sp_Volume_bar.drawSeekBar(canvas, paint);
+				}
 
 
 
@@ -328,6 +342,11 @@ implements SurfaceHolder.Callback{
 						menuFlag = 1;
 					}
 					else if(menuFlag == 1){
+						left_btm1.setBottomTo(false);
+						left_btm2.setBottomTo(false);
+						left_btm3.setBottomTo(false);
+						left_btm4.setBottomTo(false);
+						left_btm5.setBottomTo(false);
 						menuFlag = 0;
 					}
 				}

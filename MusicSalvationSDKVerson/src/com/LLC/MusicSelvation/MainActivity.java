@@ -40,9 +40,9 @@ public class MainActivity extends Activity{
 	Uri uri;
 	
 	//郎ノ把计====================================
-	static float mp_Voiume;
-	static float sp_Voiume;
-	static int sp_num;
+	float mp_Voiume;
+	float sp_Voiume;
+	int sp_num;
 	//郎ノ把计-----------------------------------------------------------------
 	public void changeView(int what)//
 	{
@@ -351,6 +351,7 @@ public class MainActivity extends Activity{
 			sp_Voiume=Float.valueOf(json.getString("sp_Voiume"));
 			sp_num=json.getInt("sp_num");
 			file.close();
+			Log.v("Data", "Data read");
 		} catch (FileNotFoundException e) {
 			mp_Voiume=1;
 			sp_Voiume=1;

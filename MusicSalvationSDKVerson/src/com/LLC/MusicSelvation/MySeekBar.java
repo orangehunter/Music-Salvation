@@ -45,15 +45,24 @@ public class MySeekBar {
 		this.btmY=Coordinate.CoordinateY(y)-(this.btm_height/2);
 		
 	}
+	public void Move(int x,int y){
+		this.barX=Coordinate.CoordinateX(x)-(this.bar_width/2);
+		this.barY=Coordinate.CoordinateY(y)-(this.bar_height/2);
+		
+		this.btmX=barX+bar_btn_dis;
+		this.btmY=Coordinate.CoordinateY(y)-(this.btm_height/2);
+	}
 	public void drawSeekBar(Canvas canvas,Paint paint){
 		canvas.drawBitmap(Bar, barX, barY, paint);
 		canvas.drawBitmap(Btm, btmX, btmY, paint);
 	}
 	public void setSeekBarInt(int a){//整數百分比設定
 		this.btmX=(this.barX+(this.btm_width/2))+(this.bar_width-this.btm_width)*(a/100)-(this.btm_width/2);
+		bar_btn_dis=btmX-barX;
 	}
 	public void setSeekBarFloat(float a){//小數百分比設定
 		this.btmX=(this.barX+(this.btm_width/2))+(this.bar_width-this.btm_width)*(a/100)-(this.btm_width/2);
+		bar_btn_dis=btmX-barX;
 	}
 	public void setSeekBarX(float x){//按鈕位置設定
 		if(x>(this.barX+(this.btm_width/2))&& x<(this.barX+this.bar_width-(this.btm_width/2))){
@@ -65,6 +74,7 @@ public class MySeekBar {
 		}else if(x>(this.barX+this.bar_width-(this.btm_width/2))-(this.btm_width/2)){
 			setSeekBarInt(100);
 		}
+		bar_btn_dis=btmX-barX;
 	}
 	public double getSeekBarValue(){//回傳百分比
 		return ((this.btmX+(this.btm_width/2))-(this.barX+(this.btm_width/2)))/(this.bar_width-this.btm_width)*100;

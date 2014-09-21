@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-@SuppressLint({ "ViewConstructor", "WrongCall" })
+@SuppressLint({ "ViewConstructor", "WrongCall", "ClickableViewAccessibility" })
 public class MainView extends SurfaceView
 implements SurfaceHolder.Callback{
 
@@ -32,7 +32,7 @@ implements SurfaceHolder.Callback{
 	Bottom exitbtm;
 	int mainFlag=0;
 
-	int toEditView=0;
+	boolean toEditView=false;
 
 	int pointx;//觸控到螢幕的x座標
 	int pointy;//觸控到螢幕的y座標
@@ -184,32 +184,30 @@ implements SurfaceHolder.Callback{
 		if(mainFlag==1){
 			switch(event.getAction())
 			{
+			//......................................................................................
 			case MotionEvent.ACTION_DOWN://按下
 				if(deJump==true){//防止彈跳part1
 					if(startbtm.isIn(pointx, pointy)){
-						//進入地圖畫面
-						activity.changeView(2);
-						this.toEditView = 0;
+						this.toEditView = true;
 					}
-					/*this.toEditView++;
-				if(this.toEditView>10){
-					Constant.Flag=false;
-					activity.changeView(6);
-				}*/
 				}
 				deJump=false;
 				break;
-			case MotionEvent.ACTION_UP:
+			//.....................................................................................
+			case MotionEvent.ACTION_UP://抬起
 				if(deJump==false){//防止彈跳part2
-					this.toEditView++;
-					if(this.toEditView>2){
-						//Constant.Flag=false;
-						this.toEditView=1;
-						activity.changeView(6);
+					this.toEditView = false;
+					if(startbtm.isIn(pointx, pointy)){
+						//進入地圖畫面
+						activity.changeView(2);
 					}
 					
 					if(exitbtm.isIn(pointx, pointy)){
+						if(this.toEditView){
+							activity.changeView(6);
+						}else {
 						//TODO 離開遊戲未寫
+						}
 					}
 				}
 				deJump=true;

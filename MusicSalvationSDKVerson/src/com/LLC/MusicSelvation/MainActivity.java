@@ -32,6 +32,7 @@ public class MainActivity extends Activity{
 	StartView startview;
 	MainView mainview;
 	EditView editview;
+	MapView mapview;
 
 	Intent intent;
 	Intent deintent;
@@ -72,6 +73,9 @@ public class MainActivity extends Activity{
 			case 7:
 				chooseFile();
 				break;
+			case 255:
+				System.exit(0);
+				break;
 			}
 		}
 	};
@@ -103,8 +107,13 @@ public class MainActivity extends Activity{
 		mainview.setFocusableInTouchMode(true);//設為可觸控
 	}
 	private void goToMapView() {
-		// TODO 自動產生的方法 Stub
-
+		if(mapview==null)
+		{
+			mapview=new MapView(this);
+		}
+		setContentView(mapview);
+		mainview.requestFocus();//取得焦點
+		mainview.setFocusableInTouchMode(true);//設為可觸控
 	}
 	private void goToGameView() {
 		// TODO 自動產生的方法 Stub

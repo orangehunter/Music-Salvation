@@ -47,7 +47,7 @@ public class MySeekBar {
 		
 	}
 	public void Move(int x,int y){
-		Log.v("SeekBar", "X:"+x+"Y:"+y);
+		//Log.v("SeekBar", "X:"+x+"Y:"+y);
 		this.barX=Coordinate.CoordinateX(x)-(this.bar_width/2);
 		this.barY=Coordinate.CoordinateY(y)-(this.bar_height/2);
 		
@@ -69,7 +69,7 @@ public class MySeekBar {
 		bar_btn_dis=btmX-barX;
 	}
 	public void setSeekBarX(float x){//«ö¶s¦ì¸m³]©w
-		Log.v("SeekBar", "X"+x);
+		//Log.v("SeekBar", "X"+x);
 		if(x>(this.barX+(this.btm_width/2))&& x<(this.barX+this.bar_width-(this.btm_width/2))){
 			this.btmX=x-(this.btm_width/2);
 			

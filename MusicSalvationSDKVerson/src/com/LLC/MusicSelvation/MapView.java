@@ -180,9 +180,9 @@ implements SurfaceHolder.Callback{
 		sebtm5 = new Bottom(activity, se05, se05l, 393, 628);
 
 		mp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, 259);
-		mp_Volume_bar.setSeekBarInt((int)(activity.mp_Voiume*100));
+		mp_Volume_bar.setSeekBarFloat((int)(activity.mp_Voiume*100));
 		sp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, 167);
-		sp_Volume_bar.setSeekBarInt((int)(activity.sp_Voiume*100));
+		sp_Volume_bar.setSeekBarFloat((int)(activity.sp_Voiume*100));
 
 
 		sp=new SoundPool(5, AudioManager.STREAM_MUSIC, 5);
@@ -254,7 +254,9 @@ implements SurfaceHolder.Callback{
 				leftbtmmx5 = Coordinate.AnalogSpeedMove(leftbtmmx5,-400);
 				sevolmx = Coordinate.AnalogSpeedMove(sevolmx, -300);
 				songvolmx= Coordinate.AnalogSpeedMove(songvolmx, -300);
+				if(sevolmx!=-300)
 				sp_Volume_bar.Move(sevolmx, 167);
+				if(songvolmx!=-300)
 				mp_Volume_bar.Move(songvolmx, 259);
 				baralpha = 0;
 			}else if(menuFlag == 1)  {
@@ -330,11 +332,7 @@ implements SurfaceHolder.Callback{
 				}
 				//選單按鈕----------------------------------------------------------------------------------------------------
 			
-			paint.setTextSize(Coordinate.CoordinateX(20));
-			canvas.drawText("sp_Voiume:"+sp_Volume_bar.getSeekBarValue()+"  sp_Voiume_real:"+activity.sp_Voiume+"   "+(sp_Volume_bar.getSeekBarValue()-(sp_Volume_bar.getSeekBarValue()%10.0)), Coordinate.CoordinateX(360), Coordinate.CoordinateY(360), paint);
-			paint.reset();
-
-
+			
 			//canvas.drawText(String.valueOf(menuFlag), Coordinate.CoordinateX(360), Coordinate.CoordinateY(360), paint);
 		}
 	}
@@ -421,9 +419,14 @@ implements SurfaceHolder.Callback{
 						sebtm3.setBottomTo(false);
 						sebtm4.setBottomTo(false);
 						sebtm5.setBottomTo(false);
+						sp.play(sp_id[0], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+						activity.sp_num=0;
+						activity.writeData();
 					}
 					else if(sebtm1.getBottom()){
 						sebtm1.setBottomTo(false);
+						activity.sp_num=-1;
+						activity.writeData();
 					}
 				}
 				else if(sebtm2.isIn(pointx, pointy)){
@@ -433,9 +436,14 @@ implements SurfaceHolder.Callback{
 						sebtm3.setBottomTo(false);
 						sebtm4.setBottomTo(false);
 						sebtm5.setBottomTo(false);
+						sp.play(sp_id[1], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+						activity.sp_num=1;
+						activity.writeData();
 					}
 					else if(sebtm2.getBottom()){
 						sebtm2.setBottomTo(false);
+						activity.sp_num=-1;
+						activity.writeData();
 					}
 				}
 				else if(sebtm3.isIn(pointx, pointy)){
@@ -445,9 +453,14 @@ implements SurfaceHolder.Callback{
 						sebtm3.setBottomTo(true);
 						sebtm4.setBottomTo(false);
 						sebtm5.setBottomTo(false);
+						sp.play(sp_id[2], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+						activity.sp_num=2;
+						activity.writeData();
 					}
 					else if(sebtm3.getBottom()){
 						sebtm3.setBottomTo(false);
+						activity.sp_num=-1;
+						activity.writeData();
 					}
 				}
 				else if(sebtm4.isIn(pointx, pointy)){
@@ -457,9 +470,14 @@ implements SurfaceHolder.Callback{
 						sebtm3.setBottomTo(false);
 						sebtm4.setBottomTo(true);
 						sebtm5.setBottomTo(false);
+						sp.play(sp_id[3], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+						activity.sp_num=3;
+						activity.writeData();
 					}
 					else if(sebtm4.getBottom()){
 						sebtm4.setBottomTo(false);
+						activity.sp_num=-1;
+						activity.writeData();
 					}
 				}
 				else if(sebtm5.isIn(pointx, pointy)){
@@ -469,9 +487,14 @@ implements SurfaceHolder.Callback{
 						sebtm3.setBottomTo(false);
 						sebtm4.setBottomTo(false);
 						sebtm5.setBottomTo(true);
+						sp.play(sp_id[4], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+						activity.sp_num=4;
+						activity.writeData();
 					}
 					else if(sebtm5.getBottom()){
 						sebtm5.setBottomTo(false);
+						activity.sp_num=-1;
+						activity.writeData();
 					}
 				}
 				if(mp_Volume_bar.isOn(pointx, pointy)){
@@ -510,14 +533,17 @@ implements SurfaceHolder.Callback{
 
 				}
 				if(mp_Volume_bar.isOn){
-					mp_Volume_bar.setSeekBarInt((int)(mp_Volume_bar.getSeekBarValue()-(mp_Volume_bar.getSeekBarValue()%10.0)));
-					activity.mp_Voiume=(float) ((mp_Volume_bar.getSeekBarValue()-(mp_Volume_bar.getSeekBarValue()%10.0))/100);
+					int temp=(int)mp_Volume_bar.getSeekBarValue();
+					mp_Volume_bar.setSeekBarFloat((temp-(temp%10)));
+					activity.mp_Voiume=(float) ((temp-(temp%10))/100.0);
+					activity.writeData();
 					mp_Volume_bar.isOn=false;
 				}
 				if(sp_Volume_bar.isOn){
 					int temp=(int)sp_Volume_bar.getSeekBarValue();
-					sp_Volume_bar.setSeekBarInt(60);//(temp-(temp%10)));
+					sp_Volume_bar.setSeekBarFloat((temp-(temp%10)));
 					activity.sp_Voiume=(float) ((temp-(temp%10))/100.0);
+					activity.writeData();
 					sp_Volume_bar.isOn=false;
 				}
 			}
@@ -534,6 +560,7 @@ implements SurfaceHolder.Callback{
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
 		Constant.Flag=false;
+		sp.release();
 	}
 
 

@@ -24,12 +24,16 @@ public class Coordinate {
 				now-=(now-tomove)/5;
 			if(now-tomove<=20)
 				now-=4;
+			if(now-tomove<4)
+				now=tomove;
 		}
 		if(tomove>now){
 			if(tomove-now>20)
 				now+=(tomove-now)/5;
 			if(tomove-now<=20)
 				now+=4;
+			if(tomove-now<4)
+				tomove=now;
 		}
 		return now;
 	}

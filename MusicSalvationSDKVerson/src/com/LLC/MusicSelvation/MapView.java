@@ -327,12 +327,12 @@ implements SurfaceHolder.Callback{
 			}
 			else{
 				sebaralpha = 0;
-			}
-			//選單按鈕----------------------------------------------------------------------------------------------------
+				}
+				//選單按鈕----------------------------------------------------------------------------------------------------
 			
 			paint.setTextSize(Coordinate.CoordinateX(20));
-			canvas.drawText("sp_Voiume:"+sp_Volume_bar.getSeekBarValue()+"  sp_Voiume_real:"+activity.sp_Voiume, Coordinate.CoordinateX(360), Coordinate.CoordinateY(360), paint);
-
+			canvas.drawText("sp_Voiume:"+sp_Volume_bar.getSeekBarValue()+"  sp_Voiume_real:"+activity.sp_Voiume+"   "+(sp_Volume_bar.getSeekBarValue()-(sp_Volume_bar.getSeekBarValue()%10.0)), Coordinate.CoordinateX(360), Coordinate.CoordinateY(360), paint);
+			paint.reset();
 
 
 			//canvas.drawText(String.valueOf(menuFlag), Coordinate.CoordinateX(360), Coordinate.CoordinateY(360), paint);

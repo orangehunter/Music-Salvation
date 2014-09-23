@@ -3,6 +3,7 @@ package com.LLC.MusicSelvation;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 public class MySeekBar {
 	MainActivity activity;
@@ -46,6 +47,7 @@ public class MySeekBar {
 		
 	}
 	public void Move(int x,int y){
+		Log.v("SeekBar", "X:"+x+"Y:"+y);
 		this.barX=Coordinate.CoordinateX(x)-(this.bar_width/2);
 		this.barY=Coordinate.CoordinateY(y)-(this.bar_height/2);
 		
@@ -57,14 +59,17 @@ public class MySeekBar {
 		canvas.drawBitmap(Btm, btmX, btmY, paint);
 	}
 	public void setSeekBarInt(int a){//整數百分比設定
+		Log.v("SeekBar", "Int"+a);
 		this.btmX=(this.barX+(this.btm_width/2))+(this.bar_width-this.btm_width)*(a/100)-(this.btm_width/2);
 		bar_btn_dis=btmX-barX;
 	}
 	public void setSeekBarFloat(float a){//小數百分比設定
+		Log.v("SeekBar", "Float"+a);
 		this.btmX=(this.barX+(this.btm_width/2))+(this.bar_width-this.btm_width)*(a/100)-(this.btm_width/2);
 		bar_btn_dis=btmX-barX;
 	}
 	public void setSeekBarX(float x){//按鈕位置設定
+		Log.v("SeekBar", "X"+x);
 		if(x>(this.barX+(this.btm_width/2))&& x<(this.barX+this.bar_width-(this.btm_width/2))){
 			this.btmX=x-(this.btm_width/2);
 			

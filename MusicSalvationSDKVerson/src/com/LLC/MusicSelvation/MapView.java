@@ -44,7 +44,7 @@ implements SurfaceHolder.Callback{
 	Bitmap volBar;
 	Bitmap volbtn;
 	Bitmap sechange;
-	
+
 	Bitmap se01;
 	Bitmap se01l;
 	Bitmap se02;
@@ -65,13 +65,13 @@ implements SurfaceHolder.Callback{
 	Bottom left_btm5;
 	MySeekBar mp_Volume_bar;
 	MySeekBar sp_Volume_bar;
-	
+
 	Bottom sebtm1;
 	Bottom sebtm2;
 	Bottom sebtm3;
 	Bottom sebtm4;
 	Bottom sebtm5;
-	
+
 	SoundPool sp;
 	int sp_id[];
 
@@ -102,14 +102,14 @@ implements SurfaceHolder.Callback{
 
 	int leftbtmmx5 = -400;
 	int leftbtmmove5 = 77;
-	
+
 	int sevolmx = -200;
 	int songvolmx = -200;
 	int sevolmovex = 381;
 	int songvolmovex = 425;
 	int sechx = -254;
 	int sechmovex = 344;
-	
+
 	int baralpha = 0;
 	int sebaralpha = 0;
 
@@ -153,7 +153,7 @@ implements SurfaceHolder.Callback{
 		volBar = Graphic.bitSize(LoadBitmap(R.drawable.volbar),216 ,37 );
 		volbtn = Graphic.bitSize(LoadBitmap(R.drawable.volbtn),31 ,31 );
 		sechange = Graphic.bitSize(LoadBitmap(R.drawable.sechange),254 ,324 );
-		
+
 		se01 = Graphic.bitSize(LoadBitmap(R.drawable.se01),70 ,70 );
 		se01l = Graphic.bitSize(LoadBitmap(R.drawable.se01l),70 ,70 );
 		se02 = Graphic.bitSize(LoadBitmap(R.drawable.se02),70 ,70 );
@@ -171,19 +171,19 @@ implements SurfaceHolder.Callback{
 		left_btm3= new Bottom(activity, chbtmse2, chbtmse, 136, 355);
 		left_btm4= new Bottom(activity, remain2, remain, 134, 451);
 		left_btm5= new Bottom(activity, offline, offline, 114, 542);
-		
+
 		sebtm1 = new Bottom(activity, se01, se01l, 390, 390);
 		sebtm2 = new Bottom(activity, se02, se02l, 393, 451);
 		sebtm3 = new Bottom(activity, se03, se03l, 393, 511);
 		sebtm4 = new Bottom(activity, se04, se04l, 393, 569);
 		sebtm5 = new Bottom(activity, se05, se05l, 393, 628);
-		
+
 		mp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, 259);
 		mp_Volume_bar.setSeekBarInt((int)(activity.mp_Voiume*100));
 		sp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, 167);
 		sp_Volume_bar.setSeekBarInt((int)(activity.sp_Voiume*100));
-		
-		
+
+
 		sp=new SoundPool(5, AudioManager.STREAM_MUSIC, 5);
 		sp_id=new int[5];
 		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
@@ -191,7 +191,7 @@ implements SurfaceHolder.Callback{
 		sp_id[2]=sp.load(activity, R.raw.drum, 1);
 		sp_id[3]=sp.load(activity, R.raw.drum, 1);
 		sp_id[4]=sp.load(activity, R.raw.drum, 1);
-		
+
 		Constant.Flag=true;
 		new Thread(){
 			@SuppressLint("WrongCall")
@@ -223,8 +223,8 @@ implements SurfaceHolder.Callback{
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, wmap, 1280/2, 720/2, 0, 255, paint);//地圖
-			
-			
+
+
 			x+=alpha;
 			if(x >= 250){
 				alpha = -5;
@@ -242,13 +242,12 @@ implements SurfaceHolder.Callback{
 				leftbtmmx3 = Coordinate.AnalogSpeedMove(leftbtmmx3,-400);
 				leftbtmmx4 = Coordinate.AnalogSpeedMove(leftbtmmx4,-400);
 				leftbtmmx5 = Coordinate.AnalogSpeedMove(leftbtmmx5,-400);
-					sevolmx = Coordinate.AnalogSpeedMove(sevolmx, -300);
-					songvolmx= Coordinate.AnalogSpeedMove(songvolmx, -300);
-					sp_Volume_bar.Move(sevolmx, 167);
-					mp_Volume_bar.Move(songvolmx, 259);
+				sevolmx = Coordinate.AnalogSpeedMove(sevolmx, -300);
+				songvolmx= Coordinate.AnalogSpeedMove(songvolmx, -300);
+				sp_Volume_bar.Move(sevolmx, 167);
+				mp_Volume_bar.Move(songvolmx, 259);
 				baralpha = 0;
-			}
-			if(menuFlag == 1)  {
+			}else if(menuFlag == 1)  {
 				rot-= 0.5;
 				if(rot == -360){
 					rot = 0;
@@ -258,7 +257,7 @@ implements SurfaceHolder.Callback{
 				menubtm.drawBtm(canvas, paint);
 				Graphic.drawPic(canvas, left_exit, 66, 34, 0, 255, paint);
 				Graphic.drawPic(canvas, left_exit2, 66, 34, 0, x, paint);
-				
+
 				Graphic.drawPic(canvas, left_btmback,leftbtmmx1, 166, 0, 255, paint);
 				Graphic.drawPic(canvas, left_btmback,leftbtmmx2, 257, 0, 255, paint);
 				Graphic.drawPic(canvas, left_btmback,leftbtmmx3, 354, 0, 255, paint);
@@ -315,12 +314,12 @@ implements SurfaceHolder.Callback{
 			if(mbgx!=-500){
 				Graphic.drawPic(canvas, left_back, mbgx, 374, rot, 255, paint);
 				Graphic.drawPic(canvas, sechange,344, 504, 0, sebaralpha ,paint);
-				
+
 				Graphic.drawPic(canvas, volchback,sevolmx, 167, 0, baralpha, paint);
 				Graphic.drawPic(canvas, volchback,songvolmx, 259, 0, baralpha, paint);
 				mp_Volume_bar.drawSeekBar(canvas, paint);
 				sp_Volume_bar.drawSeekBar(canvas, paint);
-				}
+			}
 
 
 
@@ -353,21 +352,21 @@ implements SurfaceHolder.Callback{
 				//------------------------------
 				if(left_btm1.isIn(pointx, pointy)){
 					if(!left_btm1.getBottom()){
-					left_btm1.setBottomTo(true);
-					left_btm2.setBottomTo(false);
-					left_btm3.setBottomTo(false);
-					left_btm4.setBottomTo(false);
-					left_btm5.setBottomTo(false);
+						left_btm1.setBottomTo(true);
+						left_btm2.setBottomTo(false);
+						left_btm3.setBottomTo(false);
+						left_btm4.setBottomTo(false);
+						left_btm5.setBottomTo(false);
 					}
 					else if(left_btm1.getBottom()){
 						left_btm1.setBottomTo(false);
-						
+
 					}
 				}
 				else if(left_btm2.isIn(pointx, pointy))
 				{
-					 if(!left_btm2.getBottom()){
-						
+					if(!left_btm2.getBottom()){
+
 						left_btm1.setBottomTo(false);
 						left_btm2.setBottomTo(true);
 						left_btm3.setBottomTo(false);
@@ -376,31 +375,31 @@ implements SurfaceHolder.Callback{
 					}
 					else if(left_btm2.getBottom()){
 						left_btm2.setBottomTo(false);
-						
+
 					}
 				}
 				else if(left_btm3.isIn(pointx, pointy)){
 					if(!left_btm3.getBottom()){
-					left_btm1.setBottomTo(false);
-					left_btm2.setBottomTo(false);
-					left_btm3.setBottomTo(true);
-					left_btm4.setBottomTo(false);
-					left_btm5.setBottomTo(false);
+						left_btm1.setBottomTo(false);
+						left_btm2.setBottomTo(false);
+						left_btm3.setBottomTo(true);
+						left_btm4.setBottomTo(false);
+						left_btm5.setBottomTo(false);
 					}
 					else if(left_btm3.getBottom()){
 						left_btm3.setBottomTo(false);
-						
+
 					}
-					
+
 				}
 				else if(left_btm4.isIn(pointx, pointy)){
 					if(!left_btm4.getBottom()){
-					activity.changeView(1);
+						activity.changeView(1);
 					}
 				}
 				else if(left_btm5.isIn(pointx, pointy)){
 					if(!left_btm5.getBottom()){
-						
+
 					}
 				}
 				//-------------音效按鈕切換區------------------
@@ -464,9 +463,23 @@ implements SurfaceHolder.Callback{
 						sebtm5.setBottomTo(false);
 					}
 				}
+				if(mp_Volume_bar.isOn(pointx, pointy)){
+					mp_Volume_bar.isOn=true;
+				}
+				if(sp_Volume_bar.isOn(pointx, pointy)){
+					sp_Volume_bar.isOn=true;
+				}
 
 			}
 			deJump = false;
+			break;
+		case MotionEvent.ACTION_MOVE:
+			if(mp_Volume_bar.isOn){
+				mp_Volume_bar.setSeekBarX(pointx);
+			}
+			if(sp_Volume_bar.isOn){
+				sp_Volume_bar.setSeekBarX(pointx);
+			}
 			break;
 			//---------------------------------------
 		case MotionEvent.ACTION_UP:
@@ -474,16 +487,26 @@ implements SurfaceHolder.Callback{
 				if(left_btm1.isIn(pointx, pointy)){
 				}
 				else if(left_btm2.isIn(pointx, pointy)){
-					
+
 				}
 				else if(left_btm3.isIn(pointx, pointy)){
-					
+
 				}
 				else if(left_btm4.isIn(pointx, pointy)){
-					
+
 				}
 				else if(left_btm5.isIn(pointx, pointy)){
-					
+
+				}
+				if(mp_Volume_bar.isOn){
+					mp_Volume_bar.setSeekBarInt((int)(mp_Volume_bar.getSeekBarValue()-(mp_Volume_bar.getSeekBarValue()%10.0)));
+					activity.mp_Voiume=(float) (mp_Volume_bar.getSeekBarValue()-(mp_Volume_bar.getSeekBarValue()%10.0)/100);
+					mp_Volume_bar.isOn=false;
+				}
+				if(sp_Volume_bar.isOn){
+					sp_Volume_bar.setSeekBarInt((int)(sp_Volume_bar.getSeekBarValue()-(sp_Volume_bar.getSeekBarValue()%10.0)));
+					activity.sp_Voiume=(float) (sp_Volume_bar.getSeekBarValue()-(sp_Volume_bar.getSeekBarValue()%10.0)/100);
+					sp_Volume_bar.isOn=false;
 				}
 			}
 			deJump  = true;

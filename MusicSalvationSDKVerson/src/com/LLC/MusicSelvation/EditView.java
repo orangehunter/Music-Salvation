@@ -21,7 +21,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-@SuppressLint({ "ViewConstructor", "WrongCall", "UseSparseArrays" })
+@SuppressLint({ "ViewConstructor", "WrongCall", "UseSparseArrays", "ClickableViewAccessibility" })
 public class EditView extends  SurfaceView
 implements SurfaceHolder.Callback {
 	boolean deTouchJump=true;

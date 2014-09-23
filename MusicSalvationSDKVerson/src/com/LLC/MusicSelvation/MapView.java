@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -201,7 +202,7 @@ implements SurfaceHolder.Callback{
 					try {
 						Thread.sleep(20);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+						Log.e("Thread", "MapView Stop");
 						e.printStackTrace();
 					}
 					SurfaceHolder myholder=MapView.this.getHolder();
@@ -223,6 +224,15 @@ implements SurfaceHolder.Callback{
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, wmap, 1280/2, 720/2, 0, 255, paint);//地圖
+			if(mbgx!=-500){
+				Graphic.drawPic(canvas, left_back, mbgx, 374, rot, 255, paint);
+				Graphic.drawPic(canvas, sechange,344, 504, 0, sebaralpha ,paint);
+
+				Graphic.drawPic(canvas, volchback,sevolmx, 167, 0, baralpha, paint);
+				Graphic.drawPic(canvas, volchback,songvolmx, 259, 0, baralpha, paint);
+				mp_Volume_bar.drawSeekBar(canvas, paint);
+				sp_Volume_bar.drawSeekBar(canvas, paint);
+			}
 
 
 			x+=alpha;
@@ -282,22 +292,30 @@ implements SurfaceHolder.Callback{
 			}
 			//選單按鈕===============================================================
 			if(left_btm1.getBottom()){
+				if(sevolmx!=sevolmovex){
 				sevolmx = Coordinate.AnalogSpeedMove(sevolmx, sevolmovex);
 				baralpha = 255;
 				sp_Volume_bar.Move(sevolmx, 167);
+				}
 			}
 			else {
+				if(sevolmx!=-300){
 				sevolmx = Coordinate.AnalogSpeedMove(sevolmx, -300);
 				sp_Volume_bar.Move(sevolmx, 167);
+				}
 			}
 			if(left_btm2.getBottom()){
+				if(songvolmx!=songvolmovex){
 				songvolmx = Coordinate.AnalogSpeedMove(songvolmx, songvolmovex);
 				baralpha = 255;
 				mp_Volume_bar.Move(songvolmx, 259);
+				}
 			}
 			else{
+				if(songvolmx!=-300){
 				songvolmx = Coordinate.AnalogSpeedMove(songvolmx, -300);
 				mp_Volume_bar.Move(songvolmx, 259);
+				}
 			}
 			if(left_btm3.getBottom()){
 				sebtm1.drawBtm(canvas, paint);
@@ -311,16 +329,9 @@ implements SurfaceHolder.Callback{
 				sebaralpha = 0;
 			}
 			//選單按鈕----------------------------------------------------------------------------------------------------
-			if(mbgx!=-500){
-				Graphic.drawPic(canvas, left_back, mbgx, 374, rot, 255, paint);
-				Graphic.drawPic(canvas, sechange,344, 504, 0, sebaralpha ,paint);
-
-				Graphic.drawPic(canvas, volchback,sevolmx, 167, 0, baralpha, paint);
-				Graphic.drawPic(canvas, volchback,songvolmx, 259, 0, baralpha, paint);
-				mp_Volume_bar.drawSeekBar(canvas, paint);
-				sp_Volume_bar.drawSeekBar(canvas, paint);
-			}
-
+			
+			paint.setTextSize(Coordinate.CoordinateX(20));
+			canvas.drawText("sp_Voiume:"+sp_Volume_bar.getSeekBarValue()+"  sp_Voiume_real:"+activity.sp_Voiume, Coordinate.CoordinateX(360), Coordinate.CoordinateY(360), paint);
 
 
 
@@ -500,12 +511,13 @@ implements SurfaceHolder.Callback{
 				}
 				if(mp_Volume_bar.isOn){
 					mp_Volume_bar.setSeekBarInt((int)(mp_Volume_bar.getSeekBarValue()-(mp_Volume_bar.getSeekBarValue()%10.0)));
-					activity.mp_Voiume=(float) (mp_Volume_bar.getSeekBarValue()-(mp_Volume_bar.getSeekBarValue()%10.0)/100);
+					activity.mp_Voiume=(float) ((mp_Volume_bar.getSeekBarValue()-(mp_Volume_bar.getSeekBarValue()%10.0))/100);
 					mp_Volume_bar.isOn=false;
 				}
 				if(sp_Volume_bar.isOn){
-					sp_Volume_bar.setSeekBarInt((int)(sp_Volume_bar.getSeekBarValue()-(sp_Volume_bar.getSeekBarValue()%10.0)));
-					activity.sp_Voiume=(float) (sp_Volume_bar.getSeekBarValue()-(sp_Volume_bar.getSeekBarValue()%10.0)/100);
+					int temp=(int)sp_Volume_bar.getSeekBarValue();
+					sp_Volume_bar.setSeekBarInt(60);//(temp-(temp%10)));
+					activity.sp_Voiume=(float) ((temp-(temp%10))/100.0);
 					sp_Volume_bar.isOn=false;
 				}
 			}

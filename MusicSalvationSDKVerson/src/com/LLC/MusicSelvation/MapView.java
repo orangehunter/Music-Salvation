@@ -45,7 +45,21 @@ implements SurfaceHolder.Callback{
 	Bitmap volBar;
 	Bitmap volbtn;
 	Bitmap sechange;
-
+	
+	//右邊關卡選擇區塊
+	Bitmap right_board;
+	Bitmap right_chmodel;
+	Bitmap rigth_stage01;
+	Bitmap right_freely;
+	Bitmap right_boss01;
+	Bitmap right_st01Font;
+	Bitmap right_easy;
+	Bitmap right_normal;
+	Bitmap right_hard;
+	Bitmap right_start;
+	Bitmap stage01btn0;
+	Bitmap stage01btn;
+	
 	Bitmap se01;
 	Bitmap se01l;
 	Bitmap se02;
@@ -72,6 +86,13 @@ implements SurfaceHolder.Callback{
 	Bottom sebtm3;
 	Bottom sebtm4;
 	Bottom sebtm5;
+	
+	Bottom stbtn01;
+	Bottom easy;
+	Bottom normal;
+	Bottom hard;
+	Bottom model;
+	Bottom start;
 
 	SoundPool sp;
 	int sp_id[];
@@ -84,8 +105,12 @@ implements SurfaceHolder.Callback{
 	int ma=5;
 	int x = 0;
 	int alpha = 10;
-	int menuFlag = 0;
-
+	
+	//FLAG宣告區域
+	int menuFlag = 0;   //世界地圖左半部
+	int stageFlag = 0;  //右半部
+	int modelFlag = 0;  //難易度調整框
+	
 	int mbgx = -500;
 	int mbgx2 = 13;
 
@@ -154,6 +179,19 @@ implements SurfaceHolder.Callback{
 		volBar = Graphic.bitSize(LoadBitmap(R.drawable.volbar),216 ,37 );
 		volbtn = Graphic.bitSize(LoadBitmap(R.drawable.volbtn),31 ,31 );
 		sechange = Graphic.bitSize(LoadBitmap(R.drawable.sechange),254 ,324 );
+		
+		right_board = Graphic.bitSize(LoadBitmap(R.drawable.right_stageboard), 418, 714);
+		right_chmodel = Graphic.bitSize(LoadBitmap(R.drawable.right_chmodel), 250, 250);
+		rigth_stage01 = Graphic.bitSize(LoadBitmap(R.drawable.right_stage01), 266, 62);
+		right_freely = Graphic.bitSize(LoadBitmap(R.drawable.right_freely), 378, 58);
+		right_boss01 = Graphic.bitSize(LoadBitmap(R.drawable.right_boss01), 402, 246);
+		right_st01Font = Graphic.bitSize(LoadBitmap(R.drawable.right_stage01infor), 389, 336);
+		right_easy = Graphic.bitSize(LoadBitmap(R.drawable.right_easy), 185, 54);
+		right_normal = Graphic.bitSize(LoadBitmap(R.drawable.right_normal), 185, 54);
+		right_hard = Graphic.bitSize(LoadBitmap(R.drawable.right_hard), 185, 54);
+		right_start = Graphic.bitSize(LoadBitmap(R.drawable.right_start), 154, 60);
+		stage01btn0 = Graphic.bitSize(LoadBitmap(R.drawable.stage01btn0), 64, 64);
+		stage01btn = Graphic.bitSize(LoadBitmap(R.drawable.stage01btn1), 64, 64);
 
 		se01 = Graphic.bitSize(LoadBitmap(R.drawable.se01),70 ,70 );
 		se01l = Graphic.bitSize(LoadBitmap(R.drawable.se01l),70 ,70 );
@@ -178,11 +216,22 @@ implements SurfaceHolder.Callback{
 		sebtm3 = new Bottom(activity, se03, se03l, 393, 511);
 		sebtm4 = new Bottom(activity, se04, se04l, 393, 569);
 		sebtm5 = new Bottom(activity, se05, se05l, 393, 628);
+		stbtn01 = new Bottom(activity, stage01btn , stage01btn0 , 644, 609);
 
 		mp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, 259);
 		mp_Volume_bar.setSeekBarFloat((int)(activity.mp_Voiume*100));
 		sp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, 167);
 		sp_Volume_bar.setSeekBarFloat((int)(activity.sp_Voiume*100));
+		
+		start = new Bottom(activity, right_start, right_start, 1163, 665);
+		
+		//目前使用的難度
+		//TODO (功能待補)
+		model = new Bottom(activity, right_easy, right_easy, 966, 667);
+		//選擇難度使用的選擇按鈕
+		easy  = new Bottom(activity, right_easy, right_easy, 741, 524);
+		normal  = new Bottom(activity, right_normal, right_normal, 741, 596);
+		hard  = new Bottom(activity, right_hard, right_hard, 741, 667);
 
 
 		sp=new SoundPool(5, AudioManager.STREAM_MUSIC, 5);
@@ -224,10 +273,10 @@ implements SurfaceHolder.Callback{
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, wmap, 1280/2, 720/2, 0, 255, paint);//地圖
+			stbtn01.drawBtm(canvas, paint);
 			if(mbgx!=-500){
 				Graphic.drawPic(canvas, left_back, mbgx, 374, rot, 255, paint);
 				Graphic.drawPic(canvas, sechange,344, 504, 0, sebaralpha ,paint);
-
 				Graphic.drawPic(canvas, volchback,sevolmx, 167, 0, baralpha, paint);
 				Graphic.drawPic(canvas, volchback,songvolmx, 259, 0, baralpha, paint);
 				mp_Volume_bar.drawSeekBar(canvas, paint);
@@ -242,6 +291,7 @@ implements SurfaceHolder.Callback{
 			if(x < 10){
 				alpha = 5;
 			}
+			//左半部選單控制================================================
 			if(menuFlag == 0){
 				menubtm.drawBtm(canvas, paint);
 				Graphic.drawPic(canvas, menubtn, 66, 34, 0, 255, paint);
@@ -275,6 +325,7 @@ implements SurfaceHolder.Callback{
 				Graphic.drawPic(canvas, left_btmback,leftbtmmx3, 354, 0, 255, paint);
 				Graphic.drawPic(canvas, left_btmback,leftbtmmx4, 450, 0, 255, paint);
 				Graphic.drawPic(canvas, left_btmback,leftbtmmx5, 542, 0, 255, paint);
+				
 				leftbtmmx1 = Coordinate.AnalogSpeedMove(leftbtmmx1, leftbtmmove1);
 				leftbtmmx2 = Coordinate.AnalogSpeedMove(leftbtmmx2, leftbtmmove2);
 				leftbtmmx3 = Coordinate.AnalogSpeedMove(leftbtmmx3, leftbtmmove3);
@@ -292,6 +343,7 @@ implements SurfaceHolder.Callback{
 				left_btm4.drawBtm(canvas, paint);
 				left_btm5.drawBtm(canvas, paint);
 			}
+			
 			//選單按鈕===============================================================
 			if(left_btm1.getBottom()){
 				if(sevolmx!=sevolmovex){
@@ -330,8 +382,31 @@ implements SurfaceHolder.Callback{
 			else{
 				sebaralpha = 0;
 				}
-				//選單按鈕----------------------------------------------------------------------------------------------------
+			//選單按鈕----------------------------------------------------------------------------------------------------
+			//左半部選單控制至此=======================================================
 			
+			
+			//右半部關卡選單控制==========================================
+			if(stageFlag == 0){
+				
+			}
+			
+			else if(stageFlag == 1){
+				Graphic.drawPic(canvas, right_board, 1062, 355, 0, 255, paint);
+				Graphic.drawPic(canvas, rigth_stage01, 1073, 37, 0, 255, paint);
+				Graphic.drawPic(canvas, right_boss01, 1061, 179, 0, 255, paint);
+				Graphic.drawPic(canvas, right_st01Font, 1058, 459, 0, 255, paint);
+				start.drawBtm(canvas, paint);
+				model.drawBtm(canvas, paint);
+				
+				//必須在選擇關卡時才能調整難易度
+				if(modelFlag == 1){
+					Graphic.drawPic(canvas, right_chmodel, 741, 588, 0, 255, paint);
+					easy.drawBtm(canvas, paint);
+					normal.drawBtm(canvas, paint);
+					hard.drawBtm(canvas, paint);
+				}
+			}
 			
 			//canvas.drawText(String.valueOf(menuFlag), Coordinate.CoordinateX(360), Coordinate.CoordinateY(360), paint);
 		}
@@ -345,6 +420,7 @@ implements SurfaceHolder.Callback{
 		case MotionEvent.ACTION_DOWN://按下
 			if(deJump == true)
 			{
+				//左半部選單按鈕事件====================================
 				if(menubtm.isIn(pointx, pointy)){
 					if(menuFlag == 0){
 						menuFlag = 1;
@@ -503,6 +579,32 @@ implements SurfaceHolder.Callback{
 				if(sp_Volume_bar.isOn(pointx, pointy)){
 					sp_Volume_bar.isOn=true;
 				}
+				//左半部選單按鈕事件至此=====================================================
+				
+				//右半部關卡按鈕事件開始====================================================
+				if(stbtn01.isIn(pointx, pointy)){
+					if(!stbtn01.getBottom()){
+					stageFlag = 1;
+					stbtn01.setBottomTo(true);
+					}
+					else if(stbtn01.getBottom())
+					{
+					stageFlag = 0;
+					stbtn01.setBottomTo(false);
+					}
+				}
+				
+				//難易度調整按鈕事件
+				if(model.isIn(pointx, pointy)){
+					if(!model.getBottom()){
+						modelFlag = 1;
+					}
+						else
+						{
+							modelFlag = 0;
+						}
+				}
+				//右半部關卡按鈕事件至此====================================================
 
 			}
 			deJump = false;
@@ -518,7 +620,7 @@ implements SurfaceHolder.Callback{
 			//---------------------------------------
 		case MotionEvent.ACTION_UP:
 			if(deJump == false){
-				if(left_btm1.isIn(pointx, pointy)){
+				/*if(left_btm1.isIn(pointx, pointy)){
 				}
 				else if(left_btm2.isIn(pointx, pointy)){
 
@@ -531,7 +633,7 @@ implements SurfaceHolder.Callback{
 				}
 				else if(left_btm5.isIn(pointx, pointy)){
 
-				}
+				}*/
 				if(mp_Volume_bar.isOn){
 					int temp=(int)mp_Volume_bar.getSeekBarValue();
 					mp_Volume_bar.setSeekBarFloat((temp-(temp%10)));

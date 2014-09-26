@@ -27,7 +27,7 @@ public class Coordinate {
 			if(now-tomove<4)
 				now=tomove;
 		}
-		if(tomove>now){
+		else if(tomove>now){
 			if(tomove-now>20)
 				now+=(tomove-now)/5;
 			if(tomove-now<=20)

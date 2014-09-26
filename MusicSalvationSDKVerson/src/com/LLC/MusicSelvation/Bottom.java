@@ -31,14 +31,21 @@ public class Bottom {
 		else
 			canvas.drawBitmap(offBitmap, x, y,paint);
 	}
-	public void drawBtm(Canvas canvas,Paint paint,int a){//Ã¸»s«ö¶s
-		paint.setAlpha(a);
-		if(isOn)
-			canvas.drawBitmap(onBitmap, x, y, paint);
-		else
-			canvas.drawBitmap(offBitmap, x, y,paint);
+	public void drawBtm(Canvas canvas,Paint paint,int alpha){//Ã¸»s«ö¶s
+		paint.setAlpha(alpha);
+		drawBtm(canvas,paint);
 		paint.reset();
 	} 
+	public void drawBtm(Canvas canvas,Paint paint,int x,int y){//Ã¸»s«ö¶s
+		move(x,y);
+		drawBtm(canvas,paint);
+	}
+	public void drawBtm(Canvas canvas,Paint paint,int x,int y,int alpha){//Ã¸»s«ö¶s
+		paint.setAlpha(alpha);
+		move(x,y);
+		drawBtm(canvas,paint);
+		paint.reset();
+	}
 	
 	
 	public void setBottom(){//¤Á´««ö¶sª¬ºA

@@ -302,13 +302,13 @@ public class MainActivity extends Activity{
 			json=new JSONObject(content);
 			file.close();
 		} catch (FileNotFoundException e) {
-			callToast("找不到檔案");
+			Log.e("read", "找不到檔案");
 			e.printStackTrace();
 		} catch (IOException e) {
-			callToast("讀取檔案失敗");
+			Log.e("read", "讀取檔案失敗");
 			e.printStackTrace();
 		} catch (JSONException e) {
-			callToast("寫入json失敗");
+			Log.e("read", "寫入json失敗");
 			e.printStackTrace();
 		};
 		return json;
@@ -323,7 +323,7 @@ public class MainActivity extends Activity{
 			json.put("T",btT);
 			json.put("X", btX);
 		} catch (JSONException e) {
-			callToast("無法將參數導入json");
+			Log.e("write", "無法將參數導入json");
 			e.printStackTrace();
 		}
 		try {
@@ -331,12 +331,12 @@ public class MainActivity extends Activity{
 			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
 			writer.write(json.toString().getBytes());
 			writer.close();
-			callToast("資料寫入成功");
+			Log.e("write", "資料寫入成功");
 		} catch (FileNotFoundException e) {
-			callToast("FileNotFoundException");
+			Log.e("write", "FileNotFoundException");
 			e.printStackTrace();
 		} catch (IOException e) {
-			callToast("IOException");
+			Log.e("write", "IOException");
 			e.printStackTrace();
 		}
 	}

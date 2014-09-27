@@ -13,8 +13,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.media.SoundPool;
 import android.net.Uri;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -83,6 +87,9 @@ implements SurfaceHolder.Callback{
 	int i=0,j=5;
 	MainActivity activity;
 
+	SoundPool sp;
+	int sp_id[];
+	
 	static MediaPlayer mp;
 	gameChartScan cs;
 	
@@ -93,11 +100,12 @@ implements SurfaceHolder.Callback{
 	,BtX=new JSONObject();
 	
 	int chartObject=20;
-	chartBottom 
-	cr_btm[]=new chartBottom[chartObject]
-			,cs_btm[]=new chartBottom[chartObject]
-					,ct_btm[]=new chartBottom[chartObject]
-							,cx_btm[]=new chartBottom[chartObject];
+	gameChartBottom 
+	cr_btm[]=new gameChartBottom[chartObject]
+			,cs_btm[]=new gameChartBottom[chartObject]
+					,ct_btm[]=new gameChartBottom[chartObject]
+							,cx_btm[]=new gameChartBottom[chartObject];
+	static int target_dis=3000;
 
 	int temp;
 
@@ -170,6 +178,21 @@ implements SurfaceHolder.Callback{
 
 		//TODO 載入音樂
 		mp=MediaPlayer.create(this.getContext(), R.raw.freely_tomorrow);
+		mp.setOnCompletionListener(new OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+				//TODO 切換至計分畫面
+				activity.changeView(2);
+            }
+            });
+		
+		sp=new SoundPool(5, AudioManager.STREAM_MUSIC, 5);
+		sp_id=new int[5];
+		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
+		sp_id[1]=sp.load(activity, R.raw.drum, 1);
+		sp_id[2]=sp.load(activity, R.raw.drum, 1);
+		sp_id[3]=sp.load(activity, R.raw.drum, 1);
+		sp_id[4]=sp.load(activity, R.raw.drum, 1);
 
 		Constant.Flag=true;
 		new Thread(){
@@ -211,19 +234,17 @@ implements SurfaceHolder.Callback{
 							BtT=json.getJSONObject("T");
 							BtX=json.getJSONObject("X");
 						} catch (JSONException e) {
-							activity.callToast("輸入json失敗");
+							Log.e("GameView", "JSON load fail");
 							e.printStackTrace();
 						}
-					}
-					cs=new gameChartScan(BtR,BtS,BtT,BtX);
+						cs=new gameChartScan(BtR,BtS,BtT,BtX);
+						cs.Start();
+					}	
 				}
-				cs.Start();
+				
 				mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
 				mp.start();
 				startFlag=false;
-			}else if(mp.getCurrentPosition()==mp.getDuration()){
-				//TODO 切換至計分畫面
-				activity.changeView(2);
 			}
 			super.onDraw(canvas);
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
@@ -264,15 +285,19 @@ implements SurfaceHolder.Callback{
 		case MotionEvent.ACTION_DOWN://按下
 			if(deJump==true){//防止彈跳part1
 				if(btn_circle.isIn(pointx, pointy)){
+					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 					btn_circle.setBottomTo(true);
 				}
 				if(btn_square.isIn(pointx, pointy)){
+					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 					btn_square.setBottomTo(true);
 				}
 				if(btn_triangle.isIn(pointx, pointy)){
+					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 					btn_triangle.setBottomTo(true);
 				}
 				if(btn_xx.isIn(pointx, pointy)){
+					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 					btn_xx.setBottomTo(true);
 				}
 				/*if(startbtm.isIn(pointx, pointy)){
@@ -303,14 +328,6 @@ implements SurfaceHolder.Callback{
 				if(btn_xx.isIn(pointx, pointy)){
 					btn_xx.setBottomTo(false);
 				}
-
-				//防止彈跳part2
-				/*this.toEditView++;
-					if(this.toEditView>2){
-						//Constant.Flag=false;
-						this.toEditView=1;
-						activity.changeView(6);
-					}*/
 
 				/*if(.isIn(pointx, pointy)){
 						//TODO 離開遊戲未寫

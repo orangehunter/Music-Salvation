@@ -621,8 +621,7 @@ implements SurfaceHolder.Callback{
 				}
 				if(stageFlag==1){
 					if(start.isIn(pointx, pointy)){
-						//TODO(GameView 切換)
-						//activity.changeView();
+						activity.changeView(3);
 					}
 
 					//難易度調整按鈕事件

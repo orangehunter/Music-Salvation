@@ -197,6 +197,9 @@ implements SurfaceHolder.Callback{
 					if(startbtm.isIn(pointx, pointy)){
 						this.toEditView = true;
 					}
+					if(exitbtm.isIn(pointx, pointy)){
+						exitbtm.setBottomTo(true);
+					}
 				}
 				deJump=false;
 				break;
@@ -213,7 +216,8 @@ implements SurfaceHolder.Callback{
 					if(exitbtm.isIn(pointx, pointy)){
 						if(this.toEditView){
 							activity.changeView(6);
-						}else {
+						}else if(exitbtm.getBottom()){
+							exitbtm.setBottomTo(false);
 						activity.changeView(255);
 						}
 					}

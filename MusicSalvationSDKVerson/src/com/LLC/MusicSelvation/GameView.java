@@ -1,6 +1,8 @@
 package com.LLC.MusicSelvation;
 //
 
+import java.io.IOException;
+
 import com.example.musicsalvationsdkverson.R;
 
 import android.annotation.SuppressLint;
@@ -10,16 +12,19 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-@SuppressLint({ "ViewConstructor", "WrongCall" })
+@SuppressLint({ "ViewConstructor", "WrongCall", "ClickableViewAccessibility" })
 public class GameView extends SurfaceView
 implements SurfaceHolder.Callback{
 
 	boolean deJump=true;
 
+	boolean startFlag=true;
 	Bitmap bg;   //背景
 	Bitmap sight;  //準星
 	Bitmap cpu;
@@ -76,7 +81,10 @@ implements SurfaceHolder.Callback{
 	Paint paint;			//畫筆的參考
 	int i=0,j=5;
 	MainActivity activity;
-
+	
+	MediaPlayer mp;
+	
+	int temp;
 
 	public GameView(MainActivity mainActivity) {
 		super(mainActivity);
@@ -113,10 +121,10 @@ implements SurfaceHolder.Callback{
 		grey_triangle = Graphic.bitSize(LoadBitmap(R.drawable.grey_tirangle), 128, 128);
 		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 128, 128);
 		
-		track_leftdown = Graphic.bitSize(LoadBitmap(R.drawable.track_leftdown), 645, 83);
-		track_leftup = Graphic.bitSize(LoadBitmap(R.drawable.track_leftup), 645, 83);
-		track_rightdown = Graphic.bitSize(LoadBitmap(R.drawable.track_rightdown), 645, 83);
-		track_rightup = Graphic.bitSize(LoadBitmap(R.drawable.track_rightup), 645, 83);
+		track_leftdown = Graphic.bitSize(LoadBitmap(R.drawable.track_leftdown), 645, 100);
+		track_leftup = Graphic.bitSize(LoadBitmap(R.drawable.track_leftup), 645, 100);
+		track_rightdown = Graphic.bitSize(LoadBitmap(R.drawable.track_rightdown), 645, 100);
+		track_rightup = Graphic.bitSize(LoadBitmap(R.drawable.track_rightup), 645, 100);
 		
 		nice = Graphic.bitSize(LoadBitmap(R.drawable.nice), 175, 55);
 		hit = Graphic.bitSize(LoadBitmap(R.drawable.hit), 175, 55);
@@ -145,7 +153,8 @@ implements SurfaceHolder.Callback{
 		btn_triangle = new Bottom(activity, grey_triangle, triangle, 80, 524);
 		btn_xx = new Bottom(activity, grey_xx, xx, 1063, 656);
 		
-		
+		//TODO 載入音樂
+		mp=MediaPlayer.create(this.getContext(), R.raw.freely_tomorrow);
 
 		Constant.Flag=true;
 		new Thread(){
@@ -153,11 +162,11 @@ implements SurfaceHolder.Callback{
 			public void run()
 			{
 				while(Constant.Flag){
-					try {
+					/*try {
 						Thread.sleep(20);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
-					}
+					}*/
 					SurfaceHolder myholder=GameView.this.getHolder();
 					Canvas canvas = myholder.lockCanvas();//取得畫布
 					onDraw(canvas);
@@ -173,6 +182,14 @@ implements SurfaceHolder.Callback{
 	@Override
 	protected void onDraw(Canvas canvas) {//重新定義的繪制方法
 		if(canvas!=null){
+			if(startFlag){
+				mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
+				mp.start();
+				startFlag=false;
+			}else if(mp.getCurrentPosition()==mp.getDuration()){
+				//TODO 切換至計分畫面
+				activity.changeView(2);
+			}
 			super.onDraw(canvas);
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
@@ -278,6 +295,8 @@ implements SurfaceHolder.Callback{
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
+		mp.stop();
+		startFlag=true;
 		Constant.Flag=false;
 	}
 

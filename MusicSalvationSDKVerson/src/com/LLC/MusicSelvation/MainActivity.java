@@ -34,6 +34,7 @@ public class MainActivity extends Activity{
 	MainView mainview;
 	EditView editview;
 	MapView mapview;
+	GameView gameview;
 
 	Intent intent;
 	Intent deintent;
@@ -122,8 +123,13 @@ public class MainActivity extends Activity{
 		mainview.setFocusableInTouchMode(true);//設為可觸控
 	}
 	private void goToGameView() {
-		// TODO 自動產生的方法 Stub
-
+		if(gameview==null)
+		{
+			gameview=new GameView(this);
+		}
+		setContentView(gameview);
+		gameview.requestFocus();//取得焦點
+		gameview.setFocusableInTouchMode(true);//設為可觸控
 	}
 	private void goToScoreView() {
 		// TODO 自動產生的方法 Stub

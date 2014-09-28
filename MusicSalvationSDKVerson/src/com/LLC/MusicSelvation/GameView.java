@@ -349,7 +349,7 @@ implements SurfaceHolder.Callback{
 		case MotionEvent.ACTION_DOWN://«ö¤U
 			if(deJump==true){//¨¾¤î¼u¸õpart1
 				if(btn_circle.isIn(pointx, pointy)){
-					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+					playSP();
 					for(int i=0;i<chartObject;i++){
 						if(cr_btm[i].getFlag()){
 							if(cr_btm[i].getId()-mp.getCurrentPosition()/100<3&&cr_btm[i].getId()-mp.getCurrentPosition()/100>-3){
@@ -361,7 +361,7 @@ implements SurfaceHolder.Callback{
 					btn_circle.setBottomTo(true);
 				}
 				if(btn_square.isIn(pointx, pointy)){
-					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+					playSP();
 					for(int i=0;i<chartObject;i++){
 						if(cs_btm[i].getFlag()){
 							if(cs_btm[i].getId()-mp.getCurrentPosition()/100<3&&cs_btm[i].getId()-mp.getCurrentPosition()/100>-3){
@@ -373,7 +373,7 @@ implements SurfaceHolder.Callback{
 					btn_square.setBottomTo(true);
 				}
 				if(btn_triangle.isIn(pointx, pointy)){
-					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+					playSP();
 					for(int i=0;i<chartObject;i++){
 						if(ct_btm[i].getFlag()){
 							if(ct_btm[i].getId()-mp.getCurrentPosition()/100<3&&ct_btm[i].getId()-mp.getCurrentPosition()/100>-3){
@@ -385,7 +385,7 @@ implements SurfaceHolder.Callback{
 					btn_triangle.setBottomTo(true);
 				}
 				if(btn_xx.isIn(pointx, pointy)){
-					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+					playSP();
 					for(int i=0;i<chartObject;i++){
 						if(cx_btm[i].getFlag()){
 							if(cx_btm[i].getId()-mp.getCurrentPosition()/100<3&&cx_btm[i].getId()-mp.getCurrentPosition()/100>-3){
@@ -435,6 +435,11 @@ implements SurfaceHolder.Callback{
 		}
 
 		return true;
+	}
+	
+	public void playSP(){
+		if(activity.sp_num!=-1)
+		sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 	}
 
 

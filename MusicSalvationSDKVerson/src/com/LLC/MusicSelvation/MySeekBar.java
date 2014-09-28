@@ -59,12 +59,12 @@ public class MySeekBar {
 		canvas.drawBitmap(Btm, btmX, btmY, paint);
 	}
 	public void setSeekBarInt(int a){//整數百分比設定
-		Log.v("SeekBar", "Int"+a);
+		//Log.v("SeekBar", "Int"+a);
 		this.btmX=(this.barX+(this.btm_width/2))+(this.bar_width-this.btm_width)*(a/100)-(this.btm_width/2);
 		bar_btn_dis=btmX-barX;
 	}
 	public void setSeekBarFloat(float a){//小數百分比設定
-		Log.v("SeekBar", "Float"+a);
+		//Log.v("SeekBar", "Float"+a);
 		this.btmX=(this.barX+(this.btm_width/2))+(this.bar_width-this.btm_width)*(a/100)-(this.btm_width/2);
 		bar_btn_dis=btmX-barX;
 	}

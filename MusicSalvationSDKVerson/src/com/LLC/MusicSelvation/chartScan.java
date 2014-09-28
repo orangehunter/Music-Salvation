@@ -24,6 +24,8 @@ public class chartScan {
 	int s_last=-10;
 	int t_last=-10;
 	int x_last=-10;
+	
+	int dis;
 
 
 	JSONObject 
@@ -32,7 +34,8 @@ public class chartScan {
 	,BtT=new JSONObject()
 	,BtX=new JSONObject();
 
-	public chartScan(JSONObject R,JSONObject S,JSONObject T,JSONObject X){
+	public chartScan(JSONObject R,JSONObject S,JSONObject T,JSONObject X,int time_dis){
+		dis=time_dis;
 		build(R,S,T,X);
 	}
 	public void build(JSONObject R,JSONObject S,JSONObject T,JSONObject X){
@@ -50,7 +53,7 @@ public class chartScan {
 			public void run() {
 				mainScan();
 			}
-		},0,1 );
+		},0,9 );
 	}
 	public void pause(){
 		timer.cancel();
@@ -86,20 +89,21 @@ public class chartScan {
 
 	public void mainScan(){
 		scan_time_flag=EditView.mp.getCurrentPosition();
-		Log.v("scan_time_flag", String.valueOf(scan_time_flag));
-		if(BtR.optBoolean(Integer.toString(scan_time_flag/10))&&scan_time_flag-r_last>=10){
+		//scan_time_flag=(scan_time_flag+dis)/10;
+		Log.v("ChartScan",String.valueOf(scan_time_flag));
+		if(BtR.optBoolean(Integer.toString(scan_time_flag))&&scan_time_flag-r_last>=1){
 			r_last=scan_time_flag;
 			R_scan_flag=true;
-		}
-		if(BtS.optBoolean(Integer.toString(scan_time_flag/10))&&scan_time_flag-s_last>=10){
+		}else
+		if(BtS.optBoolean(Integer.toString(scan_time_flag))&&scan_time_flag-s_last>=1){
 			s_last=scan_time_flag;
 			S_scan_flag=true;
-		}
-		if(BtT.optBoolean(Integer.toString(scan_time_flag/10))&&scan_time_flag-t_last>=10){
+		}else
+		if(BtT.optBoolean(Integer.toString(scan_time_flag))&&scan_time_flag-t_last>=1){
 			t_last=scan_time_flag;
 			T_scan_flag=true;
-		}
-		if(BtX.optBoolean(Integer.toString(scan_time_flag/10))&&scan_time_flag-x_last>=10){
+		}else
+		if(BtX.optBoolean(Integer.toString(scan_time_flag))&&scan_time_flag-x_last>=1){
 			x_last=scan_time_flag;
 			X_scan_flag=true;
 		}

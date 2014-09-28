@@ -1,6 +1,7 @@
 package com.LLC.MusicSelvation;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,6 +18,7 @@ import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
@@ -289,13 +291,18 @@ public class MainActivity extends Activity{
 	}
 
 	public JSONObject read(Uri uri){//譜面讀取
-		String fileName=turnUriToName(uri)+".chart";
+		//String fileName=turnUriToName(uri)+".chart";
 		JSONObject json=null;
 		String content=""; //內容
 		byte[] buff = new byte[1024];
 
 		try {
-			FileInputStream file=openFileInput(fileName);
+			File sdCard = Environment.getExternalStorageDirectory();
+			File dir = new File (sdCard.getAbsolutePath() + "/charts");
+			dir.mkdirs();
+			File files = new File(dir, turnUriToName(uri)+".chart");
+			FileInputStream file =new FileInputStream(files);
+			//FileInputStream file=openFileInput(fileName);
 			while((file.read(buff))!=-1){
 				content+=new String(buff).trim();
 			}
@@ -327,8 +334,14 @@ public class MainActivity extends Activity{
 			e.printStackTrace();
 		}
 		try {
-			String fileName=turnUriToName(uri)+".chart";
-			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
+			File sdCard = Environment.getExternalStorageDirectory();
+			File dir = new File (sdCard.getAbsolutePath() + "/charts");
+			dir.mkdirs();
+			File file = new File(dir, turnUriToName(uri)+".chart");
+			FileOutputStream writer =new FileOutputStream(file);
+			
+			//String fileName=turnUriToName(uri)+".chart";
+			//FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
 			writer.write(json.toString().getBytes());
 			writer.close();
 			Log.e("write", "資料寫入成功");

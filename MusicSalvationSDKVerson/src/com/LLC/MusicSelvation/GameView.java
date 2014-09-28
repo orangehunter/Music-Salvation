@@ -186,8 +186,8 @@ implements SurfaceHolder.Callback{
 		chart_x=Graphic.bitSize(LoadBitmap(R.drawable.btn_x), 50, 50);
 
 		for(int i=0;i<chartObject;i++){
-			cr_btm[i]=new gameChartBottom(1180,725, 1280/2, 247, activity, chart_r, chart_r, 189);
-			cx_btm[i]=new gameChartBottom(1180,725,1280/2, 247,activity, chart_x, chart_x,306);
+			cr_btm[i]=new gameChartBottom(1380,725, 1280/2, 247, activity, chart_r, chart_r, 189);
+			cx_btm[i]=new gameChartBottom(1380,725,1280/2, 247,activity, chart_x, chart_x,306);
 			ct_btm[i]=new gameChartBottom(-100,553,1280/2,247, activity, chart_t, chart_t,  189);
 			cs_btm[i]=new gameChartBottom(-100,553,1280/2,247, activity, chart_s, chart_s, 306);
 		}
@@ -237,10 +237,8 @@ implements SurfaceHolder.Callback{
 		if(canvas!=null){
 			if(startFlag){
 				JSONObject json=null;
-				json=activity.read( "freely_tomorrow");
-				if(json==null){
-
-				}else{
+				json=activity.read( "freely_tomorrow.mp3");
+				if(json!=null){
 					try {
 						BtR=json.getJSONObject("R");
 						BtS=json.getJSONObject("S");
@@ -259,37 +257,37 @@ implements SurfaceHolder.Callback{
 				startFlag=false;
 			}
 			//TODO ±½´y=================================================================================
-			if(cs.R_scan_flag){//BtR.optBoolean(Integer.toString(BtTime))){
+			if(cs.R_scan_flag){
 				for(int i=0;i<chartObject;i++){
 					if(!cr_btm[i].getFlag()){
-						cr_btm[i].start(mp.getCurrentPosition(), time_dis, mp.getCurrentPosition());
+						cr_btm[i].start(mp.getCurrentPosition(), time_dis, (mp.getCurrentPosition()+time_dis)/100);
 						cs.R_scan_flag=false;
 						break;
 					}
 				}
 			}
-			if(cs.S_scan_flag){//BtS.optBoolean(Integer.toString(BtTime))){
+			if(cs.S_scan_flag){
 				for(int i=0;i<chartObject;i++){
 					if(!cs_btm[i].getFlag()){
-						cs_btm[i].start(mp.getCurrentPosition(), time_dis, mp.getCurrentPosition());
+						cs_btm[i].start(mp.getCurrentPosition(), time_dis, (mp.getCurrentPosition()+time_dis)/100);
 						cs.S_scan_flag=false;
 						break;
 					}
 				}
 			}
-			if(cs.T_scan_flag){//BtT.optBoolean(Integer.toString(BtTime))){
+			if(cs.T_scan_flag){
 				for(int i=0;i<chartObject;i++){
 					if(!ct_btm[i].getFlag()){
-						ct_btm[i].start(mp.getCurrentPosition(), time_dis, mp.getCurrentPosition());
+						ct_btm[i].start(mp.getCurrentPosition(), time_dis, (mp.getCurrentPosition()+time_dis)/100);
 						cs.T_scan_flag=false;
 						break;
 					}
 				}
 			}
-			if(cs.X_scan_flag){//BtX.optBoolean(Integer.toString(BtTime))){
+			if(cs.X_scan_flag){
 				for(int i=0;i<chartObject;i++){
 					if(!cx_btm[i].getFlag()){
-						cx_btm[i].start(mp.getCurrentPosition(), time_dis, mp.getCurrentPosition());
+						cx_btm[i].start(mp.getCurrentPosition(), time_dis, (mp.getCurrentPosition()+time_dis)/100);
 						cs.X_scan_flag=false;
 						break;
 					}
@@ -352,18 +350,50 @@ implements SurfaceHolder.Callback{
 			if(deJump==true){//¨¾¤î¼u¸õpart1
 				if(btn_circle.isIn(pointx, pointy)){
 					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+					for(int i=0;i<chartObject;i++){
+						if(cr_btm[i].getFlag()){
+							if(cr_btm[i].getId()-mp.getCurrentPosition()/100<3&&cr_btm[i].getId()-mp.getCurrentPosition()/100>-3){
+								cr_btm[i].stop();
+								break;
+							}
+						}
+					}
 					btn_circle.setBottomTo(true);
 				}
 				if(btn_square.isIn(pointx, pointy)){
 					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+					for(int i=0;i<chartObject;i++){
+						if(cs_btm[i].getFlag()){
+							if(cs_btm[i].getId()-mp.getCurrentPosition()/100<3&&cs_btm[i].getId()-mp.getCurrentPosition()/100>-3){
+								cs_btm[i].stop();
+								break;
+							}
+						}
+					}
 					btn_square.setBottomTo(true);
 				}
 				if(btn_triangle.isIn(pointx, pointy)){
 					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+					for(int i=0;i<chartObject;i++){
+						if(ct_btm[i].getFlag()){
+							if(ct_btm[i].getId()-mp.getCurrentPosition()/100<3&&ct_btm[i].getId()-mp.getCurrentPosition()/100>-3){
+								ct_btm[i].stop();
+								break;
+							}
+						}
+					}
 					btn_triangle.setBottomTo(true);
 				}
 				if(btn_xx.isIn(pointx, pointy)){
 					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+					for(int i=0;i<chartObject;i++){
+						if(cx_btm[i].getFlag()){
+							if(cx_btm[i].getId()-mp.getCurrentPosition()/100<3&&cx_btm[i].getId()-mp.getCurrentPosition()/100>-3){
+								cx_btm[i].stop();
+								break;
+							}
+						}
+					}
 					btn_xx.setBottomTo(true);
 				}
 				/*if(startbtm.isIn(pointx, pointy)){
@@ -383,6 +413,7 @@ implements SurfaceHolder.Callback{
 		case MotionEvent.ACTION_UP:
 			if(deJump==false){
 				if(btn_circle.isIn(pointx, pointy)){
+					
 					btn_circle.setBottomTo(false);
 				}
 				if(btn_square.isIn(pointx, pointy)){

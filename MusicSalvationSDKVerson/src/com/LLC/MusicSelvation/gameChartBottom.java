@@ -81,6 +81,12 @@ public class gameChartBottom {
 			}
 		}
 	}
+	public int getX(){
+		return pointx;
+	}
+	public void stop(){
+		flag=false;
+	}
 	public boolean getFlag(){
 		return flag;
 	}

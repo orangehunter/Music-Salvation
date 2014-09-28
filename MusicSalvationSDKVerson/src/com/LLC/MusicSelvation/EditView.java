@@ -69,6 +69,7 @@ implements SurfaceHolder.Callback {
 	boolean cx_btm_flag=false;
 	
 	static int target_dis=5000;
+	static int accuracy=100;
 	
 	int last_line=-1001;
 	boolean chart_FullScanFlag=false;
@@ -151,7 +152,7 @@ implements SurfaceHolder.Callback {
 					/*try {
 						Thread.sleep(0);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+						
 						e.printStackTrace();
 					}*/
 					SurfaceHolder myholder=EditView.this.getHolder();
@@ -222,7 +223,7 @@ implements SurfaceHolder.Callback {
 				//TODO
 				if(cr_btm_flag){//按鍵圓產生
 					try {
-						BtR.put(Integer.toString(mp.getCurrentPosition()/10), true);
+						BtR.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
 						activity.callToast("產生R失敗");
 						e.printStackTrace();
@@ -238,7 +239,7 @@ implements SurfaceHolder.Callback {
 				//TODO
 				if(cs_btm_flag){//按鍵方產生
 					try {
-						BtS.put(Integer.toString(mp.getCurrentPosition()/10), true);
+						BtS.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
 						activity.callToast("產生S失敗");
 						e.printStackTrace();
@@ -254,7 +255,7 @@ implements SurfaceHolder.Callback {
 				//TODO
 				if(ct_btm_flag){//按鍵三角產生
 					try {
-						BtT.put(Integer.toString(mp.getCurrentPosition()/10), true);
+						BtT.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
 						activity.callToast("產生T失敗");
 						e.printStackTrace();
@@ -270,7 +271,7 @@ implements SurfaceHolder.Callback {
 				//TODO
 				if(cx_btm_flag){//按鍵X產生
 					try {
-						BtX.put(Integer.toString(mp.getCurrentPosition()/10), true);
+						BtX.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
 						activity.callToast("產生X失敗");
 						e.printStackTrace();
@@ -283,9 +284,11 @@ implements SurfaceHolder.Callback {
 						}
 					}
 				}
+				
+				//TODO 需要重寫
 				//全畫面掃描===============================================
 				if(chart_FullScanFlag){
-					for(int time=(mp.getCurrentPosition()-target_dis*2)/10;time<mp.getCurrentPosition()/10;time+=1){
+					for(int time=(mp.getCurrentPosition()-target_dis*2)/accuracy;time<mp.getCurrentPosition()/accuracy;time+=1){
 						if(BtR.optBoolean(Integer.toString(time))){///按鈕_圓 偵測
 							for(int i=0;i<chartObject;i++){
 								if(!cr_btm[i].getFlag()){

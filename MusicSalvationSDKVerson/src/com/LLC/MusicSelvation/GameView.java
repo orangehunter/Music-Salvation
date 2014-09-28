@@ -89,27 +89,28 @@ implements SurfaceHolder.Callback{
 
 	SoundPool sp;
 	int sp_id[];
-	
+
 	static MediaPlayer mp;
-	gameChartScan cs;
-	
+	chartScan cs;
+
 	static JSONObject 
 	BtR=new JSONObject()
 	,BtS=new JSONObject()
 	,BtT=new JSONObject()
 	,BtX=new JSONObject();
-	
+
 	Bitmap chart_r;
 	Bitmap chart_s;
 	Bitmap chart_t;
 	Bitmap chart_x;
-	
+
 	int chartObject=20;
 	gameChartBottom 
 	cr_btm[]=new gameChartBottom[chartObject]
 			,cs_btm[]=new gameChartBottom[chartObject]
 					,ct_btm[]=new gameChartBottom[chartObject]
 							,cx_btm[]=new gameChartBottom[chartObject];
+
 	static int time_dis=3000;
 
 	int temp;
@@ -118,8 +119,6 @@ implements SurfaceHolder.Callback{
 		super(mainActivity);
 		this.activity = mainActivity;
 		this.getHolder().addCallback(this);//設定生命周期回調接口的實現者
-
-
 	}
 	//動畫實作方法
 	/*public void CyanAnime(int num,float s,int a){
@@ -180,12 +179,12 @@ implements SurfaceHolder.Callback{
 		btn_square = new Bottom(activity, grey_square, square, 212, 656);
 		btn_triangle = new Bottom(activity, grey_triangle, triangle, 80, 524);
 		btn_xx = new Bottom(activity, grey_xx, xx, 1063, 656);
-		
-		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.btn_circle), 100, 100);
-		chart_s=Graphic.bitSize(LoadBitmap(R.drawable.btn_square), 100, 100);
-		chart_t=Graphic.bitSize(LoadBitmap(R.drawable.btn_triangle), 100, 100);
-		chart_x=Graphic.bitSize(LoadBitmap(R.drawable.btn_x), 100, 100);
-		
+
+		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.btn_circle), 50, 50);
+		chart_s=Graphic.bitSize(LoadBitmap(R.drawable.btn_square), 50, 50);
+		chart_t=Graphic.bitSize(LoadBitmap(R.drawable.btn_triangle), 50, 50);
+		chart_x=Graphic.bitSize(LoadBitmap(R.drawable.btn_x), 50, 50);
+
 		for(int i=0;i<chartObject;i++){
 			cr_btm[i]=new gameChartBottom(1180,725, 1280/2, 247, activity, chart_r, chart_r, 189);
 			cx_btm[i]=new gameChartBottom(1180,725,1280/2, 247,activity, chart_x, chart_x,306);
@@ -193,16 +192,15 @@ implements SurfaceHolder.Callback{
 			cs_btm[i]=new gameChartBottom(-100,553,1280/2,247, activity, chart_s, chart_s, 306);
 		}
 
-		//TODO 載入音樂
 		mp=MediaPlayer.create(this.getContext(), R.raw.freely_tomorrow);
 		mp.setOnCompletionListener(new OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
+			@Override
+			public void onCompletion(MediaPlayer mp) {
 				//TODO 切換至計分畫面
 				activity.changeView(2);
-            }
-            });
-		
+			}
+		});
+
 		sp=new SoundPool(5, AudioManager.STREAM_MUSIC, 5);
 		sp_id=new int[5];
 		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
@@ -238,31 +236,66 @@ implements SurfaceHolder.Callback{
 	protected void onDraw(Canvas canvas) {//重新定義的繪制方法
 		if(canvas!=null){
 			if(startFlag){
-				Uri uri = activity.sendUri();
-				if(uri!=null){
-					JSONObject json=null;
-					json=activity.read( uri);
-					if(json==null){
+				JSONObject json=null;
+				json=activity.read( "freely_tomorrow");
+				if(json==null){
 
-					}else{
-						try {
-							BtR=json.getJSONObject("R");
-							BtS=json.getJSONObject("S");
-							BtT=json.getJSONObject("T");
-							BtX=json.getJSONObject("X");
-						} catch (JSONException e) {
-							Log.e("GameView", "JSON load fail");
-							e.printStackTrace();
-						}
-						cs=new gameChartScan(BtR,BtS,BtT,BtX);
-						cs.Start();
-					}	
-				}
-				
+				}else{
+					try {
+						BtR=json.getJSONObject("R");
+						BtS=json.getJSONObject("S");
+						BtT=json.getJSONObject("T");
+						BtX=json.getJSONObject("X");
+					} catch (JSONException e) {
+						Log.e("GameView", "JSON load fail");
+						e.printStackTrace();
+					}
+					cs=new chartScan(BtR,BtS,BtT,BtX,time_dis,"GameView");
+					cs.Start();
+				}	
+
 				mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
 				mp.start();
 				startFlag=false;
 			}
+			//TODO 掃描=================================================================================
+			if(cs.R_scan_flag){//BtR.optBoolean(Integer.toString(BtTime))){
+				for(int i=0;i<chartObject;i++){
+					if(!cr_btm[i].getFlag()){
+						cr_btm[i].start(mp.getCurrentPosition(), time_dis, mp.getCurrentPosition());
+						cs.R_scan_flag=false;
+						break;
+					}
+				}
+			}
+			if(cs.S_scan_flag){//BtS.optBoolean(Integer.toString(BtTime))){
+				for(int i=0;i<chartObject;i++){
+					if(!cs_btm[i].getFlag()){
+						cs_btm[i].start(mp.getCurrentPosition(), time_dis, mp.getCurrentPosition());
+						cs.S_scan_flag=false;
+						break;
+					}
+				}
+			}
+			if(cs.T_scan_flag){//BtT.optBoolean(Integer.toString(BtTime))){
+				for(int i=0;i<chartObject;i++){
+					if(!ct_btm[i].getFlag()){
+						ct_btm[i].start(mp.getCurrentPosition(), time_dis, mp.getCurrentPosition());
+						cs.T_scan_flag=false;
+						break;
+					}
+				}
+			}
+			if(cs.X_scan_flag){//BtX.optBoolean(Integer.toString(BtTime))){
+				for(int i=0;i<chartObject;i++){
+					if(!cx_btm[i].getFlag()){
+						cx_btm[i].start(mp.getCurrentPosition(), time_dis, mp.getCurrentPosition());
+						cs.X_scan_flag=false;
+						break;
+					}
+				}
+			}//掃描----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 			super.onDraw(canvas);
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
@@ -277,7 +310,7 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, track_leftup, 315, 210, 0, 255, paint);
 			Graphic.drawPic(canvas, track_rightdown, 963, 290, 0, 255, paint);
 			Graphic.drawPic(canvas, track_rightup, 963, 209, 0, 255, paint);
-			
+
 			int now_time=mp.getCurrentPosition();
 			for(int i=0;i<chartObject;i++){
 				if(cr_btm[i].getFlag()){
@@ -319,12 +352,6 @@ implements SurfaceHolder.Callback{
 			if(deJump==true){//防止彈跳part1
 				if(btn_circle.isIn(pointx, pointy)){
 					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
-					for(int i=0;i<chartObject;i++){
-						if(!cr_btm[i].getFlag()){
-							cr_btm[i].start(mp.getCurrentPosition(), time_dis, mp.getCurrentPosition()/10);
-							break;
-						}
-					}
 					btn_circle.setBottomTo(true);
 				}
 				if(btn_square.isIn(pointx, pointy)){

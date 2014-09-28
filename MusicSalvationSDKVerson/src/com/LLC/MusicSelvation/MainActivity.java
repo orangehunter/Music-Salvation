@@ -319,7 +319,36 @@ public class MainActivity extends Activity{
 			e.printStackTrace();
 		};
 		return json;
+	}
+	public JSONObject read(String name){//譜面讀取
+		//String fileName=turnUriToName(uri)+".chart";
+		JSONObject json=null;
+		String content=""; //內容
+		byte[] buff = new byte[1024];
 
+		try {
+			File sdCard = Environment.getExternalStorageDirectory();
+			File dir = new File (sdCard.getAbsolutePath() + "/charts");
+			dir.mkdirs();
+			File files = new File(dir, name+".chart");
+			FileInputStream file =new FileInputStream(files);
+			//FileInputStream file=openFileInput(fileName);
+			while((file.read(buff))!=-1){
+				content+=new String(buff).trim();
+			}
+			json=new JSONObject(content);
+			file.close();
+		} catch (FileNotFoundException e) {
+			Log.e("read", "找不到檔案");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.e("read", "讀取檔案失敗");
+			e.printStackTrace();
+		} catch (JSONException e) {
+			Log.e("read", "寫入json失敗");
+			e.printStackTrace();
+		};
+		return json;
 	}
 
 	public  void write(Uri uri,JSONObject btR,JSONObject btS,JSONObject btT,JSONObject btX){//譜面寫入

@@ -344,7 +344,7 @@ public class MainActivity extends Activity{
 			//FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
 			writer.write(json.toString().getBytes());
 			writer.close();
-			Log.e("write", "資料寫入成功");
+			Log.v("write", "資料寫入成功");
 		} catch (FileNotFoundException e) {
 			Log.e("write", "FileNotFoundException");
 			e.printStackTrace();

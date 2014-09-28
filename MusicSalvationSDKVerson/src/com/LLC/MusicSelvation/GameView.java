@@ -99,13 +99,18 @@ implements SurfaceHolder.Callback{
 	,BtT=new JSONObject()
 	,BtX=new JSONObject();
 	
+	Bitmap chart_r;
+	Bitmap chart_s;
+	Bitmap chart_t;
+	Bitmap chart_x;
+	
 	int chartObject=20;
 	gameChartBottom 
 	cr_btm[]=new gameChartBottom[chartObject]
 			,cs_btm[]=new gameChartBottom[chartObject]
 					,ct_btm[]=new gameChartBottom[chartObject]
 							,cx_btm[]=new gameChartBottom[chartObject];
-	static int target_dis=3000;
+	static int time_dis=3000;
 
 	int temp;
 
@@ -175,6 +180,18 @@ implements SurfaceHolder.Callback{
 		btn_square = new Bottom(activity, grey_square, square, 212, 656);
 		btn_triangle = new Bottom(activity, grey_triangle, triangle, 80, 524);
 		btn_xx = new Bottom(activity, grey_xx, xx, 1063, 656);
+		
+		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.btn_circle), 100, 100);
+		chart_s=Graphic.bitSize(LoadBitmap(R.drawable.btn_square), 100, 100);
+		chart_t=Graphic.bitSize(LoadBitmap(R.drawable.btn_triangle), 100, 100);
+		chart_x=Graphic.bitSize(LoadBitmap(R.drawable.btn_x), 100, 100);
+		
+		for(int i=0;i<chartObject;i++){
+			cr_btm[i]=new gameChartBottom(1180,725, 1280/2, 247, activity, chart_r, chart_r, 189);
+			cx_btm[i]=new gameChartBottom(1180,725,1280/2, 247,activity, chart_x, chart_x,306);
+			ct_btm[i]=new gameChartBottom(-100,553,1280/2,247, activity, chart_t, chart_t,  189);
+			cs_btm[i]=new gameChartBottom(-100,553,1280/2,247, activity, chart_s, chart_s, 306);
+		}
 
 		//TODO ¸ü¤J­µ¼Ö
 		mp=MediaPlayer.create(this.getContext(), R.raw.freely_tomorrow);
@@ -260,12 +277,28 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, track_leftup, 315, 210, 0, 255, paint);
 			Graphic.drawPic(canvas, track_rightdown, 963, 290, 0, 255, paint);
 			Graphic.drawPic(canvas, track_rightup, 963, 209, 0, 255, paint);
-			Graphic.drawPic(canvas, cpu, 640, 247, 0, 255, paint);
+			
+			int now_time=mp.getCurrentPosition();
+			for(int i=0;i<chartObject;i++){
+				if(cr_btm[i].getFlag()){
+					cr_btm[i].drawChartBottom(now_time, canvas, paint);
+				}
+				if(cs_btm[i].getFlag()){
+					cs_btm[i].drawChartBottom(now_time, canvas, paint);
+				}
+				if(ct_btm[i].getFlag()){
+					ct_btm[i].drawChartBottom(now_time, canvas, paint);
+				}
+				if(cx_btm[i].getFlag()){
+					cx_btm[i].drawChartBottom(now_time, canvas, paint);
+				}
+			}
 
-			Graphic.drawPic(canvas, sight, 715, 306, 0, 255, paint);
-			Graphic.drawPic(canvas, sight, 715, 189, 0, 255, paint);
-			Graphic.drawPic(canvas, sight, 563, 306, 0, 255, paint);
-			Graphic.drawPic(canvas, sight, 563, 189, 0, 255, paint);
+			Graphic.drawPic(canvas, sight, 725, 306, 0, 255, paint);
+			Graphic.drawPic(canvas, sight, 725, 189, 0, 255, paint);
+			Graphic.drawPic(canvas, sight, 553, 306, 0, 255, paint);
+			Graphic.drawPic(canvas, sight, 553, 189, 0, 255, paint);
+			Graphic.drawPic(canvas, cpu, 640, 247, 0, 255, paint);
 
 
 			btn_circle.drawBtm(canvas, paint);
@@ -286,6 +319,12 @@ implements SurfaceHolder.Callback{
 			if(deJump==true){//¨¾¤î¼u¸õpart1
 				if(btn_circle.isIn(pointx, pointy)){
 					sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+					for(int i=0;i<chartObject;i++){
+						if(!cr_btm[i].getFlag()){
+							cr_btm[i].start(mp.getCurrentPosition(), time_dis, mp.getCurrentPosition()/10);
+							break;
+						}
+					}
 					btn_circle.setBottomTo(true);
 				}
 				if(btn_square.isIn(pointx, pointy)){

@@ -130,7 +130,7 @@ implements SurfaceHolder.Callback {
 		c_off=Graphic.bitSize(LoadBitmap( R.drawable.bottom_pushed),c_bottom_size ,c_bottom_size);
 		
 
-		for(int i=0;i<20;i++){
+		for(int i=0;i<chartObject;i++){
 			line[i]=new chartLine( 960,( 20+(960-20)/2),20);
 			cr_btm[i]=new chartBottom(960,( 20+(960-20)/2),-40, activity, c_off, cr_on, 25+(85*1));
 			cs_btm[i]=new chartBottom(960,( 20+(960-20)/2),-40, activity, c_off, cs_on, 25+(85*2));

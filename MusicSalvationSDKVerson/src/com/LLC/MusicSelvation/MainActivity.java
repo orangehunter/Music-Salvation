@@ -121,8 +121,8 @@ public class MainActivity extends Activity{
 			mapview=new MapView(this);
 		}
 		setContentView(mapview);
-		mainview.requestFocus();//取得焦點
-		mainview.setFocusableInTouchMode(true);//設為可觸控
+		mapview.requestFocus();//取得焦點
+		mapview.setFocusableInTouchMode(true);//設為可觸控
 	}
 	private void goToGameView() {
 		if(gameview==null)

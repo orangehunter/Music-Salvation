@@ -105,6 +105,8 @@ implements SurfaceHolder.Callback{
 	int ma=5;
 	int x = 0;
 	int alpha = 10;
+	int x2=0;
+	int alpha2 = 10;
 
 	//FLAG宣告區域
 	int menuFlag = 0;   //世界地圖左半部
@@ -277,7 +279,7 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, wmap, 1280/2, 720/2, 0, 255, paint);//地圖
 			if(stbtn01.getBottom()){
 				Graphic.drawPic(canvas, stage01btn0, 644, 609, 0, 255, paint);
-				stbtn01.drawBtm(canvas, paint,x);
+				stbtn01.drawBtm(canvas, paint,x2);
 			}else{
 				stbtn01.drawBtm(canvas, paint);
 			}
@@ -297,6 +299,13 @@ implements SurfaceHolder.Callback{
 			}
 			if(x < 10){
 				alpha = 5;
+			}
+			x2+=alpha2;
+			if(x2 >= 250){
+				alpha2 = -5;
+			}
+			if(x2 < 140){
+				alpha2 = 5;
 			}
 			//左半部選單控制================================================
 			if(menuFlag == 0){
@@ -417,7 +426,7 @@ implements SurfaceHolder.Callback{
 				Graphic.drawPic(canvas, rigth_stage01, right_board_x+11, 37, 0, 255, paint);
 				Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
 				Graphic.drawPic(canvas, right_st01Font, right_board_x-4, 459, 0, 255, paint);
-				start.drawBtm(canvas, paint,right_board_x+101, 665,x);
+				start.drawBtm(canvas, paint,right_board_x+101, 665,x2);
 				model.drawBtm(canvas, paint,right_board_x-86, 667);
 				if(modelFlag==1){
 					Graphic.drawPic(canvas, right_normal, right_board_x-86, 667, 0, 255, paint);

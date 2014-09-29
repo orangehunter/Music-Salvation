@@ -250,7 +250,9 @@ implements SurfaceHolder.Callback{
 					}
 					cs=new chartScan(BtR,BtS,BtT,BtX,time_dis,"GameView");
 					cs.Start();
-				}	
+				}else{
+					activity.changeView(2);
+				}
 
 				mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
 				mp.start();

@@ -251,6 +251,7 @@ implements SurfaceHolder.Callback{
 					cs=new chartScan(BtR,BtS,BtT,BtX,time_dis,"GameView");
 					cs.Start();
 				}else{
+					Log.e("GameView","ß‰§£®Ï√–≠±¿…");
 					activity.changeView(2);
 				}
 
@@ -414,17 +415,16 @@ implements SurfaceHolder.Callback{
 
 		case MotionEvent.ACTION_UP:
 			if(deJump==false){
-				if(btn_circle.isIn(pointx, pointy)){
-					
+				if(btn_circle.getBottom()){
 					btn_circle.setBottomTo(false);
 				}
-				if(btn_square.isIn(pointx, pointy)){
+				if(btn_square.getBottom()){
 					btn_square.setBottomTo(false);
 				}
-				if(btn_triangle.isIn(pointx, pointy)){
+				if(btn_triangle.getBottom()){
 					btn_triangle.setBottomTo(false);
 				}
-				if(btn_xx.isIn(pointx, pointy)){
+				if(btn_xx.getBottom()){
 					btn_xx.setBottomTo(false);
 				}
 

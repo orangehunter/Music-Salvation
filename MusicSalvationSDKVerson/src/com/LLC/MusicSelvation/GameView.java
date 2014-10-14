@@ -48,17 +48,21 @@ implements SurfaceHolder.Callback{
 	Bitmap grey_xx;
 	Bitmap grey_triangle;
 
-	Bitmap track_leftdown;  //軌道
-	Bitmap track_leftup;
-	Bitmap track_rightdown;
-	Bitmap track_rightup;
+	Bitmap track;  //軌道
+	
+	Bitmap virus_red;
+	Bitmap virus_yellow;
+	Bitmap virus_blue;
+	Bitmap virus_green;
+
 
 	Bitmap nice;
 	Bitmap miss;
 	Bitmap safe;
 	Bitmap hit;
 
-	Bitmap hpbar;  //狀態欄
+	Bitmap titlebar;  //狀態欄
+	Bitmap hpbar;
 	Bitmap hp_green;
 	Bitmap hp_red;
 	Bitmap hpfont;
@@ -134,34 +138,37 @@ implements SurfaceHolder.Callback{
 		paint.setAntiAlias(true);//開啟抗鋸齒
 
 		bg = 	Graphic.bitSize(LoadBitmap(R.drawable.gamemap01), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
-		sight =	Graphic.bitSize(LoadBitmap(R.drawable.sight), 80, 80);
-		cpu   = Graphic.bitSize(LoadBitmap(R.drawable.cpu_chips), 162, 162);
+		sight =	Graphic.bitSize(LoadBitmap(R.drawable.sightv2), 100, 100);
+		//cpu   = Graphic.bitSize(LoadBitmap(R.drawable.cpu_chips), 162, 162);
 
 
-		circle = Graphic.bitSize(LoadBitmap(R.drawable.btn_circle), 128, 128);
-		square = Graphic.bitSize(LoadBitmap(R.drawable.btn_square), 128, 128);
-		triangle = Graphic.bitSize(LoadBitmap(R.drawable.btn_triangle), 128, 128);
-		xx = Graphic.bitSize(LoadBitmap(R.drawable.btn_x), 128, 128);
-		grey_circle = Graphic.bitSize(LoadBitmap(R.drawable.grey_circle), 128, 128);
-		grey_square = Graphic.bitSize(LoadBitmap(R.drawable.grey_square), 128, 128);
-		grey_triangle = Graphic.bitSize(LoadBitmap(R.drawable.grey_tirangle), 128, 128);
-		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 128, 128);
+		circle = Graphic.bitSize(LoadBitmap(R.drawable.btn_circle_v2), 150, 150);
+		square = Graphic.bitSize(LoadBitmap(R.drawable.btn_square_v2), 150, 150);
+		triangle = Graphic.bitSize(LoadBitmap(R.drawable.btn_triangle_v2), 150, 150);
+		xx = Graphic.bitSize(LoadBitmap(R.drawable.btn_x_v2), 150, 150);
+		grey_circle = Graphic.bitSize(LoadBitmap(R.drawable.grey_circle), 150, 150);
+		grey_square = Graphic.bitSize(LoadBitmap(R.drawable.grey_square), 150, 150);
+		grey_triangle = Graphic.bitSize(LoadBitmap(R.drawable.grey_tirangle), 150, 150);
+		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 150, 150);
 
-		track_leftdown = Graphic.bitSize(LoadBitmap(R.drawable.track_leftdown), 645, 100);
-		track_leftup = Graphic.bitSize(LoadBitmap(R.drawable.track_leftup), 645, 100);
-		track_rightdown = Graphic.bitSize(LoadBitmap(R.drawable.track_rightdown), 645, 100);
-		track_rightup = Graphic.bitSize(LoadBitmap(R.drawable.track_rightup), 645, 100);
-
+		track = Graphic.bitSize(LoadBitmap(R.drawable.track_v2), 80, 660);
+		
+		virus_blue = Graphic.bitSize(LoadBitmap(R.drawable.virus_blue), 80, 80);
+		virus_red = Graphic.bitSize(LoadBitmap(R.drawable.virus_red), 80, 80);
+		virus_yellow = Graphic.bitSize(LoadBitmap(R.drawable.virus_yello), 80, 80);
+		virus_green = Graphic.bitSize(LoadBitmap(R.drawable.virus_green), 80, 80);
+		
 		nice = Graphic.bitSize(LoadBitmap(R.drawable.nice), 175, 55);
 		hit = Graphic.bitSize(LoadBitmap(R.drawable.hit), 175, 55);
 		safe = Graphic.bitSize(LoadBitmap(R.drawable.safe), 175, 55);
 		miss = Graphic.bitSize(LoadBitmap(R.drawable.miss), 175, 55);
-
-		hpbar = Graphic.bitSize(LoadBitmap(R.drawable.hpbar), 1280, 63);
+		
+		titlebar = Graphic.bitSize(LoadBitmap(R.drawable.titlebar), 1280, 63);
+		hpbar = Graphic.bitSize(LoadBitmap(R.drawable.hpbar0), 1100, 23);
 		hp_green = Graphic.bitSize(LoadBitmap(R.drawable.hp_green), 30, 23);
 		hp_red = Graphic.bitSize(LoadBitmap(R.drawable.hp_red), 30, 23);
-		hpfont = Graphic.bitSize(LoadBitmap(R.drawable.hpfont), 80, 25);
-		hpfont_red = Graphic.bitSize(LoadBitmap(R.drawable.hpfont_red), 80, 25);
+		hpfont = Graphic.bitSize(LoadBitmap(R.drawable.hpfont0), 80, 25);
+		hpfont_red = Graphic.bitSize(LoadBitmap(R.drawable.hpfont_red0), 80, 25);
 		freely = Graphic.bitSize(LoadBitmap(R.drawable.freely), 260, 30);
 		boss = Graphic.bitSize(LoadBitmap(R.drawable.boss1), 200, 185);
 
@@ -174,15 +181,15 @@ implements SurfaceHolder.Callback{
 		Cyan[4] = Graphic.bitSize(LoadBitmap(R.drawable.cyan05), 200, 200);
 		Cyan[5] = Graphic.bitSize(LoadBitmap(R.drawable.cyan06), 200, 200);*/
 
-		btn_circle = new Bottom(activity, grey_circle, circle, 1191, 528);
-		btn_square = new Bottom(activity, grey_square, square, 212, 656);
-		btn_triangle = new Bottom(activity, grey_triangle, triangle, 80, 524);
-		btn_xx = new Bottom(activity, grey_xx, xx, 1063, 656);
+		btn_circle = new Bottom(activity, grey_circle, circle, 1200, 500);
+		btn_square = new Bottom(activity, grey_square, square, 230, 645);
+		btn_triangle = new Bottom(activity, grey_triangle, triangle, 80, 500);
+		btn_xx = new Bottom(activity, grey_xx, xx, 1050, 645);
 
-		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.btn_circle), 50, 50);
-		chart_s=Graphic.bitSize(LoadBitmap(R.drawable.btn_square), 50, 50);
-		chart_t=Graphic.bitSize(LoadBitmap(R.drawable.btn_triangle), 50, 50);
-		chart_x=Graphic.bitSize(LoadBitmap(R.drawable.btn_x), 50, 50);
+		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.virus_red), 80, 80);
+		chart_s=Graphic.bitSize(LoadBitmap(R.drawable.virus_yello), 80, 80);
+		chart_t=Graphic.bitSize(LoadBitmap(R.drawable.virus_green), 80, 80);
+		chart_x=Graphic.bitSize(LoadBitmap(R.drawable.virus_blue), 80, 80);
 
 		for(int i=0;i<chartObject;i++){
 			cr_btm[i]=new gameChartBottom(1380,725, 1280/2, 247, activity, chart_r, chart_r, 189);
@@ -300,16 +307,17 @@ implements SurfaceHolder.Callback{
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, bg, 1280/2, 720/2, 0, 255, paint);//背景
-			Graphic.drawPic(canvas, hpbar, 641, 31, 0, 255, paint);
+			Graphic.drawPic(canvas, titlebar, 641, 31, 0, 255, paint);
+			Graphic.drawPic(canvas, hpbar, 730, 50, 0, 255, paint);
 			Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
 			//Graphic.drawPic(canvas, hpfont_red, 95, 50, 0, 255, paint);
 
 
-			Graphic.drawPic(canvas, track_leftdown, 315, 290, 0, 255, paint);
-			Graphic.drawPic(canvas, track_leftup, 315, 210, 0, 255, paint);
-			Graphic.drawPic(canvas, track_rightdown, 963, 290, 0, 255, paint);
-			Graphic.drawPic(canvas, track_rightup, 963, 209, 0, 255, paint);
+			Graphic.drawPic(canvas, track, 450, 390, 0, 255, paint);
+			Graphic.drawPic(canvas, track, 575, 390, 0, 255, paint);
+			Graphic.drawPic(canvas, track, 700, 390, 0, 255, paint);
+			Graphic.drawPic(canvas, track, 825, 390, 0, 255, paint);
 
 			int now_time=mp.getCurrentPosition();
 			for(int i=0;i<chartObject;i++){
@@ -327,11 +335,11 @@ implements SurfaceHolder.Callback{
 				}
 			}
 
-			Graphic.drawPic(canvas, sight, 725, 306, 0, 255, paint);
-			Graphic.drawPic(canvas, sight, 725, 189, 0, 255, paint);
-			Graphic.drawPic(canvas, sight, 553, 306, 0, 255, paint);
-			Graphic.drawPic(canvas, sight, 553, 189, 0, 255, paint);
-			Graphic.drawPic(canvas, cpu, 640, 247, 0, 255, paint);
+			Graphic.drawPic(canvas, sight, 450, 600, 0, 255, paint);
+			Graphic.drawPic(canvas, sight, 575, 600, 0, 255, paint);
+			Graphic.drawPic(canvas, sight, 700, 600, 0, 255, paint);
+			Graphic.drawPic(canvas, sight, 825, 600, 0, 255, paint);
+			
 
 
 			btn_circle.drawBtm(canvas, paint);

@@ -508,7 +508,7 @@ implements SurfaceHolder.Callback {
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
-		int pointerCount = event.getPointerCount();
+		//int pointerCount = event.getPointerCount();
 
 		// get pointer index from the event object
 		int pointerIndex = event.getActionIndex();

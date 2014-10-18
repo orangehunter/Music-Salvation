@@ -140,7 +140,10 @@ implements SurfaceHolder.Callback{
 		bg = 	Graphic.bitSize(LoadBitmap(R.drawable.gamemap01), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
 		sight =	Graphic.bitSize(LoadBitmap(R.drawable.sightv2), 100, 100);
 		//cpu   = Graphic.bitSize(LoadBitmap(R.drawable.cpu_chips), 162, 162);
-
+		
+		game_easy = Graphic.bitSize(LoadBitmap(R.drawable.game_easy), 118, 25);
+		game_normal = Graphic.bitSize(LoadBitmap(R.drawable.game_normal), 118, 25);
+		game_hard = Graphic.bitSize(LoadBitmap(R.drawable.game_hard), 118, 25);
 
 		circle = Graphic.bitSize(LoadBitmap(R.drawable.btn_circle_v2), 150, 150);
 		square = Graphic.bitSize(LoadBitmap(R.drawable.btn_square_v2), 150, 150);
@@ -312,7 +315,11 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
 			//Graphic.drawPic(canvas, hpfont_red, 95, 50, 0, 255, paint);
-
+			
+			//Ãø©ö«×
+			Graphic.drawPic(canvas, game_easy, 635, 20, 0, 255, paint);
+			Graphic.drawPic(canvas, game_normal, 635, 20, 0, 255, paint);
+			Graphic.drawPic(canvas, game_hard, 635, 20, 0, 255, paint);
 
 			Graphic.drawPic(canvas, track, 450, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, track, 575, 390, 0, 255, paint);

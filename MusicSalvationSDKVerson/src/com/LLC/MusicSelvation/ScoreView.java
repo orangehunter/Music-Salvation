@@ -116,7 +116,7 @@ implements SurfaceHolder.Callback{
 		y = Graphic.bitSize(LoadBitmap(R.drawable.y), 30, 50);
 		n = Graphic.bitSize(LoadBitmap(R.drawable.n), 30, 50);
 		
-		num_grey = Graphic.bitSize(LoadBitmap(R.drawable.num_grey), 350, 50);
+		num_grey = Graphic.bitSize(LoadBitmap(R.drawable.num_gray), 350, 50);
 		num_red = Graphic.bitSize(LoadBitmap(R.drawable.num_red), 350, 50);
 		num_yellow = Graphic.bitSize(LoadBitmap(R.drawable.num_yellow), 350, 50);
 		num_green = Graphic.bitSize(LoadBitmap(R.drawable.num_green), 350, 50);

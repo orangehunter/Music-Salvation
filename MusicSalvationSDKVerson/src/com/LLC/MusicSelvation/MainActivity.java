@@ -38,6 +38,7 @@ public class MainActivity extends Activity{
 	MapView mapview;
 	GameView gameview;
 	ScoreView scoreview;
+	TestView testview;
 
 	Intent intent;
 	Intent deintent;
@@ -83,6 +84,9 @@ public class MainActivity extends Activity{
 			case 7:
 				chooseFile();
 				break;
+			case 8:
+				goToTestView();
+				break;
 			case 255:
 				System.exit(0);
 				break;
@@ -90,7 +94,15 @@ public class MainActivity extends Activity{
 		}
 	};
 
-
+	protected void goToTestView() {
+		if(testview==null)
+		{
+			testview=new TestView(this);
+		}
+		setContentView(testview);
+		testview.requestFocus();
+		testview.setFocusableInTouchMode(true);
+	}
 	protected void goToEditView() {
 		if(editview==null)
 		{
@@ -196,7 +208,7 @@ public class MainActivity extends Activity{
 		Constant.SCREEN_HEIGHT_UNIT= ((float)Constant.SCREEN_HIGHT/Constant.DEFULT_HIGHT);
 		//Toast.makeText(this, "widthPixels"+dm.widthPixels+"heightPixels"+dm.heightPixels, Toast.LENGTH_LONG).show();
 		readData();
-		changeView(0);//進入"歡迎界面"
+		changeView(8);//進入"歡迎界面"
 	}
 
 

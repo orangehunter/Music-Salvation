@@ -9,16 +9,16 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 public class Number {
-	public static final int Blue=0;
-	public static final int Cyan=1;
-	public static final int Green=2;
-	public static final int Gray=3;
-	public static final int Red=4;
-	public static final int Wite=5;
-	public static final int Yellow=6;
+	static final int Blue=0;
+	static final int Cyan=1;
+	static final int Green=2;
+	static final int Gray=3;
+	static final int Red=4;
+	static final int Wite=5;
+	static final int Yellow=6;
 
-	int default_width;
-	int default_height;
+	final int default_width=35;
+	final int default_height=50;
 	int width;
 	int height;
 
@@ -32,11 +32,9 @@ public class Number {
 		origin[4]=LoadBitmap(res,R.drawable.num_red);
 		origin[5]=LoadBitmap(res,R.drawable.num_white);
 		origin[6]=LoadBitmap(res,R.drawable.num_yellow);
-		default_width=origin[0].getWidth()/10;
-		default_height=origin[0].getHeight();
 		for(int i=0;i<7;i++){
 			for(int k=0;k<10;k++){
-				nums[i][k]=Graphic.CutArea(origin[0], 0+k*width, 0, width, height);
+				nums[i][k]=Graphic.CutArea(origin[i], 0+k*default_width, 0, default_width, default_height);
 			}
 			origin[i].recycle();
 		}
@@ -58,7 +56,7 @@ public class Number {
 	public void drawNumberRightStart(int first_num_x,int first_num_y,int num,int color,Canvas canvas,Paint paint){
 		String tmp=String.valueOf(num);
 		for(int i=tmp.length()-1;i>=0;i--){
-			Graphic.drawPic(canvas, Graphic.bitSize(nums[color][Integer.valueOf(tmp.substring(i,i+1))],this.width, this.height), first_num_x-i*this.width, first_num_y, 0, 255, paint);
+			Graphic.drawPic(canvas, Graphic.bitSize(nums[color][Integer.valueOf(tmp.substring(i,i+1))],this.width, this.height), first_num_x-(tmp.length()-i)*this.width, first_num_y, 0, 255, paint);
 		}
 	}
 	public void reset(){

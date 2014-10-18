@@ -21,8 +21,7 @@ implements SurfaceHolder.Callback{
 	boolean deJump=true;
 	Bitmap bottom[]=new Bitmap[5];
 	Bottom btm_r,btm_s,btm_t,btm_x;
-	//Number number;
-	Bitmap tess;
+	Number number;//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<宣告
 	int test=0;
 	int tmp=1;
 	Paint paint;			//畫筆的參考
@@ -42,8 +41,7 @@ implements SurfaceHolder.Callback{
 		paint = new Paint();//建立畫筆
 		paint.setAntiAlias(true);//開啟抗鋸齒
 
-		//number=new Number(getResources());
-		tess=LoadBitmap(R.drawable.num_blue);
+		number=new Number(getResources());//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<載入
 		int bottomSize=180;
 		int btm_first=130,btm_dis=270;
 		bottom[0]=Graphic.bitSize(LoadBitmap( R.drawable.bottom_round),bottomSize ,bottomSize);
@@ -87,12 +85,12 @@ implements SurfaceHolder.Callback{
 			canvas.drawColor(Color.WHITE);//界面設定為
 			btm_r.drawBtm(canvas, paint);
 			btm_s.drawBtm(canvas, paint);
-			//number.setSize(50, 50);
-			/*number.drawNumberLeftStart(100, 100, test, Number.Blue, canvas, paint);
-			number.drawNumberRightStart(1180, 200, test, Number.Red, canvas, paint);
-			test+=tmp;*/
-			canvas.drawText(String.valueOf(tess.getWidth()),100, 100, paint);
-			canvas.drawText(String.valueOf(tess.getHeight()),100, 200, paint);
+			number.setSize(35, 50);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<字體大小
+			number.setDistence(0);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<兩字間距
+			number.drawNumberLeftStart(100, 100, test, Number.Blue, canvas, paint);//<<<<<<<<<<<<<<<<<<<<<<<<最左座標固定
+			number.drawNumberRightStart(1180, 200, test, Number.Red, canvas, paint);//<<<<<<<<<<<<<<<<<<<<<<<最右座標固定
+			number.reset();//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<重設字體大小(35,50)及間距(0)
+			test+=tmp;
 		}
 	}
 	@Override

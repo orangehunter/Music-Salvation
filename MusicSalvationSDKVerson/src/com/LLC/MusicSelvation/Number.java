@@ -21,6 +21,7 @@ public class Number {
 	final int default_height=50;
 	int width;
 	int height;
+	int dis=0;
 
 	Bitmap origin[]=new Bitmap[7];
 	Bitmap nums[][]=new Bitmap[7][10];
@@ -47,20 +48,24 @@ public class Number {
 		this.width=width;
 		this.height=height;
 	}
+	public void setDistence(int dis){
+		this.dis=dis;
+	}
 	public void drawNumberLeftStart(int first_num_x,int first_num_y,int num,int color,Canvas canvas,Paint paint){
 		String tmp=String.valueOf(num);
 		for(int i=0;i<tmp.length();i++){
-			Graphic.drawPic(canvas, Graphic.bitSize(nums[color][Integer.valueOf(tmp.substring(i,i+1))],this.width, this.height), first_num_x+i*this.width, first_num_y, 0, 255, paint);
+			Graphic.drawPic(canvas, Graphic.bitSize(nums[color][Integer.valueOf(tmp.substring(i,i+1))],this.width, this.height), first_num_x+i*(this.width+dis), first_num_y, 0, 255, paint);
 		}
 	}
 	public void drawNumberRightStart(int first_num_x,int first_num_y,int num,int color,Canvas canvas,Paint paint){
 		String tmp=String.valueOf(num);
 		for(int i=tmp.length()-1;i>=0;i--){
-			Graphic.drawPic(canvas, Graphic.bitSize(nums[color][Integer.valueOf(tmp.substring(i,i+1))],this.width, this.height), first_num_x-(tmp.length()-i)*this.width, first_num_y, 0, 255, paint);
+			Graphic.drawPic(canvas, Graphic.bitSize(nums[color][Integer.valueOf(tmp.substring(i,i+1))],this.width, this.height), first_num_x-(tmp.length()-i)*(this.width+dis), first_num_y, 0, 255, paint);
 		}
 	}
 	public void reset(){
 		this.width=this.default_width;
 		this.height=this.default_height;
+		this.dis=0;
 	}
 }

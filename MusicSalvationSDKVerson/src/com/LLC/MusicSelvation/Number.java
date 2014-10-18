@@ -5,21 +5,25 @@ import com.example.musicsalvationsdkverson.R;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public class Number {
+	public static final int Blue=0;
+	public static final int Cyan=1;
+	public static final int Green=2;
+	public static final int Gray=3;
+	public static final int Red=4;
+	public static final int Wite=5;
+	public static final int Yellow=6;
+
 	int default_width;
 	int default_height;
 	int width;
 	int height;
 
 	Bitmap origin[]=new Bitmap[7];
-	Bitmap num_blue[]=new Bitmap[10];
-	Bitmap num_cyan[]=new Bitmap[10];
-	Bitmap num_green[]=new Bitmap[10];
-	Bitmap num_gray[]=new Bitmap[10];
-	Bitmap num_red[]=new Bitmap[10];
-	Bitmap num_white[]=new Bitmap[10];
-	Bitmap num_yellow[]=new Bitmap[10];
+	Bitmap nums[][]=new Bitmap[7][10];
 	public Number(Resources res){
 		origin[0]=LoadBitmap(res,R.drawable.num_blue);
 		origin[1]=LoadBitmap(res,R.drawable.num_cyan);
@@ -30,16 +34,10 @@ public class Number {
 		origin[6]=LoadBitmap(res,R.drawable.num_yellow);
 		default_width=origin[0].getWidth()/10;
 		default_height=origin[0].getHeight();
-		for(int i=0;i<10;i++){
-			num_blue[i]=Graphic.CutArea(origin[0], 0+i*width, 0, width, height);
-			num_cyan[i]=Graphic.CutArea(origin[1], 0+i*width, 0, width, height);
-			num_green[i]=Graphic.CutArea(origin[2], 0+i*width, 0, width, height);
-			num_gray[i]=Graphic.CutArea(origin[3], 0+i*width, 0, width, height);
-			num_red[i]=Graphic.CutArea(origin[4], 0+i*width, 0, width, height);
-			num_white[i]=Graphic.CutArea(origin[5], 0+i*width, 0, width, height);
-			num_yellow[i]=Graphic.CutArea(origin[6], 0+i*width, 0, width, height);
-		}
 		for(int i=0;i<7;i++){
+			for(int k=0;k<10;k++){
+				nums[i][k]=Graphic.CutArea(origin[0], 0+k*width, 0, width, height);
+			}
 			origin[i].recycle();
 		}
 		this.reset();
@@ -51,11 +49,17 @@ public class Number {
 		this.width=width;
 		this.height=height;
 	}
-	public void drawNumberFrontStart(int left,int top){
-
+	public void drawNumberLeftStart(int first_num_x,int first_num_y,int num,int color,Canvas canvas,Paint paint){
+		String tmp=String.valueOf(num);
+		for(int i=0;i<tmp.length();i++){
+			Graphic.drawPic(canvas, Graphic.bitSize(nums[color][Integer.valueOf(tmp.substring(i,i+1))],this.width, this.height), first_num_x+i*this.width, first_num_y, 0, 255, paint);
+		}
 	}
-	public void drawNumberBackStart(int right,int top){
-
+	public void drawNumberRightStart(int first_num_x,int first_num_y,int num,int color,Canvas canvas,Paint paint){
+		String tmp=String.valueOf(num);
+		for(int i=tmp.length()-1;i>=0;i--){
+			Graphic.drawPic(canvas, Graphic.bitSize(nums[color][Integer.valueOf(tmp.substring(i,i+1))],this.width, this.height), first_num_x-i*this.width, first_num_y, 0, 255, paint);
+		}
 	}
 	public void reset(){
 		this.width=this.default_width;

@@ -86,7 +86,7 @@ public class gameChartScan {
 
 	public void mainScan(){
 		scan_time_flag=GameView.mp.getCurrentPosition();
-		Log.v("scan_time_flag", String.valueOf(scan_time_flag));
+		//Log.v("scan_time_flag", String.valueOf(scan_time_flag));
 		if(BtR.optBoolean(Integer.toString(scan_time_flag/10))&&scan_time_flag-r_last>=10){
 			r_last=scan_time_flag;
 			R_scan_flag=true;

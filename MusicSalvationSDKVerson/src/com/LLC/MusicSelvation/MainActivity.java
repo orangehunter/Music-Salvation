@@ -208,7 +208,7 @@ public class MainActivity extends Activity{
 		Constant.SCREEN_HEIGHT_UNIT= ((float)Constant.SCREEN_HIGHT/Constant.DEFULT_HIGHT);
 		//Toast.makeText(this, "widthPixels"+dm.widthPixels+"heightPixels"+dm.heightPixels, Toast.LENGTH_LONG).show();
 		readData();
-		changeView(8);//進入"歡迎界面"
+		changeView(0);//進入"歡迎界面"
 	}
 
 

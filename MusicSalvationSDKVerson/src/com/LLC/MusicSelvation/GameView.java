@@ -76,11 +76,11 @@ implements SurfaceHolder.Callback{
 	Bottom btn_xx;
 	Bottom btn_triangle;
 
-
-	int hp_max = 35;
-	int red_hpmax = 35;
-	int hp = 15;
-	int red_hp = 15;
+	int hp = 20;
+	int hp_x;
+	int hp_color=Color.GREEN;
+	int hp_to_yellow=12;
+	int hp_to_red = 6;
 
 	Paint paint;			//畫筆的參考
 	int i=0,j=5;
@@ -165,9 +165,7 @@ implements SurfaceHolder.Callback{
 		miss = Graphic.bitSize(LoadBitmap(R.drawable.miss), 175, 55);
 		
 		titlebar = Graphic.bitSize(LoadBitmap(R.drawable.titlebar), 1280, 63);
-		hpbar = Graphic.bitSize(LoadBitmap(R.drawable.hpbar0), 1100, 23);
-		hp_green = Graphic.bitSize(LoadBitmap(R.drawable.hp_green), 30, 23);
-		hp_red = Graphic.bitSize(LoadBitmap(R.drawable.hp_red), 30, 23);
+		hpbar = Graphic.bitSize(LoadBitmap(R.drawable.hpbar2), 1100, 23);
 		hpfont = Graphic.bitSize(LoadBitmap(R.drawable.hpfont0), 80, 25);
 		hpfont_red = Graphic.bitSize(LoadBitmap(R.drawable.hpfont_red0), 80, 25);
 		freely = Graphic.bitSize(LoadBitmap(R.drawable.freely), 260, 30);
@@ -337,8 +335,17 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, sight, 825, 600, 0, 255, paint);
 			
 			
-			
+			hp_x=Coordinate.AnalogSpeedMove(hp_x, 182+hp*55);
+			hp_color=Color.GREEN;
+			if(hp_x!= 182+hp*55){
+				hp_color=Color.argb(255, 132, 0, 20);
+			}else if(hp<hp_to_yellow&& hp>hp_to_red){
+				hp_color=Color.YELLOW;
+			}else if(hp<=hp_to_red){
+				hp_color=Color.RED;
+			}
 			Graphic.drawPic(canvas, titlebar, 641, 31, 0, 255, paint);
+			Graphic.drawLine(canvas, hp_color, 182, 50, hp_x, 50, 16, paint);
 			Graphic.drawPic(canvas, hpbar, 730, 50, 0, 255, paint);
 			Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
@@ -396,6 +403,7 @@ implements SurfaceHolder.Callback{
 			mActivePointers.put(pointerId, f);
 			
 				if(btn_circle.isIn(f.x, f.y)){
+					hp++;
 					playSP();
 					for(int i=0;i<chartObject;i++){
 						if(cr_btm[i].getFlag()){
@@ -432,6 +440,7 @@ implements SurfaceHolder.Callback{
 					btn_pointer.put(pointerId, 2);
 				}
 				if(btn_xx.isIn(f.x, f.y)){
+					hp--;
 					playSP();
 					for(int i=0;i<chartObject;i++){
 						if(cx_btm[i].getFlag()){

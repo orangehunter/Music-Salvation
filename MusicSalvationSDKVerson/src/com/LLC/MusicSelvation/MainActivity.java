@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 @SuppressLint("HandlerLeak")
 public class MainActivity extends Activity{
+	int first_activity=0;
 	int nowActivity=0;
 	StartView startview;
 	MainView mainview;
@@ -208,7 +209,7 @@ public class MainActivity extends Activity{
 		Constant.SCREEN_HEIGHT_UNIT= ((float)Constant.SCREEN_HIGHT/Constant.DEFULT_HIGHT);
 		//Toast.makeText(this, "widthPixels"+dm.widthPixels+"heightPixels"+dm.heightPixels, Toast.LENGTH_LONG).show();
 		readData();
-		changeView(3);//進入"歡迎界面"
+		changeView(first_activity);//進入"歡迎界面"
 	}
 
 

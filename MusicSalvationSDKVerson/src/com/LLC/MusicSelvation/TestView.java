@@ -86,7 +86,7 @@ implements SurfaceHolder.Callback{
 			btm_r.drawBtm(canvas, paint);
 			btm_s.drawBtm(canvas, paint);
 			number.setSize(35, 50);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<字體大小
-			number.setDistence(0);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<兩字間距
+			number.setDistence(20);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<兩字間距
 			number.drawNumberLeftStart(100, 100, test, Number.Blue, canvas, paint);//<<<<<<<<<<<<<<<<<<<<<<<<最左座標固定
 			number.drawNumberRightStart(1180, 200, test, Number.Red, canvas, paint);//<<<<<<<<<<<<<<<<<<<<<<<最右座標固定
 			number.reset();//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<重設字體大小(35,50)及間距(0)

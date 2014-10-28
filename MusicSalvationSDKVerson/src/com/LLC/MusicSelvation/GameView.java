@@ -50,12 +50,11 @@ implements SurfaceHolder.Callback{
 	Bitmap grey_triangle;
 
 	Bitmap track;  //軌道
-	
+
 	Bitmap virus_red;
 	Bitmap virus_yellow;
 	Bitmap virus_blue;
 	Bitmap virus_green;
-
 
 	Bitmap nice;
 	Bitmap miss;
@@ -138,7 +137,7 @@ implements SurfaceHolder.Callback{
 		bg = 	Graphic.bitSize(LoadBitmap(R.drawable.gamemap01), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
 		sight =	Graphic.bitSize(LoadBitmap(R.drawable.sightv2), 100, 100);
 		//cpu   = Graphic.bitSize(LoadBitmap(R.drawable.cpu_chips), 162, 162);
-		
+
 		game_easy = Graphic.bitSize(LoadBitmap(R.drawable.game_easy), 118, 25);
 		game_normal = Graphic.bitSize(LoadBitmap(R.drawable.game_normal), 118, 25);
 		game_hard = Graphic.bitSize(LoadBitmap(R.drawable.game_hard), 118, 25);
@@ -153,17 +152,17 @@ implements SurfaceHolder.Callback{
 		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 150, 150);
 
 		track = Graphic.bitSize(LoadBitmap(R.drawable.track_v2), 80, 660);
-		
+
 		virus_blue = Graphic.bitSize(LoadBitmap(R.drawable.virus_blue), 80, 80);
 		virus_red = Graphic.bitSize(LoadBitmap(R.drawable.virus_red), 80, 80);
 		virus_yellow = Graphic.bitSize(LoadBitmap(R.drawable.virus_yello), 80, 80);
 		virus_green = Graphic.bitSize(LoadBitmap(R.drawable.virus_green), 80, 80);
-		
+
 		nice = Graphic.bitSize(LoadBitmap(R.drawable.nice), 175, 55);
 		hit = Graphic.bitSize(LoadBitmap(R.drawable.hit), 175, 55);
 		safe = Graphic.bitSize(LoadBitmap(R.drawable.safe), 175, 55);
 		miss = Graphic.bitSize(LoadBitmap(R.drawable.miss), 175, 55);
-		
+
 		titlebar = Graphic.bitSize(LoadBitmap(R.drawable.titlebar), 1280, 63);
 		hpbar = Graphic.bitSize(LoadBitmap(R.drawable.hpbar2), 1100, 23);
 		hpfont = Graphic.bitSize(LoadBitmap(R.drawable.hpfont0), 80, 25);
@@ -180,10 +179,10 @@ implements SurfaceHolder.Callback{
 		Cyan[4] = Graphic.bitSize(LoadBitmap(R.drawable.cyan05), 200, 200);
 		Cyan[5] = Graphic.bitSize(LoadBitmap(R.drawable.cyan06), 200, 200);*/
 
-		btn_circle = new Bottom(activity, grey_circle, circle, 1200, 500);
+		btn_circle = new Bottom(activity, grey_circle, circle, 80, 500);
 		btn_square = new Bottom(activity, grey_square, square, 230, 645);
-		btn_triangle = new Bottom(activity, grey_triangle, triangle, 80, 500);
-		btn_xx = new Bottom(activity, grey_xx, xx, 1050, 645);
+		btn_triangle = new Bottom(activity, grey_triangle, triangle, 1050, 645);
+		btn_xx = new Bottom(activity, grey_xx, xx, 1200, 500);
 
 		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.virus_red), 80, 80);
 		chart_s=Graphic.bitSize(LoadBitmap(R.drawable.virus_yello), 80, 80);
@@ -191,10 +190,10 @@ implements SurfaceHolder.Callback{
 		chart_x=Graphic.bitSize(LoadBitmap(R.drawable.virus_blue), 80, 80);
 
 		for(int i=0;i<chartObject;i++){
-			cr_btm[i]=new gameChartBottom(-100,600, 820,activity, chart_r, chart_r, 825);
-			cx_btm[i]=new gameChartBottom(-100,600,820,activity, chart_x, chart_x,700);
-			ct_btm[i]=new gameChartBottom(-100,600,820, activity, chart_t, chart_t,  450);
-			cs_btm[i]=new gameChartBottom(-100,600,820, activity, chart_s, chart_s, 575);
+			cr_btm[i]=new gameChartBottom(-100,600, 820,activity, chart_r, chart_r,450);
+			cs_btm[i]=new gameChartBottom(-100,600,820, activity, chart_s, chart_s,575);
+			ct_btm[i]=new gameChartBottom(-100,600,820, activity, chart_t, chart_t,700);
+			cx_btm[i]=new gameChartBottom(-100,600,820,activity, chart_x, chart_x,825);
 		}
 
 		mp=MediaPlayer.create(this.getContext(), R.raw.freely_tomorrow);
@@ -306,13 +305,13 @@ implements SurfaceHolder.Callback{
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, bg, 1280/2, 720/2, 0, 255, paint);//背景
-			
-			
+
+
 			Graphic.drawPic(canvas, track, 450, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, track, 575, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, track, 700, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, track, 825, 390, 0, 255, paint);
-			
+
 			int now_time=mp.getCurrentPosition();
 			for(int i=0;i<chartObject;i++){
 				if(cr_btm[i].getFlag()){
@@ -333,8 +332,8 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, sight, 575, 600, 0, 255, paint);
 			Graphic.drawPic(canvas, sight, 700, 600, 0, 255, paint);
 			Graphic.drawPic(canvas, sight, 825, 600, 0, 255, paint);
-			
-			
+
+
 			hp_x=Coordinate.AnalogSpeedMove(hp_x, 182+hp*55);
 			hp_color=Color.GREEN;
 			if(hp_x!= 182+hp*55){
@@ -350,12 +349,12 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
 			//Graphic.drawPic(canvas, hpfont_red, 95, 50, 0, 255, paint);
-			
+
 			//難易度
 			Graphic.drawPic(canvas, game_easy, 635, 20, 0, 255, paint);
 			Graphic.drawPic(canvas, game_normal, 635, 20, 0, 255, paint);
 			Graphic.drawPic(canvas, game_hard, 635, 20, 0, 255, paint);
-			
+
 			btn_circle.setBottomTo(false);	
 			btn_square.setBottomTo(false);	
 			btn_triangle.setBottomTo(false);	
@@ -401,67 +400,67 @@ implements SurfaceHolder.Callback{
 			f.x = event.getX(pointerIndex);
 			f.y = event.getY(pointerIndex);
 			mActivePointers.put(pointerId, f);
-			
-				if(btn_circle.isIn(f.x, f.y)){
-					hp++;
-					playSP();
-					for(int i=0;i<chartObject;i++){
-						if(cr_btm[i].getFlag()){
-							if(cr_btm[i].getId()-mp.getCurrentPosition()/100<3&&cr_btm[i].getId()-mp.getCurrentPosition()/100>-3){
-								cr_btm[i].stop();
-								break;
-							}
+
+			if(btn_circle.isIn(f.x, f.y)){
+				hp++;
+				playSP();
+				for(int i=0;i<chartObject;i++){
+					if(cr_btm[i].getFlag()){
+						if(cr_btm[i].getId()-mp.getCurrentPosition()/100<3&&cr_btm[i].getId()-mp.getCurrentPosition()/100>-3){
+							cr_btm[i].stop();
+							break;
 						}
 					}
-					btn_pointer.put(pointerId, 0);
 				}
-				if(btn_square.isIn(f.x, f.y)){
-					playSP();
-					for(int i=0;i<chartObject;i++){
-						if(cs_btm[i].getFlag()){
-							if(cs_btm[i].getId()-mp.getCurrentPosition()/100<3&&cs_btm[i].getId()-mp.getCurrentPosition()/100>-3){
-								cs_btm[i].stop();
-								break;
-							}
+				btn_pointer.put(pointerId, 0);
+			}
+			if(btn_square.isIn(f.x, f.y)){
+				playSP();
+				for(int i=0;i<chartObject;i++){
+					if(cs_btm[i].getFlag()){
+						if(cs_btm[i].getId()-mp.getCurrentPosition()/100<3&&cs_btm[i].getId()-mp.getCurrentPosition()/100>-3){
+							cs_btm[i].stop();
+							break;
 						}
 					}
-					btn_pointer.put(pointerId, 1);
 				}
-				if(btn_triangle.isIn(f.x, f.y)){
-					playSP();
-					for(int i=0;i<chartObject;i++){
-						if(ct_btm[i].getFlag()){
-							if(ct_btm[i].getId()-mp.getCurrentPosition()/100<3&&ct_btm[i].getId()-mp.getCurrentPosition()/100>-3){
-								ct_btm[i].stop();
-								break;
-							}
+				btn_pointer.put(pointerId, 1);
+			}
+			if(btn_triangle.isIn(f.x, f.y)){
+				playSP();
+				for(int i=0;i<chartObject;i++){
+					if(ct_btm[i].getFlag()){
+						if(ct_btm[i].getId()-mp.getCurrentPosition()/100<3&&ct_btm[i].getId()-mp.getCurrentPosition()/100>-3){
+							ct_btm[i].stop();
+							break;
 						}
 					}
-					btn_pointer.put(pointerId, 2);
 				}
-				if(btn_xx.isIn(f.x, f.y)){
-					hp--;
-					playSP();
-					for(int i=0;i<chartObject;i++){
-						if(cx_btm[i].getFlag()){
-							if(cx_btm[i].getId()-mp.getCurrentPosition()/100<3&&cx_btm[i].getId()-mp.getCurrentPosition()/100>-3){
-								cx_btm[i].stop();
-								break;
-							}
+				btn_pointer.put(pointerId, 2);
+			}
+			if(btn_xx.isIn(f.x, f.y)){
+				hp--;
+				playSP();
+				for(int i=0;i<chartObject;i++){
+					if(cx_btm[i].getFlag()){
+						if(cx_btm[i].getId()-mp.getCurrentPosition()/100<3&&cx_btm[i].getId()-mp.getCurrentPosition()/100>-3){
+							cx_btm[i].stop();
+							break;
 						}
 					}
-					btn_pointer.put(pointerId, 3);
 				}
-				//if(startbtm.isIn(pointx, pointy)){
-						//進入地圖畫面
-						//activity.changeView(2);
-						//this.toEditView = 0;
-				//	}
-					//this.toEditView++;
-				//if(this.toEditView>10){
-					//Constant.Flag=false;
-					//activity.changeView(6);
-				//}
+				btn_pointer.put(pointerId, 3);
+			}
+			//if(startbtm.isIn(pointx, pointy)){
+				//進入地圖畫面
+			//activity.changeView(2);
+			//this.toEditView = 0;
+			//	}
+			//this.toEditView++;
+			//if(this.toEditView>10){
+			//Constant.Flag=false;
+			//activity.changeView(6);
+			//}
 			break;
 		case MotionEvent.ACTION_MOVE:
 			for (int size = event.getPointerCount(), i = 0; i < size; i++) {
@@ -478,21 +477,21 @@ implements SurfaceHolder.Callback{
 			f = new PointF();
 			f.x = event.getX(pointerIndex);
 			f.y = event.getY(pointerIndex);
-				
-				mActivePointers.remove(pointerId);
-				btn_pointer.remove(pointerId);
-				//if(.isIn(pointx, pointy)){
-						//TODO 離開遊戲未寫
-					//}
+
+			mActivePointers.remove(pointerId);
+			btn_pointer.remove(pointerId);
+			//if(.isIn(pointx, pointy)){
+			//TODO 離開遊戲未寫
+			//}
 			break;
 		}
 
 		return true;
 	}
-	
+
 	public void playSP(){
 		if(activity.sp_num!=-1)
-		sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+			sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 	}
 
 

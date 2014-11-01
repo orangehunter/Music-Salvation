@@ -619,6 +619,8 @@ implements SurfaceHolder.Callback{
 				if(stbtn01.isIn(pointx, pointy)){
 					if(!stbtn01.getBottom()){
 						stageFlag = 1;
+						activity.level=0;//砞﹚gameview 闽把计
+						activity.difficulty=0;//gameview螟把计
 						stbtn01.setBottomTo(true);
 					}
 					else if(stbtn01.getBottom())
@@ -643,12 +645,15 @@ implements SurfaceHolder.Callback{
 					if(model.getBottom()){
 						if(easy.isIn(pointx, pointy)){
 							modelFlag=0;
+							activity.difficulty=0;//gameview螟把计
 						}
 						if(normal.isIn(pointx, pointy)){
 							modelFlag=1;
+							activity.difficulty=1;//gameview螟把计
 						}
 						if(hard.isIn(pointx, pointy)){
 							modelFlag=2;
+							activity.difficulty=2;//gameview螟把计
 						}
 					}
 				}

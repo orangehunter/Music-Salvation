@@ -1,6 +1,5 @@
 package com.LLC.MusicSelvation;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,6 +43,19 @@ public class MainActivity extends Activity{
 	Intent intent;
 	Intent deintent;
 	Uri uri;
+	
+	//﹚籔だ计===================================
+	int nice = 0;
+	int hit = 0;
+	int safe = 0;
+	int miss = 0;
+	int score = 0;
+	//﹚籔だ计-------------------------------------
+	
+	//匡闽把计=====================================
+	int level;//闽
+	int difficulty;//螟
+	//匡闽把计--------------------------------------------------------------
 	
 	//郎ノ把计====================================
 	float mp_Voiume;

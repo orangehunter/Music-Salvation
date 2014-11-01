@@ -6,25 +6,27 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.musicsalvationsdkverson.R;
-
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-@SuppressLint({ "ViewConstructor", "WrongCall", "UseSparseArrays" })
+@SuppressLint({ "ViewConstructor", "WrongCall", "UseSparseArrays", "ClickableViewAccessibility" })
 public class EditView extends  SurfaceView
 implements SurfaceHolder.Callback {
 	boolean deTouchJump=true;
+	int temp;
 
 	Uri uri=null;
 	Boolean uriFlag=true;
@@ -44,7 +46,7 @@ implements SurfaceHolder.Callback {
 
 	Bitmap mp_play,mp_pause;
 	Bottom playBtm;
-	MediaPlayer mp=null;
+	static MediaPlayer mp=null;
 	String tittle="未選擇";
 
 
@@ -66,9 +68,15 @@ implements SurfaceHolder.Callback {
 	boolean cs_btm_flag=false;
 	boolean ct_btm_flag=false;
 	boolean cx_btm_flag=false;
-	int target_dis=10000;
+
+	static int target_dis=5000;
+	static int accuracy=100;
+	SparseArray<PointF> mActivePointers=new SparseArray<PointF>();
+	SparseArray<Integer> btn_pointer=new SparseArray<Integer>();
+
 	int last_line=-1001;
 	boolean chart_FullScanFlag=false;
+	chartScan chartscan;
 
 	Bitmap Sbar,Sbtm;
 	MySeekBar msb;
@@ -123,9 +131,10 @@ implements SurfaceHolder.Callback {
 		cs_on=Graphic.bitSize(LoadBitmap( R.drawable.bottom_square) ,c_bottom_size ,c_bottom_size);
 		ct_on=Graphic.bitSize(LoadBitmap( R.drawable.bottom_trangle),c_bottom_size ,c_bottom_size);
 		cx_on=Graphic.bitSize(LoadBitmap(R.drawable.bottom_x),c_bottom_size ,c_bottom_size);
-		c_off=Graphic.bitSize(LoadBitmap( R.drawable.bottom_pushed),c_bottom_size ,c_bottom_size);;
+		c_off=Graphic.bitSize(LoadBitmap( R.drawable.bottom_pushed),c_bottom_size ,c_bottom_size);
 
-		for(int i=0;i<20;i++){
+
+		for(int i=0;i<chartObject;i++){
 			line[i]=new chartLine( 960,( 20+(960-20)/2),20);
 			cr_btm[i]=new chartBottom(960,( 20+(960-20)/2),-40, activity, c_off, cr_on, 25+(85*1));
 			cs_btm[i]=new chartBottom(960,( 20+(960-20)/2),-40, activity, c_off, cs_on, 25+(85*2));
@@ -143,12 +152,12 @@ implements SurfaceHolder.Callback {
 			public void run()
 			{
 				while(Constant.Flag){
-					try {
-						Thread.sleep(10);
+					/*try {
+						Thread.sleep(0);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+
 						e.printStackTrace();
-					}
+					}*/
 					SurfaceHolder myholder=EditView.this.getHolder();
 					Canvas canvas = myholder.lockCanvas();//取得畫布
 					onDraw(canvas);
@@ -197,6 +206,7 @@ implements SurfaceHolder.Callback {
 							e.printStackTrace();
 						}
 					}
+					chartscan=new chartScan(BtR,BtS,BtT,BtX,target_dis,"EditView");
 				}
 			}
 			//底色
@@ -213,9 +223,10 @@ implements SurfaceHolder.Callback {
 			Graphic.drawLine(canvas, Color.GREEN, 20+(960-20)/2, 25, 20+(960-20)/2, 450, 3, paint);
 
 			if(mp!=null){
+				//TODO
 				if(cr_btm_flag){//按鍵圓產生
 					try {
-						BtR.put(Integer.toString(mp.getCurrentPosition()), true);
+						BtR.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
 						activity.callToast("產生R失敗");
 						e.printStackTrace();
@@ -228,9 +239,10 @@ implements SurfaceHolder.Callback {
 						}
 					}
 				}
+				//TODO
 				if(cs_btm_flag){//按鍵方產生
 					try {
-						BtS.put(Integer.toString(mp.getCurrentPosition()), true);
+						BtS.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
 						activity.callToast("產生S失敗");
 						e.printStackTrace();
@@ -243,9 +255,10 @@ implements SurfaceHolder.Callback {
 						}
 					}
 				}
+				//TODO
 				if(ct_btm_flag){//按鍵三角產生
 					try {
-						BtT.put(Integer.toString(mp.getCurrentPosition()), true);
+						BtT.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
 						activity.callToast("產生T失敗");
 						e.printStackTrace();
@@ -258,9 +271,10 @@ implements SurfaceHolder.Callback {
 						}
 					}
 				}
+				//TODO
 				if(cx_btm_flag){//按鍵X產生
 					try {
-						BtX.put(Integer.toString(mp.getCurrentPosition()), true);
+						BtX.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
 						activity.callToast("產生X失敗");
 						e.printStackTrace();
@@ -273,9 +287,11 @@ implements SurfaceHolder.Callback {
 						}
 					}
 				}
+
+				//TODO 需要重寫
 				//全畫面掃描===============================================
 				if(chart_FullScanFlag){
-					for(int time=(mp.getCurrentPosition()-target_dis*2);time<mp.getCurrentPosition();time+=1){
+					for(int time=(mp.getCurrentPosition()-target_dis*2)/accuracy;time<mp.getCurrentPosition()/accuracy;time+=1){
 						if(BtR.optBoolean(Integer.toString(time))){///按鈕_圓 偵測
 							for(int i=0;i<chartObject;i++){
 								if(!cr_btm[i].getFlag()){
@@ -308,9 +324,9 @@ implements SurfaceHolder.Callback {
 								}
 							}
 						}
-						if(time%5000<=10&&time>=0&&time<mp.getDuration()){//時間基準線偵測
+						if(time%1000<=10&&time>=0&&time<mp.getDuration()){//時間基準線偵測
 							for(int i=0;i<chartObject;i++){
-								if(line[i].getFlag()==false &&(time-this.last_line)>1000){
+								if(line[i].getFlag()==false &&(time-this.last_line)>900){
 									line[i].start(time, target_dis);
 									this.last_line=time;
 									break;
@@ -321,44 +337,52 @@ implements SurfaceHolder.Callback {
 					chart_FullScanFlag=false;
 				}//全畫面掃描**********************************************************************************************************************
 				else{
-					for(int j=0;j<50;j++){//按鈕_圓 偵測
-						int BtTime=mp.getCurrentPosition()+target_dis+j;
-						if(BtR.optBoolean(Integer.toString(BtTime))){
-							for(int i=0;i<chartObject;i++){
-								if(!cr_btm[i].getFlag()){
-									cr_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
-									break;
-								}
-							}
-						}
-						if(BtS.optBoolean(Integer.toString(BtTime))){
-							for(int i=0;i<chartObject;i++){
-								if(!cs_btm[i].getFlag()){
-									cs_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
-									break;
-								}
-							}
-						}
-						if(BtT.optBoolean(Integer.toString(BtTime))){
-							for(int i=0;i<chartObject;i++){
-								if(!ct_btm[i].getFlag()){
-									ct_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
-									break;
-								}
-							}
-						}
-						if(BtX.optBoolean(Integer.toString(BtTime))){
-							for(int i=0;i<chartObject;i++){
-								if(!cx_btm[i].getFlag()){
-									cx_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
-									break;
-								}
+					//for(int j=0;j<50;j++){//按鈕_圓 偵測
+					//int BtTime=mp.getCurrentPosition()+target_dis+j;
+					paint.setColor(Color.BLACK);
+					canvas.drawText(String.valueOf(mp.getCurrentPosition()-temp), Coordinate.CoordinateX(1110),Coordinate.CoordinateY(600) , paint);
+					temp=mp.getCurrentPosition();
+					paint.reset();
+					if(chartscan.R_scan_flag){//BtR.optBoolean(Integer.toString(BtTime))){
+						for(int i=0;i<chartObject;i++){
+							if(!cr_btm[i].getFlag()){
+								cr_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+								chartscan.R_scan_flag=false;
+								break;
 							}
 						}
 					}
-					if((mp.getCurrentPosition()+target_dis)%5000<=100 &&mp.isPlaying()&&(mp.getCurrentPosition()+target_dis)<mp.getDuration()){//時間基準線偵測
+					if(chartscan.S_scan_flag){//BtS.optBoolean(Integer.toString(BtTime))){
 						for(int i=0;i<chartObject;i++){
-							if(line[i].getFlag()==false &&(mp.getCurrentPosition()+target_dis-this.last_line)>1000){
+							if(!cs_btm[i].getFlag()){
+								cs_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+								chartscan.S_scan_flag=false;
+								break;
+							}
+						}
+					}
+					if(chartscan.T_scan_flag){//BtT.optBoolean(Integer.toString(BtTime))){
+						for(int i=0;i<chartObject;i++){
+							if(!ct_btm[i].getFlag()){
+								ct_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+								chartscan.T_scan_flag=false;
+								break;
+							}
+						}
+					}
+					if(chartscan.X_scan_flag){//BtX.optBoolean(Integer.toString(BtTime))){
+						for(int i=0;i<chartObject;i++){
+							if(!cx_btm[i].getFlag()){
+								cx_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+								chartscan.X_scan_flag=false;
+								break;
+							}
+						}
+						//}
+					}
+					if((mp.getCurrentPosition()+target_dis)%1000<=100 &&mp.isPlaying()&&(mp.getCurrentPosition()+target_dis)<mp.getDuration()){//時間基準線偵測
+						for(int i=0;i<chartObject;i++){
+							if(line[i].getFlag()==false &&(mp.getCurrentPosition()+target_dis-this.last_line)>900){
 								line[i].start(mp.getCurrentPosition(), target_dis);
 								this.last_line=(mp.getCurrentPosition()+target_dis);
 								break;
@@ -440,15 +464,39 @@ implements SurfaceHolder.Callback {
 			btm_x.drawBtm(canvas, paint);
 			playBtm.drawBtm(canvas, paint);
 
+			btm_r.setBottomTo(false);
+			btm_s.setBottomTo(false);
+			btm_t.setBottomTo(false);
+			btm_x.setBottomTo(false);
+			for(int i=0;i<btn_pointer.size();i++){
+				int st=btn_pointer.valueAt(i);
+				switch(st){
+				case 0:
+					btm_r.setBottomTo(true);
+					break;
+				case 1:
+					btm_s.setBottomTo(true);
+					break;
+				case 2:
+					btm_t.setBottomTo(true);
+					break;
+				case 3:
+					btm_x.setBottomTo(true);
+					break;
+				}
+			}
 			//搜尋條
 			msb.drawSeekBar(canvas, paint);
 			if(mp!=null && !loadFlag){
 				if(msbFlag)
 					msb.setSeekBarFloat((float)mp.getCurrentPosition()/mp.getDuration()*100);
-				if(mp.isPlaying())
+				if(mp.isPlaying()){
+					chartscan.checkChart(BtR, BtS, BtT, BtX);
 					playBtm.setBottomTo(true);
-				else
+				}
+				else{
 					playBtm.setBottomTo(false);
+				}
 			}
 			load.drawBtm(canvas, paint);
 			save.drawBtm(canvas, paint);
@@ -457,110 +505,123 @@ implements SurfaceHolder.Callback {
 		}
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
-		int pointx = (int) event.getX();
-		int pointy = (int) event.getY();
-		if(editFlag==0){
-			switch(event.getAction())
-			{
-			case MotionEvent.ACTION_DOWN://按下
-				if(deTouchJump==true){
-					if(mp!=null){
-						if(playBtm.isIn(pointx, pointy)){
-							playBtm.setBottom();
-							if(mp.isPlaying())
-								mp.pause();
-							else
-								mp.start();
-						}
+		//int pointerCount = event.getPointerCount();
 
-						if(msb.isOn(pointx, pointy)){
-							msbFlag=false;
-						}
+		// get pointer index from the event object
+		int pointerIndex = event.getActionIndex();
+
+		// get pointer ID
+		int pointerId = event.getPointerId(pointerIndex);
+
+		switch(event.getActionMasked())
+		{
+		case MotionEvent.ACTION_DOWN:
+		case MotionEvent.ACTION_POINTER_DOWN://按下
+			PointF f = new PointF();
+			f.x = event.getX(pointerIndex);
+			f.y = event.getY(pointerIndex);
+			mActivePointers.put(pointerId, f);
+			if(mp!=null){
+				if(playBtm.isIn(f.x, f.y)){
+					playBtm.setBottom();
+					if(mp.isPlaying()){
+						mp.pause();
+						chartscan.pause();
 					}
-					if(load.isIn(pointx, pointy)){
-						loadFlag=true;
-						if(mp!= null){
-							mp.stop();
-							mp.release();
-							mp=null;
-						}
-						Constant.Flag=false;
-						uriFlag=true;
-						activity.changeView(7);
-					}
-					if(save.isIn(pointx, pointy)){
-						//if(FileData.IfData(activity)){
-						new Thread(){
-							@SuppressLint("WrongCall")
-							public void run()
-							{
-								activity.write( uri, BtR, BtS, BtT, BtX);
-							}
-						}.start();
-						//FileData.write(activity, uri, BtR, BtS, BtT, BtX);
-						//}
-					}
-					if(btm_r.isIn(pointx, pointy)){
-						btm_r.setBottomTo(true);
-						cr_btm_flag=true;
-					}
-					if(btm_s.isIn(pointx, pointy)){
-						btm_s.setBottomTo(true);
-						cs_btm_flag=true;
-					}
-					if(btm_t.isIn(pointx, pointy)){
-						btm_t.setBottomTo(true);
-						ct_btm_flag=true;
-					}
-					if(btm_x.isIn(pointx, pointy)){
-						btm_x.setBottomTo(true);
-						cx_btm_flag=true;
+					else{
+						mp.start();
+						chartscan.resume(BtR, BtS, BtT, BtX);
 					}
 				}
-				deTouchJump=false;
-				break;
-			case MotionEvent.ACTION_MOVE:
-				if(!msbFlag){
-					msb.setSeekBarX(pointx);
+
+				if(msb.isOn(f.x, f.y)){
+					msbFlag=false;
 				}
-				break;
-			case MotionEvent.ACTION_UP:
-				if(deTouchJump==false){
-					if(mp!=null){
-						if(!msbFlag){
-							mp.seekTo((int)(msb.getSeekBarValue()/100*mp.getDuration()));
-							msbFlag=true;
-						}
-					}
-					if(msb.isOn(pointx, pointy)){
-						for(int i=0;i<chartObject;i++){
-							line[i].flag=false;
-							cr_btm[i].flag=false;
-							cs_btm[i].flag=false;
-							ct_btm[i].flag=false;
-							cx_btm[i].flag=false;
-						}
-						last_line=-1002;
-						chart_FullScanFlag=true;
-					}
-				}
-				if(btm_r.getBottom()){
-					btm_r.setBottomTo(false);
-				}
-				if(btm_s.getBottom()){
-					btm_s.setBottomTo(false);
-				}
-				if(btm_t.getBottom()){
-					btm_t.setBottomTo(false);
-				}
-				if(btm_x.getBottom()){
-					btm_x.setBottomTo(false);
-				}
-				deTouchJump=true;
-				break;
 			}
+			if(load.isIn(f.x, f.y)){
+				loadFlag=true;
+				if(mp!= null){
+					mp.stop();
+					mp.release();
+					mp=null;
+				}
+				Constant.Flag=false;
+				uriFlag=true;
+				activity.changeView(7);
+			}
+			if(save.isIn(f.x, f.y)){
+				//if(FileData.IfData(activity)){
+					new Thread(){
+						@SuppressLint("WrongCall")
+						public void run()
+						{
+							activity.write( uri, BtR, BtS, BtT, BtX);
+						}
+					}.start();
+					//FileData.write(activity, uri, BtR, BtS, BtT, BtX);
+					//}
+			}
+			if(btm_r.isIn(f.x, f.y)){
+				btn_pointer.put(pointerId, 0);
+				cr_btm_flag=true;
+			}
+			if(btm_s.isIn(f.x, f.y)){
+				btn_pointer.put(pointerId, 1);
+				cs_btm_flag=true;
+			}
+			if(btm_t.isIn(f.x, f.y)){
+				btn_pointer.put(pointerId, 2);
+				ct_btm_flag=true;
+			}
+			if(btm_x.isIn(f.x, f.y)){
+				btn_pointer.put(pointerId, 3);
+				cx_btm_flag=true;
+			}
+			break;
+		case MotionEvent.ACTION_MOVE:
+			for (int size = event.getPointerCount(), i = 0; i < size; i++) {
+				PointF point = mActivePointers.get(event.getPointerId(i));
+				if (point != null) {
+					point.x = event.getX(i);
+					point.y = event.getY(i);
+				}
+			}
+			if(!msbFlag){
+				msb.setSeekBarX(event.getX(0));
+			}
+			break;
+		case MotionEvent.ACTION_UP:
+		case MotionEvent.ACTION_POINTER_UP:
+		case MotionEvent.ACTION_CANCEL: 
+			f = new PointF();
+			f.x = event.getX(pointerIndex);
+			f.y = event.getY(pointerIndex);
+			if(mp!=null){
+				if(!msbFlag){
+					mp.seekTo((int)(msb.getSeekBarValue()/100*mp.getDuration()));
+					msbFlag=true;
+				}
+			}
+			if(msb.isOn(f.x, f.y)){						
+				chartscan.pause();
+				chartscan.resume(BtR, BtS, BtT, BtX);
+				for(int i=0;i<chartObject;i++){
+					line[i].flag=false;
+					cr_btm[i].flag=false;
+					cs_btm[i].flag=false;
+					ct_btm[i].flag=false;
+					cx_btm[i].flag=false;
+				}
+				last_line=-1002;
+				chart_FullScanFlag=true;
+			}
+			mActivePointers.remove(pointerId);
+			btn_pointer.remove(pointerId);
+
+			break;
 		}
 		return true;
 	}
@@ -570,6 +631,7 @@ implements SurfaceHolder.Callback {
 	}
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
 		if(mp!=null){
+			chartscan.Stop();
 			mp.release();
 		}
 		Constant.Flag=false;

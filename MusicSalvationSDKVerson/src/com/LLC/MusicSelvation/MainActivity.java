@@ -1,6 +1,7 @@
 package com.LLC.MusicSelvation;
+//test
 
-
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,9 +18,11 @@ import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,15 +31,38 @@ import android.widget.Toast;
 
 @SuppressLint("HandlerLeak")
 public class MainActivity extends Activity{
+	int first_activity=0;
 	int nowActivity=0;
 	StartView startview;
 	MainView mainview;
 	EditView editview;
+	MapView mapview;
+	GameView gameview;
+	ScoreView scoreview;
+	TestView testview;
 
 	Intent intent;
 	Intent deintent;
 	Uri uri;
-
+	
+	//判定與分數===================================
+	int nice = 0;
+	int hit = 0;
+	int safe = 0;
+	int miss = 0;
+	int score = 0;
+	//判定與分數-------------------------------------
+	
+	//選關參數=====================================
+	int level;//關卡
+	int difficulty;//難度
+	//選關參數--------------------------------------------------------------
+	
+	//存檔用參數====================================
+	float mp_Voiume;
+	float sp_Voiume;
+	int sp_num;
+	//存檔用參數-----------------------------------------------------------------
 	public void changeView(int what)//
 	{
 		Message msg = myHandler.obtainMessage(what); 
@@ -72,11 +98,25 @@ public class MainActivity extends Activity{
 			case 7:
 				chooseFile();
 				break;
+			case 8:
+				goToTestView();
+				break;
+			case 255:
+				System.exit(0);
+				break;
 			}
 		}
 	};
 
-
+	protected void goToTestView() {
+		if(testview==null)
+		{
+			testview=new TestView(this);
+		}
+		setContentView(testview);
+		testview.requestFocus();
+		testview.setFocusableInTouchMode(true);
+	}
 	protected void goToEditView() {
 		if(editview==null)
 		{
@@ -103,15 +143,31 @@ public class MainActivity extends Activity{
 		mainview.setFocusableInTouchMode(true);//設為可觸控
 	}
 	private void goToMapView() {
-		// TODO 自動產生的方法 Stub
-
+		if(mapview==null)
+		{
+			mapview=new MapView(this);
+		}
+		setContentView(mapview);
+		mapview.requestFocus();//取得焦點
+		mapview.setFocusableInTouchMode(true);//設為可觸控
 	}
 	private void goToGameView() {
-		// TODO 自動產生的方法 Stub
-
+		if(gameview==null)
+		{
+			gameview=new GameView(this);
+		}
+		setContentView(gameview);
+		gameview.requestFocus();//取得焦點
+		gameview.setFocusableInTouchMode(true);//設為可觸控
 	}
 	private void goToScoreView() {
-		// TODO 自動產生的方法 Stub
+		if(scoreview==null)
+		{
+			scoreview=new ScoreView(this);
+		}
+		setContentView(scoreview);
+		scoreview.requestFocus();//取得焦點
+		scoreview.setFocusableInTouchMode(true);
 
 	}
 	private void goToLastView() {
@@ -165,7 +221,8 @@ public class MainActivity extends Activity{
 		Constant.GAME_WIDTH_UNIT= ((float)Constant.SCREEN_WIDTH/Constant.DEFULT_WITH);
 		Constant.SCREEN_HEIGHT_UNIT= ((float)Constant.SCREEN_HIGHT/Constant.DEFULT_HIGHT);
 		//Toast.makeText(this, "widthPixels"+dm.widthPixels+"heightPixels"+dm.heightPixels, Toast.LENGTH_LONG).show();
-		changeView(0);//進入"歡迎界面"
+		readData();
+		changeView(first_activity);//進入"歡迎界面"
 	}
 
 
@@ -266,8 +323,101 @@ public class MainActivity extends Activity{
 		return c;
 	}
 
-	public JSONObject read(Uri uri){
-		String fileName=turnUriToName(uri)+".chart";
+	public JSONObject read(Uri uri){//譜面讀取
+		//String fileName=turnUriToName(uri)+".chart";
+		JSONObject json=null;
+		String content=""; //內容
+		byte[] buff = new byte[1024];
+
+		try {
+			File sdCard = Environment.getExternalStorageDirectory();
+			File dir = new File (sdCard.getAbsolutePath() + "/charts");
+			dir.mkdirs();
+			File files = new File(dir, turnUriToName(uri)+".chart");
+			FileInputStream file =new FileInputStream(files);
+			//FileInputStream file=openFileInput(fileName);
+			while((file.read(buff))!=-1){
+				content+=new String(buff).trim();
+			}
+			json=new JSONObject(content);
+			file.close();
+		} catch (FileNotFoundException e) {
+			Log.e("read", "找不到檔案");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.e("read", "讀取檔案失敗");
+			e.printStackTrace();
+		} catch (JSONException e) {
+			Log.e("read", "寫入json失敗");
+			e.printStackTrace();
+		};
+		return json;
+	}
+	public JSONObject read(String name){//譜面讀取
+		//String fileName=turnUriToName(uri)+".chart";
+		JSONObject json=null;
+		String content=""; //內容
+		byte[] buff = new byte[1024];
+
+		try {
+			File sdCard = Environment.getExternalStorageDirectory();
+			File dir = new File (sdCard.getAbsolutePath() + "/charts");
+			dir.mkdirs();
+			File files = new File(dir, name+".chart");
+			FileInputStream file =new FileInputStream(files);
+			//FileInputStream file=openFileInput(fileName);
+			while((file.read(buff))!=-1){
+				content+=new String(buff).trim();
+			}
+			json=new JSONObject(content);
+			file.close();
+		} catch (FileNotFoundException e) {
+			Log.e("read", "找不到檔案");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.e("read", "讀取檔案失敗");
+			e.printStackTrace();
+		} catch (JSONException e) {
+			Log.e("read", "寫入json失敗");
+			e.printStackTrace();
+		};
+		return json;
+	}
+
+	public  void write(Uri uri,JSONObject btR,JSONObject btS,JSONObject btT,JSONObject btX){//譜面寫入
+		JSONObject json=new JSONObject();
+		try {
+			json.put("R", btR);
+			json.put("S", btS);
+			json.put("T",btT);
+			json.put("X", btX);
+		} catch (JSONException e) {
+			Log.e("write", "無法將參數導入json");
+			e.printStackTrace();
+		}
+		try {
+			File sdCard = Environment.getExternalStorageDirectory();
+			File dir = new File (sdCard.getAbsolutePath() + "/charts");
+			dir.mkdirs();
+			File file = new File(dir, turnUriToName(uri)+".chart");
+			FileOutputStream writer =new FileOutputStream(file);
+			
+			//String fileName=turnUriToName(uri)+".chart";
+			//FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
+			writer.write(json.toString().getBytes());
+			writer.close();
+			Log.v("write", "資料寫入成功");
+		} catch (FileNotFoundException e) {
+			Log.e("write", "FileNotFoundException");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.e("write", "IOException");
+			e.printStackTrace();
+		}
+	}
+	
+	public void readData(){//存檔讀取
+		String fileName="Data.save";
 		JSONObject json=null;
 		String content=""; //內容
 		byte[] buff = new byte[1024];
@@ -278,43 +428,47 @@ public class MainActivity extends Activity{
 				content+=new String(buff).trim();
 			}
 			json=new JSONObject(content);
+			mp_Voiume=Float.valueOf(json.getString("mp_Voiume"));
+			sp_Voiume=Float.valueOf(json.getString("sp_Voiume"));
+			sp_num=json.getInt("sp_num");
 			file.close();
+			Log.v("Data", "Data read");
 		} catch (FileNotFoundException e) {
-			callToast("找不到檔案");
+			mp_Voiume=1;
+			sp_Voiume=1;
+			sp_num=0;
+			Log.v("Data", "Data not found");
 			e.printStackTrace();
 		} catch (IOException e) {
-			callToast("讀取檔案失敗");
+			Log.v("Data","讀取檔案失敗");
 			e.printStackTrace();
 		} catch (JSONException e) {
-			callToast("寫入json失敗");
+			Log.v("Data","寫入json失敗");
 			e.printStackTrace();
 		};
-		return json;
-
 	}
-
-	public  void write(Uri uri,JSONObject btR,JSONObject btS,JSONObject btT,JSONObject btX){
+	
+	public  void writeData(){//存檔寫入
 		JSONObject json=new JSONObject();
 		try {
-			json.put("R", btR);
-			json.put("S", btS);
-			json.put("T",btT);
-			json.put("X", btX);
+			json.put("mp_Voiume", String.valueOf(mp_Voiume));
+			json.put("sp_Voiume", String.valueOf(sp_Voiume));
+			json.put("sp_num",sp_num);
 		} catch (JSONException e) {
-			callToast("無法將參數導入json");
+			Log.v("Data","無法將參數導入json");
 			e.printStackTrace();
 		}
 		try {
-			String fileName=turnUriToName(uri)+".chart";
+			String fileName="Data.save";
 			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
 			writer.write(json.toString().getBytes());
 			writer.close();
-			callToast("資料寫入成功");
+			Log.v("Data", "Data saved");
 		} catch (FileNotFoundException e) {
-			callToast("FileNotFoundException");
+			Log.v("Data","FileNotFoundException");
 			e.printStackTrace();
 		} catch (IOException e) {
-			callToast("IOException");
+			Log.v("Data","IOException");
 			e.printStackTrace();
 		}
 	}
@@ -329,4 +483,10 @@ public class MainActivity extends Activity{
 		Constant.setFlag(false);
 		super.onPause();		
 	}
+	@Override
+	protected void onDestroy() {
+		writeData();
+		super.onDestroy();
+	}
+	
 }

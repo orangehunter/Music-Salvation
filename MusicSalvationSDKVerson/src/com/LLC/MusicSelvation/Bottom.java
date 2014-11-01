@@ -1,4 +1,5 @@
 package com.LLC.MusicSelvation;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -24,13 +25,27 @@ public class Bottom {
 		this.x=Coordinate.CoordinateX(x)-(this.width/2);
 		this.y=Coordinate.CoordinateY(y)-(this.height/2);
 	}
-	
-	
+
 	public void drawBtm(Canvas canvas,Paint paint){//Ã¸»s«ö¶s
 		if(isOn)
 			canvas.drawBitmap(onBitmap, x, y, paint);
 		else
 			canvas.drawBitmap(offBitmap, x, y,paint);
+	}
+	public void drawBtm(Canvas canvas,Paint paint,int alpha){//Ã¸»s«ö¶s
+		paint.setAlpha(alpha);
+		drawBtm(canvas,paint);
+		paint.reset();
+	} 
+	public void drawBtm(Canvas canvas,Paint paint,int x,int y){//Ã¸»s«ö¶s
+		move(x,y);
+		drawBtm(canvas,paint);
+	}
+	public void drawBtm(Canvas canvas,Paint paint,int x,int y,int alpha){//Ã¸»s«ö¶s
+		paint.setAlpha(alpha);
+		move(x,y);
+		drawBtm(canvas,paint);
+		paint.reset();
 	}
 	
 	
@@ -59,4 +74,4 @@ public class Bottom {
 			return true;
 		return false;
 	}
-}//
+}

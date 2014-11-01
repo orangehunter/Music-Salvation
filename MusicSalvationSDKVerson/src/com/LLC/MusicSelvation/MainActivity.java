@@ -45,6 +45,11 @@ public class MainActivity extends Activity{
 	Intent deintent;
 	Uri uri;
 	
+	//選關參數=====================================
+	int level;//關卡
+	int difficulty;//難度
+	//選關參數--------------------------------------------------------------
+	
 	//存檔用參數====================================
 	float mp_Voiume;
 	float sp_Voiume;

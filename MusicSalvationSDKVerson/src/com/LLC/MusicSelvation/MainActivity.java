@@ -45,6 +45,14 @@ public class MainActivity extends Activity{
 	Intent deintent;
 	Uri uri;
 	
+	//﹚籔だ计===================================
+	int nice = 0;
+	int hit = 0;
+	int safe = 0;
+	int miss = 0;
+	int score = 0;
+	//﹚籔だ计-------------------------------------
+	
 	//匡闽把计=====================================
 	int level;//闽
 	int difficulty;//螟

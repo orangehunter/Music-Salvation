@@ -69,18 +69,25 @@ implements SurfaceHolder.Callback{
 	Bitmap hpfont;
 	Bitmap hpfont_red;
 
-	//Bitmap[] Cyan = new Bitmap [5];
+	Bitmap[] Cyan = new Bitmap [5];
+	Bitmap[] Red = new Bitmap [5];
+	Bitmap[] Green = new Bitmap [5];
+	Bitmap[] Yellow = new Bitmap [5];
+	Bitmap[] Blue = new Bitmap [5];
 
 	Bottom btn_circle;
 	Bottom btn_square;
 	Bottom btn_xx;
 	Bottom btn_triangle;
+	
+	Number score;
 
 	int hp = 20;
 	int hp_x;
 	int hp_color=Color.GREEN;
 	int hp_to_yellow=12;
 	int hp_to_red = 6;
+	
 
 	Paint paint;			//畫筆的參考
 	int i=0,j=5;
@@ -134,6 +141,8 @@ implements SurfaceHolder.Callback{
 	public void surfaceCreated(SurfaceHolder holder) {
 		paint = new Paint();//建立畫筆
 		paint.setAntiAlias(true);//開啟抗鋸齒
+		
+		score =new Number(getResources());
 
 		bg = 	Graphic.bitSize(LoadBitmap(R.drawable.gamemap01), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
 		sight =	Graphic.bitSize(LoadBitmap(R.drawable.sightv2), 100, 100);
@@ -173,12 +182,41 @@ implements SurfaceHolder.Callback{
 
 		//特效光（測試中）
 
-		/*Cyan[0] = Graphic.bitSize(LoadBitmap(R.drawable.cyan01), 200, 200);
-		Cyan[1] = Graphic.bitSize(LoadBitmap(R.drawable.cyan02), 200, 200);
-		Cyan[2] = Graphic.bitSize(LoadBitmap(R.drawable.cyan03), 200, 200);
-		Cyan[3] = Graphic.bitSize(LoadBitmap(R.drawable.cyan04), 200, 200);
-		Cyan[4] = Graphic.bitSize(LoadBitmap(R.drawable.cyan05), 200, 200);
-		Cyan[5] = Graphic.bitSize(LoadBitmap(R.drawable.cyan06), 200, 200);*/
+		Cyan[0] = Graphic.bitSize(LoadBitmap(R.drawable.cyan01), 150, 150);
+		Cyan[1] = Graphic.bitSize(LoadBitmap(R.drawable.cyan02), 150, 150);
+		Cyan[2] = Graphic.bitSize(LoadBitmap(R.drawable.cyan03), 150, 150);
+		Cyan[3] = Graphic.bitSize(LoadBitmap(R.drawable.cyan04), 150, 150);
+		Cyan[4] = Graphic.bitSize(LoadBitmap(R.drawable.cyan05), 150, 150);
+		Cyan[5] = Graphic.bitSize(LoadBitmap(R.drawable.cyan06), 150, 150);
+		
+		Red[0] = Graphic.bitSize(LoadBitmap(R.drawable.red00), 150, 150);
+		Red[1] = Graphic.bitSize(LoadBitmap(R.drawable.red01), 150, 150);
+		Red[2] = Graphic.bitSize(LoadBitmap(R.drawable.red02), 150, 150);
+		Red[3] = Graphic.bitSize(LoadBitmap(R.drawable.red03), 150, 150);
+		Red[4] = Graphic.bitSize(LoadBitmap(R.drawable.red04), 150, 150);
+		Red[5] = Graphic.bitSize(LoadBitmap(R.drawable.red05), 150, 150);
+		
+		Yellow[0] = Graphic.bitSize(LoadBitmap(R.drawable.yellow00), 150, 150);
+		Yellow[1] = Graphic.bitSize(LoadBitmap(R.drawable.yellow01), 150, 150);
+		Yellow[2] = Graphic.bitSize(LoadBitmap(R.drawable.yellow02), 150, 150);
+		Yellow[3] = Graphic.bitSize(LoadBitmap(R.drawable.yellow03), 150, 150);
+		Yellow[4] = Graphic.bitSize(LoadBitmap(R.drawable.yellow04), 150, 150);
+		Yellow[5] = Graphic.bitSize(LoadBitmap(R.drawable.yellow05), 150, 150);
+		
+		Green[0] = Graphic.bitSize(LoadBitmap(R.drawable.green00), 150, 150);
+		Green[1] = Graphic.bitSize(LoadBitmap(R.drawable.green01), 150, 150);
+		Green[2] = Graphic.bitSize(LoadBitmap(R.drawable.green02), 150, 150);
+		Green[3] = Graphic.bitSize(LoadBitmap(R.drawable.green03), 150, 150);
+		Green[4] = Graphic.bitSize(LoadBitmap(R.drawable.green04), 150, 150);
+		Green[5] = Graphic.bitSize(LoadBitmap(R.drawable.green05), 150, 150);
+		
+		Blue[0] = Graphic.bitSize(LoadBitmap(R.drawable.blue00), 150, 150);
+		Blue[1] = Graphic.bitSize(LoadBitmap(R.drawable.blue01), 150, 150);
+		Blue[2] = Graphic.bitSize(LoadBitmap(R.drawable.blue02), 150, 150);
+		Blue[3] = Graphic.bitSize(LoadBitmap(R.drawable.blue03), 150, 150);
+		Blue[4] = Graphic.bitSize(LoadBitmap(R.drawable.blue04), 150, 150);
+		Blue[5] = Graphic.bitSize(LoadBitmap(R.drawable.blue05), 150, 150);
+		
 
 		btn_circle = new Bottom(activity, grey_circle, circle, 1200, 500);
 		btn_square = new Bottom(activity, grey_square, square, 230, 645);
@@ -349,6 +387,7 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, hpbar, 730, 50, 0, 255, paint);
 			Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
+			score.drawNumberRightStart(1250, 20, activity.score, Number.Wite, canvas, paint);
 			//Graphic.drawPic(canvas, hpfont_red, 95, 50, 0, 255, paint);
 
 			//難易度
@@ -500,13 +539,16 @@ implements SurfaceHolder.Callback{
 	public void scoreCount(int dis){
 		switch(dis){
 		case 0:
-			//TODO
+			activity.score+=200;
+			activity.nice++;
 			break;
 		case 1:
-			//TODO
+			activity.score+=100;
+			activity.hit++;
 			break;
 		case 2:
-			//TODO
+			activity.score += 50;
+			activity.safe++;
 			break;
 		}
 	}

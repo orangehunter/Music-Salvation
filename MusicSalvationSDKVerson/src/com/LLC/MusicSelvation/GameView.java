@@ -56,7 +56,6 @@ implements SurfaceHolder.Callback{
 	Bitmap virus_blue;
 	Bitmap virus_green;
 
-
 	Bitmap nice;
 	Bitmap miss;
 	Bitmap safe;
@@ -69,11 +68,13 @@ implements SurfaceHolder.Callback{
 	Bitmap hpfont;
 	Bitmap hpfont_red;
 
-	Bitmap[] Cyan = new Bitmap [5];
-	Bitmap[] Red = new Bitmap [5];
-	Bitmap[] Green = new Bitmap [5];
-	Bitmap[] Yellow = new Bitmap [5];
-	Bitmap[] Blue = new Bitmap [5];
+	//特效光宣告================================
+	Bitmap[] Cyan = new Bitmap [6];
+	Bitmap[] Red = new Bitmap [6];
+	Bitmap[] Green = new Bitmap [6];
+	Bitmap[] Yellow = new Bitmap [6];
+	Bitmap[] Blue = new Bitmap [6];
+	//特效光宣告----------------------------------
 
 	Bottom btn_circle;
 	Bottom btn_square;
@@ -88,6 +89,10 @@ implements SurfaceHolder.Callback{
 	int hp_to_yellow=12;
 	int hp_to_red = 6;
 	
+	//控制判定顯示FLAG==============================
+	int Hitflag = 0;
+	int Hitcount = 0;
+	//控制判定顯示FLAG------------------------------
 
 	Paint paint;			//畫筆的參考
 	int i=0,j=5;
@@ -181,13 +186,13 @@ implements SurfaceHolder.Callback{
 		boss = Graphic.bitSize(LoadBitmap(R.drawable.boss1), 200, 185);
 
 		//特效光（測試中）
-
 		Cyan[0] = Graphic.bitSize(LoadBitmap(R.drawable.cyan01), 150, 150);
 		Cyan[1] = Graphic.bitSize(LoadBitmap(R.drawable.cyan02), 150, 150);
 		Cyan[2] = Graphic.bitSize(LoadBitmap(R.drawable.cyan03), 150, 150);
 		Cyan[3] = Graphic.bitSize(LoadBitmap(R.drawable.cyan04), 150, 150);
 		Cyan[4] = Graphic.bitSize(LoadBitmap(R.drawable.cyan05), 150, 150);
 		Cyan[5] = Graphic.bitSize(LoadBitmap(R.drawable.cyan06), 150, 150);
+		
 		
 		Red[0] = Graphic.bitSize(LoadBitmap(R.drawable.red00), 150, 150);
 		Red[1] = Graphic.bitSize(LoadBitmap(R.drawable.red01), 150, 150);
@@ -217,11 +222,13 @@ implements SurfaceHolder.Callback{
 		Blue[4] = Graphic.bitSize(LoadBitmap(R.drawable.blue04), 150, 150);
 		Blue[5] = Graphic.bitSize(LoadBitmap(R.drawable.blue05), 150, 150);
 		
+		
+		
 
-		btn_circle = new Bottom(activity, grey_circle, circle, 1200, 500);
+		btn_circle = new Bottom(activity, grey_circle, circle, 80, 500);
 		btn_square = new Bottom(activity, grey_square, square, 230, 645);
-		btn_triangle = new Bottom(activity, grey_triangle, triangle, 80, 500);
-		btn_xx = new Bottom(activity, grey_xx, xx, 1050, 645);
+		btn_triangle = new Bottom(activity, grey_triangle, triangle, 1050, 645);
+		btn_xx = new Bottom(activity, grey_xx, xx, 1200, 500);
 
 		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.virus_red), 80, 80);
 		chart_s=Graphic.bitSize(LoadBitmap(R.drawable.virus_yello), 80, 80);
@@ -229,10 +236,10 @@ implements SurfaceHolder.Callback{
 		chart_x=Graphic.bitSize(LoadBitmap(R.drawable.virus_blue), 80, 80);
 
 		for(int i=0;i<chartObject;i++){
-			cr_btm[i]=new gameChartBottom(-100,600, 820,activity, chart_r, chart_r, 825);
-			cx_btm[i]=new gameChartBottom(-100,600,820,activity, chart_x, chart_x,700);
-			ct_btm[i]=new gameChartBottom(-100,600,820, activity, chart_t, chart_t,  450);
-			cs_btm[i]=new gameChartBottom(-100,600,820, activity, chart_s, chart_s, 575);
+			cr_btm[i]=new gameChartBottom(-100,600, 820,activity, chart_r, chart_r,450);
+			cs_btm[i]=new gameChartBottom(-100,600,820, activity, chart_s, chart_s,575);
+			ct_btm[i]=new gameChartBottom(-100,600,820, activity, chart_t, chart_t,700);
+			cx_btm[i]=new gameChartBottom(-100,600,820,activity, chart_x, chart_x,825);
 		}
 
 		mp=MediaPlayer.create(this.getContext(), R.raw.freely_tomorrow);
@@ -350,6 +357,35 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, track, 575, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, track, 700, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, track, 825, 390, 0, 255, paint);
+			
+			//判定顯示======================================================
+			Hitcount--;
+			if(Hitcount <=0){
+				Hitcount = 0;
+			}
+			if(Hitcount > 0)
+				{
+				switch(Hitflag){  //偵測hitflag目前的狀態
+				
+				case 0:
+					
+				break;
+				
+				case 1:
+					Graphic.drawPic(canvas, nice, 650, 140, 0, Hitcount, paint);
+					break;
+				case 2:
+					Graphic.drawPic(canvas, hit, 650, 140, 0, Hitcount, paint);
+					break;
+				case 3:
+					Graphic.drawPic(canvas, safe, 650, 140, 0, Hitcount, paint);
+					break;
+				case 4:
+					Graphic.drawPic(canvas, miss, 650, 140, 0, Hitcount, paint);
+					break;
+				}
+			}
+			//判定顯示--------------------------------------------------------
 
 			int now_time=mp.getCurrentPosition();
 			for(int i=0;i<chartObject;i++){
@@ -387,7 +423,9 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, hpbar, 730, 50, 0, 255, paint);
 			Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
+			score.setSize(20, 30);
 			score.drawNumberRightStart(1250, 20, activity.score, Number.Wite, canvas, paint);
+			
 			//Graphic.drawPic(canvas, hpfont_red, 95, 50, 0, 255, paint);
 
 			//難易度
@@ -446,6 +484,7 @@ implements SurfaceHolder.Callback{
 				playSP();
 				for(int i=0;i<chartObject;i++){
 					if(cr_btm[i].getFlag()){
+
 						int cr_dis=Math.abs(cr_btm[i].getId()-mp.getCurrentPosition()/100);
 						if(cr_dis<3){
 							scoreCount(cr_dis);
@@ -541,18 +580,24 @@ implements SurfaceHolder.Callback{
 		case 0:
 			activity.score+=200;
 			activity.nice++;
+			Hitflag = 1;
+			Hitcount = 255;
 			break;
 		case 1:
 			activity.score+=100;
 			activity.hit++;
+			Hitflag = 2;
+			Hitcount = 255;
 			break;
 		case 2:
 			activity.score += 50;
 			activity.safe++;
+			Hitflag = 3;
+			Hitcount = 255;
 			break;
 		}
 	}
-
+	
 	public void playSP(){
 		if(activity.sp_num!=-1)
 			sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);

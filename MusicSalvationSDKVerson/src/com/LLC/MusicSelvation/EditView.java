@@ -291,49 +291,8 @@ implements SurfaceHolder.Callback {
 				//TODO 需要重寫
 				//全畫面掃描===============================================
 				if(chart_FullScanFlag){
-					for(int time=(mp.getCurrentPosition()-target_dis*2)/accuracy;time<mp.getCurrentPosition()/accuracy;time+=1){
-						if(BtR.optBoolean(Integer.toString(time))){///按鈕_圓 偵測
-							for(int i=0;i<chartObject;i++){
-								if(!cr_btm[i].getFlag()){
-									cr_btm[i].start(time, target_dis, time);
-									break;
-								}
-							}
-						}
-						if(BtS.optBoolean(Integer.toString(time))){///按鈕_方 偵測
-							for(int i=0;i<chartObject;i++){
-								if(!cs_btm[i].getFlag()){
-									cs_btm[i].start(time, target_dis, time);
-									break;
-								}
-							}
-						}
-						if(BtT.optBoolean(Integer.toString(time))){///按鈕_三 偵測
-							for(int i=0;i<chartObject;i++){
-								if(!ct_btm[i].getFlag()){
-									ct_btm[i].start(time, target_dis, time);
-									break;
-								}
-							}
-						}
-						if(BtX.optBoolean(Integer.toString(time))){///按鈕_X 偵測
-							for(int i=0;i<chartObject;i++){
-								if(!cx_btm[i].getFlag()){
-									cx_btm[i].start(time, target_dis, time);
-									break;
-								}
-							}
-						}
-						if(time%1000<=10&&time>=0&&time<mp.getDuration()){//時間基準線偵測
-							for(int i=0;i<chartObject;i++){
-								if(line[i].getFlag()==false &&(time-this.last_line)>900){
-									line[i].start(time, target_dis);
-									this.last_line=time;
-									break;
-								}
-							}
-						}
-					}
+					
+					
 					chart_FullScanFlag=false;
 				}//全畫面掃描**********************************************************************************************************************
 				else{
@@ -496,6 +455,7 @@ implements SurfaceHolder.Callback {
 				}
 				else{
 					playBtm.setBottomTo(false);
+					
 				}
 			}
 			load.drawBtm(canvas, paint);

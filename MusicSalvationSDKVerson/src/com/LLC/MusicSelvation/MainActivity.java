@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +24,8 @@ import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 //import android.widget.Toast;
@@ -39,10 +42,15 @@ public class MainActivity extends Activity{
 	GameView gameview;
 	ScoreView scoreview;
 	TestView testview;
+	Video video;
 
 	Intent intent;
 	Intent deintent;
 	Uri uri;
+	
+	//影片選擇====================================
+	int video_select=0;
+	//影片選擇------------------------------------------------------------
 	
 	//判定與分數===================================
 	int nice = 0;
@@ -74,7 +82,8 @@ public class MainActivity extends Activity{
 			switch(msg.what)//
 			{
 			case 0:
-				goToStartView();//初始
+				//goToStartView();//初始
+				startVideo();
 				break;
 			case 1:
 				goToMainView();//主要
@@ -107,6 +116,15 @@ public class MainActivity extends Activity{
 		}
 	};
 
+	
+	protected void startVideo(){
+		if(video==null){
+			video=new Video(this);
+		}
+		setContentView(video);
+		video.requestFocus();
+		video.setFocusableInTouchMode(true);
+	}
 	protected void goToTestView() {
 		if(testview==null)
 		{

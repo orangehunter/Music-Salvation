@@ -513,7 +513,7 @@ implements SurfaceHolder.Callback{
 				playSP();
 				for(int i=0;i<chartObject;i++){
 					if(ct_btm[i].getFlag()){
-						int ct_dis=Math.abs(cr_btm[i].getId()-mp.getCurrentPosition()/100);
+						int ct_dis=Math.abs(ct_btm[i].getId()-mp.getCurrentPosition()/100);
 						if(ct_dis<3){
 							scoreCount(ct_dis);
 							ct_btm[i].stop();
@@ -528,7 +528,7 @@ implements SurfaceHolder.Callback{
 				playSP();
 				for(int i=0;i<chartObject;i++){
 					if(cx_btm[i].getFlag()){
-						int cx_dis=Math.abs(cr_btm[i].getId()-mp.getCurrentPosition()/100);
+						int cx_dis=Math.abs(cx_btm[i].getId()-mp.getCurrentPosition()/100);
 						if(cx_dis<3){
 							scoreCount(cx_dis);
 							cx_btm[i].stop();

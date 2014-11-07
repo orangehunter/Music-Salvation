@@ -31,14 +31,18 @@ public class gameChartBottom {
 		this.start_time=start_time;
 		this.flag=true;
 	}
-	public void drawChartBottom(int now_time,Canvas canvas,Paint paint){
+	public boolean drawChartBottom(int now_time,Canvas canvas,Paint paint){
 		move_unit=(start-target)/(time_dis*1.0);
 		move=(now_time*1.0)-(start_time);
 		pointy=(int)(start-move_unit*move);
 		btm.move(pointx, pointy);
 		btm.drawBtm(canvas, paint);
-		if(pointy>=end)
+		if(pointy>=end){
 			this.flag=false;
+			return true;
+		}else{
+			return false;
+		}
 	}
 	public int getY(){
 		return pointy;

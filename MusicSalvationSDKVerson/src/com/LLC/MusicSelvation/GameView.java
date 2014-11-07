@@ -386,11 +386,18 @@ implements SurfaceHolder.Callback{
 				}
 			}
 			//判定顯示--------------------------------------------------------
+			//HP檢查==========================================================
+			if(this.hp==0){
+				
+			}
+			//HP檢查----------------------------------------------------------
 
 			int now_time=mp.getCurrentPosition();
 			for(int i=0;i<chartObject;i++){
 				if(cr_btm[i].getFlag()){
-					cr_btm[i].drawChartBottom(now_time, canvas, paint);
+					if(cr_btm[i].drawChartBottom(now_time, canvas, paint)){
+						this.hp--; 
+					}
 				}
 				if(cs_btm[i].getFlag()){
 					cs_btm[i].drawChartBottom(now_time, canvas, paint);
@@ -484,7 +491,6 @@ implements SurfaceHolder.Callback{
 				playSP();
 				for(int i=0;i<chartObject;i++){
 					if(cr_btm[i].getFlag()){
-
 						int cr_dis=Math.abs(cr_btm[i].getId()-mp.getCurrentPosition()/100);
 						if(cr_dis<3){
 							scoreCount(cr_dis);
@@ -567,9 +573,7 @@ implements SurfaceHolder.Callback{
 
 			mActivePointers.remove(pointerId);
 			btn_pointer.remove(pointerId);
-			//if(.isIn(pointx, pointy)){
-			//TODO 離開遊戲未寫
-			//}
+			
 			break;
 		}
 

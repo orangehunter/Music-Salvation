@@ -23,8 +23,9 @@ import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
-@SuppressLint({ "ViewConstructor", "WrongCall", "ClickableViewAccessibility" })
+@SuppressLint({ "ViewConstructor", "WrongCall", "ClickableViewAccessibility", "NewApi" })
 public class GameView extends SurfaceView
 implements SurfaceHolder.Callback{
 
@@ -80,15 +81,17 @@ implements SurfaceHolder.Callback{
 	Bottom btn_square;
 	Bottom btn_xx;
 	Bottom btn_triangle;
-	
+
 	Number score;
 
 	int hp = 20;
+	int hp_max=20;
 	int hp_x;
 	int hp_color=Color.GREEN;
 	int hp_to_yellow=12;
 	int hp_to_red = 6;
-	
+	int combo=0;
+
 	//控制判定顯示FLAG==============================
 	int Hitflag = 0;
 	int Hitcount = 0;
@@ -144,9 +147,12 @@ implements SurfaceHolder.Callback{
 	}
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		/*int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+	              | View.SYSTEM_UI_FLAG_FULLSCREEN;
+		this.setSystemUiVisibility(uiOptions);*/
 		paint = new Paint();//建立畫筆
 		paint.setAntiAlias(true);//開啟抗鋸齒
-		
+
 		score =new Number(getResources());
 
 		bg = 	Graphic.bitSize(LoadBitmap(R.drawable.gamemap01), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
@@ -192,38 +198,38 @@ implements SurfaceHolder.Callback{
 		Cyan[3] = Graphic.bitSize(LoadBitmap(R.drawable.cyan04), 150, 150);
 		Cyan[4] = Graphic.bitSize(LoadBitmap(R.drawable.cyan05), 150, 150);
 		Cyan[5] = Graphic.bitSize(LoadBitmap(R.drawable.cyan06), 150, 150);
-		
-		
+
+
 		Red[0] = Graphic.bitSize(LoadBitmap(R.drawable.red00), 150, 150);
 		Red[1] = Graphic.bitSize(LoadBitmap(R.drawable.red01), 150, 150);
 		Red[2] = Graphic.bitSize(LoadBitmap(R.drawable.red02), 150, 150);
 		Red[3] = Graphic.bitSize(LoadBitmap(R.drawable.red03), 150, 150);
 		Red[4] = Graphic.bitSize(LoadBitmap(R.drawable.red04), 150, 150);
 		Red[5] = Graphic.bitSize(LoadBitmap(R.drawable.red05), 150, 150);
-		
+
 		Yellow[0] = Graphic.bitSize(LoadBitmap(R.drawable.yellow00), 150, 150);
 		Yellow[1] = Graphic.bitSize(LoadBitmap(R.drawable.yellow01), 150, 150);
 		Yellow[2] = Graphic.bitSize(LoadBitmap(R.drawable.yellow02), 150, 150);
 		Yellow[3] = Graphic.bitSize(LoadBitmap(R.drawable.yellow03), 150, 150);
 		Yellow[4] = Graphic.bitSize(LoadBitmap(R.drawable.yellow04), 150, 150);
 		Yellow[5] = Graphic.bitSize(LoadBitmap(R.drawable.yellow05), 150, 150);
-		
+
 		Green[0] = Graphic.bitSize(LoadBitmap(R.drawable.green00), 150, 150);
 		Green[1] = Graphic.bitSize(LoadBitmap(R.drawable.green01), 150, 150);
 		Green[2] = Graphic.bitSize(LoadBitmap(R.drawable.green02), 150, 150);
 		Green[3] = Graphic.bitSize(LoadBitmap(R.drawable.green03), 150, 150);
 		Green[4] = Graphic.bitSize(LoadBitmap(R.drawable.green04), 150, 150);
 		Green[5] = Graphic.bitSize(LoadBitmap(R.drawable.green05), 150, 150);
-		
+
 		Blue[0] = Graphic.bitSize(LoadBitmap(R.drawable.blue00), 150, 150);
 		Blue[1] = Graphic.bitSize(LoadBitmap(R.drawable.blue01), 150, 150);
 		Blue[2] = Graphic.bitSize(LoadBitmap(R.drawable.blue02), 150, 150);
 		Blue[3] = Graphic.bitSize(LoadBitmap(R.drawable.blue03), 150, 150);
 		Blue[4] = Graphic.bitSize(LoadBitmap(R.drawable.blue04), 150, 150);
 		Blue[5] = Graphic.bitSize(LoadBitmap(R.drawable.blue05), 150, 150);
-		
-		
-		
+
+
+
 
 		btn_circle = new Bottom(activity, grey_circle, circle, 80, 500);
 		btn_square = new Bottom(activity, grey_square, square, 230, 645);
@@ -357,20 +363,16 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, track, 575, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, track, 700, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, track, 825, 390, 0, 255, paint);
-			
+
 			//判定顯示======================================================
-			Hitcount--;
-			if(Hitcount <=0){
-				Hitcount = 0;
-			}
 			if(Hitcount > 0)
-				{
+			{
 				switch(Hitflag){  //偵測hitflag目前的狀態
-				
+
 				case 0:
-					
-				break;
-				
+
+					break;
+
 				case 1:
 					Graphic.drawPic(canvas, nice, 650, 140, 0, Hitcount, paint);
 					break;
@@ -384,11 +386,15 @@ implements SurfaceHolder.Callback{
 					Graphic.drawPic(canvas, miss, 650, 140, 0, Hitcount, paint);
 					break;
 				}
+				Hitcount-=15;
+			}else if(Hitcount <0){
+				Hitcount = 0;
 			}
 			//判定顯示--------------------------------------------------------
 			//HP檢查==========================================================
-			if(this.hp==0){
-				
+			if(hp_x==182+0*55){
+				//TODO 切換至計分畫面
+				activity.changeView(2);
 			}
 			//HP檢查----------------------------------------------------------
 
@@ -396,17 +402,24 @@ implements SurfaceHolder.Callback{
 			for(int i=0;i<chartObject;i++){
 				if(cr_btm[i].getFlag()){
 					if(cr_btm[i].drawChartBottom(now_time, canvas, paint)){
-						this.hp--; 
+						scoreLess(); 
 					}
 				}
 				if(cs_btm[i].getFlag()){
-					cs_btm[i].drawChartBottom(now_time, canvas, paint);
+					if(cs_btm[i].drawChartBottom(now_time, canvas, paint)){
+						scoreLess(); 
+					}
 				}
 				if(ct_btm[i].getFlag()){
 					ct_btm[i].drawChartBottom(now_time, canvas, paint);
+					if(ct_btm[i].drawChartBottom(now_time, canvas, paint)){
+						scoreLess(); 
+					}
 				}
 				if(cx_btm[i].getFlag()){
-					cx_btm[i].drawChartBottom(now_time, canvas, paint);
+					if(cx_btm[i].drawChartBottom(now_time, canvas, paint)){
+						scoreLess(); 
+					}
 				}
 			}
 
@@ -432,7 +445,7 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
 			score.setSize(20, 30);
 			score.drawNumberRightStart(1250, 20, activity.score, Number.Wite, canvas, paint);
-			
+
 			//Graphic.drawPic(canvas, hpfont_red, 95, 50, 0, 255, paint);
 
 			//難易度
@@ -445,7 +458,12 @@ implements SurfaceHolder.Callback{
 			btn_triangle.setBottomTo(false);	
 			btn_xx.setBottomTo(false);
 			for(int i=0;i<btn_pointer.size();i++){
-				int st=btn_pointer.valueAt(i);
+				int st=4;
+				try{
+					st=btn_pointer.valueAt(i);
+				}catch(Exception e){
+					Log.e("touch problem", ""+e);
+				}
 				switch(st){
 				case 0:
 					btn_circle.setBottomTo(true);
@@ -487,13 +505,12 @@ implements SurfaceHolder.Callback{
 			mActivePointers.put(pointerId, f);
 
 			if(btn_circle.isIn(f.x, f.y)){
-				hp++;
 				playSP();
 				for(int i=0;i<chartObject;i++){
 					if(cr_btm[i].getFlag()){
 						int cr_dis=Math.abs(cr_btm[i].getId()-mp.getCurrentPosition()/100);
 						if(cr_dis<3){
-							scoreCount(cr_dis);
+							scoreAdd(cr_dis);
 							cr_btm[i].stop();
 							break;
 						}
@@ -507,7 +524,7 @@ implements SurfaceHolder.Callback{
 					if(cs_btm[i].getFlag()){
 						int cs_dis=Math.abs(cs_btm[i].getId()-mp.getCurrentPosition()/100);
 						if(cs_dis<3){
-							scoreCount(cs_dis);
+							scoreAdd(cs_dis);
 							cs_btm[i].stop();
 							break;
 						}
@@ -521,7 +538,7 @@ implements SurfaceHolder.Callback{
 					if(ct_btm[i].getFlag()){
 						int ct_dis=Math.abs(ct_btm[i].getId()-mp.getCurrentPosition()/100);
 						if(ct_dis<3){
-							scoreCount(ct_dis);
+							scoreAdd(ct_dis);
 							ct_btm[i].stop();
 							break;
 						}
@@ -530,13 +547,12 @@ implements SurfaceHolder.Callback{
 				btn_pointer.put(pointerId, 2);
 			}
 			if(btn_xx.isIn(f.x, f.y)){
-				hp--;
 				playSP();
 				for(int i=0;i<chartObject;i++){
 					if(cx_btm[i].getFlag()){
 						int cx_dis=Math.abs(cx_btm[i].getId()-mp.getCurrentPosition()/100);
 						if(cx_dis<3){
-							scoreCount(cx_dis);
+							scoreAdd(cx_dis);
 							cx_btm[i].stop();
 							break;
 						}
@@ -545,8 +561,8 @@ implements SurfaceHolder.Callback{
 				btn_pointer.put(pointerId, 3);
 			}
 			//if(startbtm.isIn(pointx, pointy)){
-				//進入地圖畫面
-				//activity.changeView(2);
+			//進入地圖畫面
+			//activity.changeView(2);
 			//this.toEditView = 0;
 			//	}
 			//this.toEditView++;
@@ -573,35 +589,43 @@ implements SurfaceHolder.Callback{
 
 			mActivePointers.remove(pointerId);
 			btn_pointer.remove(pointerId);
-			
+
 			break;
 		}
 
 		return true;
 	}
-	public void scoreCount(int dis){
+	public void scoreAdd(int dis){
+		if(this.hp!=this.hp_max){
+			if(this.hp<this.hp_max){
+				this.hp++;
+			}
+		}
 		switch(dis){
 		case 0:
 			activity.score+=200;
 			activity.nice++;
 			Hitflag = 1;
-			Hitcount = 255;
 			break;
 		case 1:
 			activity.score+=100;
 			activity.hit++;
 			Hitflag = 2;
-			Hitcount = 255;
 			break;
 		case 2:
 			activity.score += 50;
 			activity.safe++;
 			Hitflag = 3;
-			Hitcount = 255;
 			break;
 		}
+			Hitcount = 255;
 	}
-	
+	public void scoreLess(){
+		this.hp--;
+		Hitflag = 4;
+		Hitcount = 255;
+	}
+
 	public void playSP(){
 		if(activity.sp_num!=-1)
 			sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);

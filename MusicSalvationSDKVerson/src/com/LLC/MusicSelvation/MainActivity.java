@@ -26,12 +26,13 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 //import android.widget.Toast;
 import android.widget.Toast;
 
-@SuppressLint("HandlerLeak")
+@SuppressLint({ "HandlerLeak", "NewApi" })
 public class MainActivity extends Activity{
 	int first_activity=0;
 	int nowActivity=0;
@@ -213,7 +214,7 @@ public class MainActivity extends Activity{
 		//游戲過程中只容許調整多媒體音量，而不容許調整通話音量
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉標題
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉標頭
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//強制橫屏
 

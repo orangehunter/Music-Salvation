@@ -1,9 +1,4 @@
 package com.LLC.MusicSelvation;
-<<<<<<< HEAD
-=======
-//test
-//test2
->>>>>>> 921ea4f593e83177994ad114279bc782cf6ce294
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -70,11 +70,19 @@ implements SurfaceHolder.Callback{
 	Bitmap hpfont_red;
 
 	//特效光宣告================================
-	Bitmap[] Cyan = new Bitmap [6];
-	Bitmap[] Red = new Bitmap [6];
-	Bitmap[] Green = new Bitmap [6];
-	Bitmap[] Yellow = new Bitmap [6];
-	Bitmap[] Blue = new Bitmap [6];
+	Bitmap[] Cyan 	= new Bitmap [6],
+			Red		= new Bitmap [6],
+			Green 	= new Bitmap [6],
+			Yellow 	= new Bitmap [6],
+			Blue 	= new Bitmap [6];
+	
+	int Effect_numbers=5;
+	shortAnimax  []
+			Effect_Cyan		=new shortAnimax[Effect_numbers],
+			Effect_Red		=new shortAnimax[Effect_numbers],
+			Effect_Green	=new shortAnimax[Effect_numbers],
+			Effect_Yellow	=new shortAnimax[Effect_numbers],
+			Effect_Blue		=new shortAnimax[Effect_numbers];
 	//特效光宣告----------------------------------
 
 	Bottom btn_circle;
@@ -136,11 +144,7 @@ implements SurfaceHolder.Callback{
 		this.activity = mainActivity;
 		this.getHolder().addCallback(this);//設定生命周期回調接口的實現者
 	}
-	//動畫實作方法
-	/*public void CyanAnime(int num,float s,int a){
 
-
-	}*/
 
 	public Bitmap LoadBitmap(int r){
 		return BitmapFactory.decodeResource(getResources(), r);
@@ -192,44 +196,51 @@ implements SurfaceHolder.Callback{
 		boss = Graphic.bitSize(LoadBitmap(R.drawable.boss1), 200, 185);
 
 		//特效光（測試中）
-		Cyan[0] = Graphic.bitSize(LoadBitmap(R.drawable.cyan01), 150, 150);
-		Cyan[1] = Graphic.bitSize(LoadBitmap(R.drawable.cyan02), 150, 150);
-		Cyan[2] = Graphic.bitSize(LoadBitmap(R.drawable.cyan03), 150, 150);
-		Cyan[3] = Graphic.bitSize(LoadBitmap(R.drawable.cyan04), 150, 150);
-		Cyan[4] = Graphic.bitSize(LoadBitmap(R.drawable.cyan05), 150, 150);
-		Cyan[5] = Graphic.bitSize(LoadBitmap(R.drawable.cyan06), 150, 150);
+		//chart_effect=new gameChartEffect(activity,150,150);
+		Cyan[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan01), 150, 150);
+		Cyan[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan02), 150, 150);
+		Cyan[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan03), 150, 150);
+		Cyan[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan04), 150, 150);
+		Cyan[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan05), 150, 150);
+		Cyan[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan06), 150, 150);
 
 
-		Red[0] = Graphic.bitSize(LoadBitmap(R.drawable.red00), 150, 150);
-		Red[1] = Graphic.bitSize(LoadBitmap(R.drawable.red01), 150, 150);
-		Red[2] = Graphic.bitSize(LoadBitmap(R.drawable.red02), 150, 150);
-		Red[3] = Graphic.bitSize(LoadBitmap(R.drawable.red03), 150, 150);
-		Red[4] = Graphic.bitSize(LoadBitmap(R.drawable.red04), 150, 150);
-		Red[5] = Graphic.bitSize(LoadBitmap(R.drawable.red05), 150, 150);
+		Red[0] 		= Graphic.bitSize(LoadBitmap(R.drawable.red00), 150, 150);
+		Red[1] 		= Graphic.bitSize(LoadBitmap(R.drawable.red01), 150, 150);
+		Red[2] 		= Graphic.bitSize(LoadBitmap(R.drawable.red02), 150, 150);
+		Red[3] 		= Graphic.bitSize(LoadBitmap(R.drawable.red03), 150, 150);
+		Red[4] 		= Graphic.bitSize(LoadBitmap(R.drawable.red04), 150, 150);
+		Red[5] 		= Graphic.bitSize(LoadBitmap(R.drawable.red05), 150, 150);
 
-		Yellow[0] = Graphic.bitSize(LoadBitmap(R.drawable.yellow00), 150, 150);
-		Yellow[1] = Graphic.bitSize(LoadBitmap(R.drawable.yellow01), 150, 150);
-		Yellow[2] = Graphic.bitSize(LoadBitmap(R.drawable.yellow02), 150, 150);
-		Yellow[3] = Graphic.bitSize(LoadBitmap(R.drawable.yellow03), 150, 150);
-		Yellow[4] = Graphic.bitSize(LoadBitmap(R.drawable.yellow04), 150, 150);
-		Yellow[5] = Graphic.bitSize(LoadBitmap(R.drawable.yellow05), 150, 150);
+		Yellow[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow00), 150, 150);
+		Yellow[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow01), 150, 150);
+		Yellow[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow02), 150, 150);
+		Yellow[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow03), 150, 150);
+		Yellow[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow04), 150, 150);
+		Yellow[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow05), 150, 150);
 
-		Green[0] = Graphic.bitSize(LoadBitmap(R.drawable.green00), 150, 150);
-		Green[1] = Graphic.bitSize(LoadBitmap(R.drawable.green01), 150, 150);
-		Green[2] = Graphic.bitSize(LoadBitmap(R.drawable.green02), 150, 150);
-		Green[3] = Graphic.bitSize(LoadBitmap(R.drawable.green03), 150, 150);
-		Green[4] = Graphic.bitSize(LoadBitmap(R.drawable.green04), 150, 150);
-		Green[5] = Graphic.bitSize(LoadBitmap(R.drawable.green05), 150, 150);
+		Green[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.green00), 150, 150);
+		Green[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.green01), 150, 150);
+		Green[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.green02), 150, 150);
+		Green[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.green03), 150, 150);
+		Green[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.green04), 150, 150);
+		Green[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.green05), 150, 150);
 
-		Blue[0] = Graphic.bitSize(LoadBitmap(R.drawable.blue00), 150, 150);
-		Blue[1] = Graphic.bitSize(LoadBitmap(R.drawable.blue01), 150, 150);
-		Blue[2] = Graphic.bitSize(LoadBitmap(R.drawable.blue02), 150, 150);
-		Blue[3] = Graphic.bitSize(LoadBitmap(R.drawable.blue03), 150, 150);
-		Blue[4] = Graphic.bitSize(LoadBitmap(R.drawable.blue04), 150, 150);
-		Blue[5] = Graphic.bitSize(LoadBitmap(R.drawable.blue05), 150, 150);
-
-
-
+		Blue[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue00), 150, 150);
+		Blue[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue01), 150, 150);
+		Blue[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue02), 150, 150);
+		Blue[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue03), 150, 150);
+		Blue[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue04), 150, 150);
+		Blue[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue05), 150, 150);
+		
+		
+		for(int i=0;i<Effect_numbers;i++){
+		Effect_Cyan[i].LoadPicture(Cyan);
+		Effect_Red[i].LoadPicture(Red);
+		Effect_Yellow[i].LoadPicture(Yellow);
+		Effect_Green[i].LoadPicture(Green);
+		Effect_Blue[i].LoadPicture(Blue);
+		}
 
 		btn_circle = new Bottom(activity, grey_circle, circle, 80, 500);
 		btn_square = new Bottom(activity, grey_square, square, 230, 645);
@@ -618,7 +629,7 @@ implements SurfaceHolder.Callback{
 			Hitflag = 3;
 			break;
 		}
-			Hitcount = 255;
+		Hitcount = 255;
 	}
 	public void scoreLess(){
 		this.hp--;

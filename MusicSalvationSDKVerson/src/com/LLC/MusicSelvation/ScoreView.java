@@ -77,14 +77,7 @@ implements SurfaceHolder.Callback{
 	Bitmap rank_f;
 	
 	//成績數字==============================================================================
-	Number virus_num;
-	Number nice_num;
-	Number hit_num;
-	Number safe_num;
-	Number miss_num;
-	Number combo_num;
-	Number score_num;
-	Number highscore_num;
+	Number num;
 	//---------------------------------------------------------------------------------------
 	
 	int pointx;//觸控到螢幕的x座標
@@ -123,14 +116,7 @@ implements SurfaceHolder.Callback{
 		paint = new Paint();//建立畫筆
 		paint.setAntiAlias(true);//開啟抗鋸齒
 		
-		virus_num =new Number(getResources());
-		nice_num =new Number(getResources());
-		hit_num =new Number(getResources());
-		safe_num =new Number(getResources());
-		miss_num =new Number(getResources());
-		combo_num =new Number(getResources());
-		score_num =new Number(getResources());
-		highscore_num =new Number(getResources());
+		num =new Number(getResources());
 		
 		
 		bg=Graphic.bitSize(LoadBitmap( R.drawable.sv_background), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
@@ -248,14 +234,7 @@ implements SurfaceHolder.Callback{
 			
 			
 			//數字====================================================================================
-			virus_num.setSize(35, 60);
-			nice_num.setSize(35, 60);
-			hit_num.setSize(35, 60);
-			safe_num.setSize(35, 60);
-			miss_num.setSize(35, 60);
-			combo_num.setSize(35, 60);
-			score_num.setSize(30, 55);
-			highscore_num.setSize(30, 55);
+			
 			if(sc_nice != activity.nice){
 				sc_nice++;
 			}
@@ -274,14 +253,18 @@ implements SurfaceHolder.Callback{
 			if(sc_combo != activity.combo){
 				sc_combo++;
 			}
-			virus_num.drawNumberRightStart(630, 180, activity.virus, Number.Gray, canvas, paint);
-			nice_num.drawNumberRightStart(630, 270, sc_nice, Number.Yellow, canvas, paint);
-			hit_num.drawNumberRightStart(630, 360, sc_hit, Number.Cyan, canvas, paint);
-			safe_num.drawNumberRightStart(630, 440, sc_safe, Number.Green, canvas, paint);
-			miss_num.drawNumberRightStart(630, 520, sc_miss, Number.Red, canvas, paint);
-			combo_num.drawNumberRightStart(1250, 300, sc_combo, Number.Blue, canvas, paint);
-			score_num.drawNumberRightStart(620, 590, sc_score, Number.Wite, canvas, paint);
-			highscore_num.drawNumberRightStart(620, 660, activity.score, Number.Wite, canvas, paint);
+			
+			num.setSize(35, 60);
+			num.drawNumberRightStart(630, 180, activity.virus, Number.Gray, canvas, paint);
+			num.drawNumberRightStart(630, 270, sc_nice, Number.Yellow, canvas, paint);
+			num.drawNumberRightStart(630, 360, sc_hit, Number.Cyan, canvas, paint);
+			num.drawNumberRightStart(630, 440, sc_safe, Number.Green, canvas, paint);
+			num.drawNumberRightStart(630, 520, sc_miss, Number.Red, canvas, paint);
+			num.drawNumberRightStart(1250, 300, sc_combo, Number.Blue, canvas, paint);
+
+			num.setSize(30, 55);
+			num.drawNumberRightStart(620, 590, sc_score, Number.Wite, canvas, paint);
+			num.drawNumberRightStart(620, 660, activity.score, Number.Wite, canvas, paint);
 			//數字------------------------------------------------------------------------------------
 			
 			//判定是否過關==============================================================================

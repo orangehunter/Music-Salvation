@@ -8,16 +8,17 @@ public class shortAnimax {
 	
 	Boolean animax_flag=false;
 	
-	float animax_count_flag=0;	
+	double animax_count_flag=0;	
 	int pic_number=0;
 	int x;
 	int y;
 	
 	Bitmap []pic;
 	
-	public void LoadPicture(Bitmap []pic){
-		 this.pic=pic;
-		 pic_number=this.pic.length;
+	public shortAnimax(Bitmap pic[]){
+		this.pic=new Bitmap [pic.length];
+		this.pic=pic;
+		this.pic_number=this.pic.length;
 	}
 	
 	public void setPosition(int x,int y){
@@ -29,7 +30,7 @@ public class shortAnimax {
 		animax_flag=true;
 	}
 	
-	public void drawEffect(int speed,Canvas canvas,Paint paint){
+	public void drawEffect(double speed,Canvas canvas,Paint paint){
 		if(animax_flag){
 			animax_count_flag+=speed;
 			if(((int)animax_count_flag)<pic_number){

@@ -256,12 +256,17 @@ public class MainActivity extends Activity{
 		{
 			switch(nowActivity)
 			{
-			case 2://得分界面
-			case 3://最後的界面
-			case 4://游戲界面
-			case 6://譜面編輯器
+			case 2:
 				Constant.Flag=false;
-				this.changeView(1);//回到主界面
+				this.changeView(1);
+				break;
+			case 3:
+				Constant.Flag=false;
+				this.changeView(4);
+				break;
+			case 4:
+				Constant.Flag=false;
+				this.changeView(2);
 				break;
 			case 0://歡迎界面
 			case 1://主控制界面

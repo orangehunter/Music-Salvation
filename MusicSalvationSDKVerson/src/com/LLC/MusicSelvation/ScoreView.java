@@ -19,7 +19,7 @@ public class ScoreView extends SurfaceView
 implements SurfaceHolder.Callback{
 
 	boolean deJump=true;
-	
+
 	Bitmap bg;
 	Bitmap titlebar;
 	Bitmap rightbar;
@@ -27,7 +27,7 @@ implements SurfaceHolder.Callback{
 	Bitmap rankbar;
 	Bitmap clearbar;
 	Bitmap line;
-	
+
 	Bitmap freely;
 	Bitmap totalvirus;
 	Bitmap nice;
@@ -42,14 +42,14 @@ implements SurfaceHolder.Callback{
 	Bitmap rank;
 	Bitmap clear;
 	Bitmap failed;
-	
+
 	Bitmap easy;
 	Bitmap normal;
 	Bitmap hard;
-	
+
 	Bitmap y;
 	Bitmap n;
-	
+
 	//過關等級================================================
 	Bitmap R_S;
 	Bitmap R_A;
@@ -59,7 +59,7 @@ implements SurfaceHolder.Callback{
 	Bitmap R_E;
 	Bitmap R_F;
 	//過關等級------------------------------------------------
-	
+
 	Bitmap num_grey;
 	Bitmap num_white;
 	Bitmap num_red;
@@ -67,7 +67,7 @@ implements SurfaceHolder.Callback{
 	Bitmap num_green;
 	Bitmap num_cyan;
 	Bitmap num_blue;
-	
+
 	Bitmap rank_s;
 	Bitmap rank_a;
 	Bitmap rank_b;
@@ -75,18 +75,18 @@ implements SurfaceHolder.Callback{
 	Bitmap rank_d;
 	Bitmap rank_e;
 	Bitmap rank_f;
-	
+
 	//成績數字==============================================================================
 	Number num;
 	//---------------------------------------------------------------------------------------
-	
+
 	int pointx;//觸控到螢幕的x座標
 	int pointy;//觸控到螢幕的y座標
-	
+
 	//過關判定============
 	int percent = 0;
 	//過關判定------------------
-	
+
 	//儲存遊戲判定用參數=======================================
 	int sc_nice = 0;
 	int sc_hit = 0;
@@ -95,6 +95,8 @@ implements SurfaceHolder.Callback{
 	int sc_combo = 0;
 	int sc_score = 0;
 	//儲存遊戲判定用參數---------------------------------------
+
+	int touch_flag=0;
 
 	Paint paint;			//畫筆的參考
 	int i=0,j=10;
@@ -115,10 +117,10 @@ implements SurfaceHolder.Callback{
 	public void surfaceCreated(SurfaceHolder holder) {
 		paint = new Paint();//建立畫筆
 		paint.setAntiAlias(true);//開啟抗鋸齒
-		
+
 		num =new Number(getResources());
-		
-		
+
+
 		bg=Graphic.bitSize(LoadBitmap( R.drawable.sv_background), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
 		titlebar = Graphic.bitSize(LoadBitmap(R.drawable.title_bar), 1280, 90);
 		rightbar = Graphic.bitSize(LoadBitmap(R.drawable.right_bar), 625, 75);
@@ -126,7 +128,7 @@ implements SurfaceHolder.Callback{
 		rankbar  = Graphic.bitSize(LoadBitmap(R.drawable.rank_bar), 615, 185);
 		clearbar = Graphic.bitSize(LoadBitmap(R.drawable.clear_bar), 620, 150);
 		line     = Graphic.bitSize(LoadBitmap(R.drawable.line), 625, 2);
-		
+
 		freely   = Graphic.bitSize(LoadBitmap(R.drawable.title), 560, 65);
 		totalvirus = Graphic.bitSize(LoadBitmap(R.drawable.totalvirus), 410, 60);
 		nice = Graphic.bitSize(LoadBitmap(R.drawable.sv_nice), 165, 60);
@@ -141,21 +143,21 @@ implements SurfaceHolder.Callback{
 		clear = Graphic.bitSize(LoadBitmap(R.drawable.clear), 395, 140);
 		failed = Graphic.bitSize(LoadBitmap(R.drawable.failed), 475, 140);
 		rank = Graphic.bitSize(LoadBitmap(R.drawable.rank), 190, 95);
-		
+
 		easy = Graphic.bitSize(LoadBitmap(R.drawable.sv_easy), 280, 75);
 		normal = Graphic.bitSize(LoadBitmap(R.drawable.sv_normal), 280, 75);
 		hard = Graphic.bitSize(LoadBitmap(R.drawable.sv_hard), 280, 75);
-		
+
 		y = Graphic.bitSize(LoadBitmap(R.drawable.y), 30, 50);
 		n = Graphic.bitSize(LoadBitmap(R.drawable.n), 30, 50);
-		
+
 		num_grey = Graphic.bitSize(LoadBitmap(R.drawable.num_gray), 350, 50);
 		num_red = Graphic.bitSize(LoadBitmap(R.drawable.num_red), 350, 50);
 		num_yellow = Graphic.bitSize(LoadBitmap(R.drawable.num_yellow), 350, 50);
 		num_green = Graphic.bitSize(LoadBitmap(R.drawable.num_green), 350, 50);
 		num_blue = Graphic.bitSize(LoadBitmap(R.drawable.num_blue), 350, 50);
 		num_cyan = Graphic.bitSize(LoadBitmap(R.drawable.num_cyan), 350, 50);
-		
+
 		rank_f = Graphic.bitSize(LoadBitmap(R.drawable.r_f), 86, 146);
 		rank_e = Graphic.bitSize(LoadBitmap(R.drawable.r_e), 99, 152);
 		rank_d = Graphic.bitSize(LoadBitmap(R.drawable.r_d), 124, 152);
@@ -163,7 +165,7 @@ implements SurfaceHolder.Callback{
 		rank_b = Graphic.bitSize(LoadBitmap(R.drawable.r_b), 92, 152);
 		rank_a = Graphic.bitSize(LoadBitmap(R.drawable.r_a), 133, 182);
 		rank_s = Graphic.bitSize(LoadBitmap(R.drawable.r_s), 309, 257);
-		
+
 
 
 		Constant.Flag=true;
@@ -198,28 +200,28 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, bg, 1280/2, 720/2, 0, 255, paint);//背景
 			Graphic.drawPic(canvas, titlebar, 1280/2, 45, 0, 255, paint);
 			Graphic.drawPic(canvas, clearbar, 950, 165, 0, 255, paint);
-			
+
 			Graphic.drawPic(canvas, leftbar, 320, 178, 0, 255, paint);
 			Graphic.drawPic(canvas, leftbar, 320, 270, 0, 255, paint);
 			Graphic.drawPic(canvas, leftbar, 320, 356, 0, 255, paint);
 			Graphic.drawPic(canvas, leftbar, 320, 438, 0, 255, paint);
 			Graphic.drawPic(canvas, leftbar, 320, 517, 0, 255, paint);
-			
+
 			Graphic.drawPic(canvas, rightbar, 960, 300, 0, 255, paint);
 			Graphic.drawPic(canvas, rightbar, 960, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, rightbar, 960, 480, 0, 255, paint);
 			Graphic.drawPic(canvas, rankbar, 960, 625, 0, 255, paint);
-			
+
 			Graphic.drawPic(canvas, freely, 290, 40, 0, 255, paint);
-			
+
 			//難易度
 			Graphic.drawPic(canvas, easy, 1100, 40, 0, 255, paint);
 			Graphic.drawPic(canvas, normal, 1100, 40, 0, 255, paint);
 			Graphic.drawPic(canvas, hard, 1100, 40, 0, 255, paint);
-			
+
 			Graphic.drawPic(canvas, line, 310, 625, 0, 255, paint);
 			Graphic.drawPic(canvas, line, 310, 625, 0, 255, paint);
-			
+
 			Graphic.drawPic(canvas, totalvirus, 240, 180, 0, 255, paint);
 			Graphic.drawPic(canvas, nice, 120, 275, 0, 255, paint);
 			Graphic.drawPic(canvas, hit, 100, 360, 0, 255, paint);
@@ -231,10 +233,10 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, score, 120, 590, 0, 255, paint);
 			Graphic.drawPic(canvas, highscore, 200, 665, 0, 255, paint);
 			Graphic.drawPic(canvas, rank, 760, 645, 0, 255, paint);
-			
-			
+
+
 			//數字====================================================================================
-			
+
 			if(sc_nice != activity.nice){
 				sc_nice=Coordinate.AnalogSpeedMove(sc_nice, activity.nice);
 			}
@@ -253,7 +255,7 @@ implements SurfaceHolder.Callback{
 			if(sc_combo != activity.combo){
 				sc_combo=Coordinate.AnalogSpeedMove(sc_combo, activity.combo);
 			}
-			
+
 			num.setSize(35, 60);
 			num.drawNumberRightStart(630, 180, activity.virus, Number.Gray, canvas, paint);
 			num.drawNumberRightStart(630, 270, sc_nice, Number.Yellow, canvas, paint);
@@ -266,7 +268,7 @@ implements SurfaceHolder.Callback{
 			num.drawNumberRightStart(620, 590, sc_score, Number.Wite, canvas, paint);
 			num.drawNumberRightStart(620, 660, activity.score, Number.Wite, canvas, paint);
 			//數字------------------------------------------------------------------------------------
-			
+
 			//判定是否過關==============================================================================
 			if(activity.percent > ((int)activity.virus*0.7) )  //如果打擊率超過70%
 			{
@@ -276,21 +278,21 @@ implements SurfaceHolder.Callback{
 					Graphic.drawPic(canvas, rank_s, 1030, 630, 0, 255, paint);
 				}
 				//打擊率超過90% 為A
-					else if(activity.percent > ((int)activity.virus*0.9))  
-					{
-						Graphic.drawPic(canvas, rank_a, 1030, 630, 0, 255, paint);
-					}
+				else if(activity.percent > ((int)activity.virus*0.9))  
+				{
+					Graphic.drawPic(canvas, rank_a, 1030, 630, 0, 255, paint);
+				}
 				//打擊率超過80% 低於90%為B
-					else if(activity.percent > ((int)activity.virus*0.8) && activity.percent < ((int)activity.virus*0.9))
-					{
-						Graphic.drawPic(canvas, rank_b, 1030, 630, 0, 255, paint);
-					}
+				else if(activity.percent > ((int)activity.virus*0.8) && activity.percent < ((int)activity.virus*0.9))
+				{
+					Graphic.drawPic(canvas, rank_b, 1030, 630, 0, 255, paint);
+				}
 				//打擊率超過70% 低於80%為C
-					else if(activity.percent > ((int)activity.virus*0.7) && activity.percent < ((int)activity.virus*0.8)) //大於70% 小於80%
-					{
-						Graphic.drawPic(canvas, rank_c, 1030, 630, 0, 255, paint);
-					}
-				
+				else if(activity.percent > ((int)activity.virus*0.7) && activity.percent < ((int)activity.virus*0.8)) //大於70% 小於80%
+				{
+					Graphic.drawPic(canvas, rank_c, 1030, 630, 0, 255, paint);
+				}
+
 			}
 			else
 			{
@@ -310,40 +312,50 @@ implements SurfaceHolder.Callback{
 				{
 					Graphic.drawPic(canvas, rank_f, 1030, 630, 0, 255, paint);
 				}
-					
+
 			}
 			//判定是否過關------------------------------------------------------------------------------
-			
-			
-			
-			
+
+
+
+
 			/*擊殺BOSS與否
 			Graphic.drawPic(canvas, y, 1225, 490, 0, 255, paint);
 			Graphic.drawPic(canvas, n, 1225, 490, 0, 255, paint);
-			*/
+			 */
 		}
 	}
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
 		pointx=(int) event.getX();
 		pointy=(int) event.getY();
-		
-			switch(event.getAction())
-			{
-			case MotionEvent.ACTION_DOWN://按下
-				if(deJump == true){
-				activity.changeView(2);
+
+		switch(event.getAction())
+		{
+		case MotionEvent.ACTION_DOWN://按下
+			if(deJump == true){
+				if(touch_flag==0){
+					sc_nice = activity.nice;
+					sc_hit = activity.hit;
+					sc_safe = activity.safe;
+					sc_miss = activity.miss;
+					sc_score = activity.score;
+					sc_combo = activity.combo;
+					touch_flag=1;
+				}if(touch_flag==1){
+					activity.changeView(2);
 				}
-				deJump = false;
-				break;
-			case MotionEvent.ACTION_UP://抬起
-				if(deJump==false){//防止彈跳part2
-					
-				}
-				deJump = true;
-				break;
 			}
-		
+			deJump = false;
+			break;
+		case MotionEvent.ACTION_UP://抬起
+			if(deJump==false){//防止彈跳part2
+
+			}
+			deJump = true;
+			break;
+		}
+
 		return true;
 	}
 

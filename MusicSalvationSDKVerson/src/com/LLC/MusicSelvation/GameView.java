@@ -322,6 +322,7 @@ implements SurfaceHolder.Callback{
 						Log.e("GameView", "JSON load fail");
 						e.printStackTrace();
 					}
+					activity.virus=BtR.length()+BtS.length()+BtT.length()+BtS.length();
 					cs=new chartScan(BtR,BtS,BtT,BtX,time_dis,"GameView");
 					cs.Start();
 				}else{
@@ -664,7 +665,6 @@ implements SurfaceHolder.Callback{
 		case 0:  //NICE
 			activity.percent++;
 			activity.combo++;
-			activity.virus+= 1;
 			activity.score+=200;
 			activity.nice++;
 			Hitflag = 1;
@@ -672,7 +672,6 @@ implements SurfaceHolder.Callback{
 		case 1: //HIT
 			activity.percent++;
 			activity.combo++;
-			activity.virus+= 1;
 			activity.score+=100;
 			activity.hit++;
 			Hitflag = 2;
@@ -680,7 +679,6 @@ implements SurfaceHolder.Callback{
 		case 2:  //SAFE
 			activity.percent++;
 			activity.combo = 0;
-			activity.virus+= 1;
 			activity.score += 50;
 			activity.safe++;
 			Hitflag = 3;
@@ -690,7 +688,6 @@ implements SurfaceHolder.Callback{
 	}
 	public void scoreLess(){
 		this.hp--;
-		activity.virus++;
 		activity.miss++;
 		Hitflag = 4;
 		Hitcount = 255;
@@ -707,9 +704,25 @@ implements SurfaceHolder.Callback{
 
 	}
 
+	@Override
+	protected void onAttachedToWindow() {
+		this.hp=this.hp_max;
+		activity.virus = 0;  //病毒數量
+		activity.percent = 0; //判定是否過關數量
+		activity.nice = 0;
+		activity.hit = 0;
+		activity.safe = 0;
+		activity.miss = 0;
+		activity.score = 0;
+		activity.combo = 0;  
+		super.onAttachedToWindow();
+	}
+
+
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
 		//TODO 暫停選單
 		mp.stop();
+		
 		startFlag=true;
 		Constant.Flag=false;
 	}

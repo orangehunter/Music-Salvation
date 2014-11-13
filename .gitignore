@@ -3,6 +3,9 @@
 *.metadata
 *.class
 *bin/*
+*.apk
+*.dex
+*.ap_
 *tmp/*
 *tmp/*/*
 *.tmp

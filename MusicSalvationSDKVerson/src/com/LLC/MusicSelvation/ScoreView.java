@@ -236,22 +236,22 @@ implements SurfaceHolder.Callback{
 			//¼Æ¦r====================================================================================
 			
 			if(sc_nice != activity.nice){
-				sc_nice++;
+				sc_nice=Coordinate.AnalogSpeedMove(sc_nice, activity.nice);
 			}
 			if(sc_hit != activity.hit){
-				sc_hit++;
+				sc_hit=Coordinate.AnalogSpeedMove(sc_hit, activity.hit);
 			}
 			if(sc_safe != activity.safe){
-				sc_safe++;
+				sc_safe=Coordinate.AnalogSpeedMove(sc_safe, activity.safe);
 			}
 			if(sc_miss != activity.miss){
-				sc_miss++;
+				sc_miss=Coordinate.AnalogSpeedMove(sc_miss, activity.miss);
 			}
 			if(sc_score != activity.score){
-				sc_score+=50;
+				sc_score=Coordinate.AnalogSpeedMove(sc_score, activity.score);
 			}
 			if(sc_combo != activity.combo){
-				sc_combo++;
+				sc_combo=Coordinate.AnalogSpeedMove(sc_combo, activity.combo);
 			}
 			
 			num.setSize(35, 60);
@@ -341,24 +341,6 @@ implements SurfaceHolder.Callback{
 					
 				}
 				deJump = true;
-				break;
-			}
-		
-		
-			switch(event.getAction())
-			{
-			//......................................................................................
-			case MotionEvent.ACTION_DOWN://«ö¤U
-				if(deJump==true){//¨¾¤î¼u¸õpart1
-				}
-				deJump=false;
-				break;
-			//.....................................................................................
-			case MotionEvent.ACTION_UP://©ï°_
-				if(deJump==false){//¨¾¤î¼u¸õpart2
-					
-				}
-				deJump=true;
 				break;
 			}
 		

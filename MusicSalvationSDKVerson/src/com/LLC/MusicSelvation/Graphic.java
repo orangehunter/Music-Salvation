@@ -28,8 +28,12 @@ public class Graphic {
 
 		return bit;
 	}
+	static Bitmap CutArea(Bitmap bt,int start_x,int start_y,int width,int height){
+		Bitmap temp=Bitmap.createBitmap(bt, start_x,start_y, width, height);
+		return temp;
+	}
 
-	static void drawPic(Canvas canvas,Bitmap bit,int mid_x,int mid_y,int rot,int alpha,Paint paint){
+	static void drawPic(Canvas canvas,Bitmap bit,int mid_x,int mid_y,float rot,int alpha,Paint paint){
 		paint.setAntiAlias(true);
 		paint.setAlpha(alpha);
 		float x=Coordinate.CoordinateX(mid_x),y=Coordinate.CoordinateY(mid_y);

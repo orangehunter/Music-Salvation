@@ -1,8 +1,7 @@
 package com.LLC.MusicSelvation;
-
+//
 
 import com.example.musicsalvationsdkverson.R;
-
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,21 +13,30 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-@SuppressLint({ "ViewConstructor", "WrongCall" })
+@SuppressLint({ "ViewConstructor", "WrongCall", "ClickableViewAccessibility" })
 public class MainView extends SurfaceView
 implements SurfaceHolder.Callback{
 
+	boolean deJump=true;
+
 	Bitmap main_back;
+	Bitmap main_back2;
+	Bitmap start;
+	Bitmap exit;
 	Bitmap main_left;
 	Bitmap main_right;
 	Bitmap main_title;
 	Bitmap main_touchstart;
+	Bottom startbtm;
+	Bottom exitbtm;
 	int mainFlag=0;
 
-	int toEditView=0;
+	boolean toEditView=false;
 
 	int pointx;//觸控到螢幕的x座標
 	int pointy;//觸控到螢幕的y座標
+	int apa=10;
+	int a=0;
 
 	int mtx=640;
 	int mty=-200;
@@ -46,20 +54,22 @@ implements SurfaceHolder.Callback{
 	int mrx=1280+333;
 	int mrx1=1280-333+190;
 	int mry=360+140;
-
+	
+	int alpha = 5;
+	int alpha2 = 0;
 
 	Paint paint;			//畫筆的參考
-	int i=0,j=5;
+	int i=0,j=10;
 	MainActivity activity;
 
 	public MainView(MainActivity mainActivity) {
 		super(mainActivity);
 		this.activity = mainActivity;
 		this.getHolder().addCallback(this);//設定生命周期回調接口的實現者
-		
+
 
 	}
-	
+
 	public Bitmap LoadBitmap(int r){
 		return BitmapFactory.decodeResource(getResources(), r);
 	}
@@ -67,11 +77,17 @@ implements SurfaceHolder.Callback{
 	public void surfaceCreated(SurfaceHolder holder) {
 		paint = new Paint();//建立畫筆
 		paint.setAntiAlias(true);//開啟抗鋸齒
-		main_back=			Graphic.bitSize(LoadBitmap( R.drawable.main_back), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
+		main_back=			Graphic.bitSize(LoadBitmap( R.drawable.main_back3), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
+		main_back2=			Graphic.bitSize(LoadBitmap( R.drawable.main_back2), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
 		main_title=			Graphic.bitSize(LoadBitmap( R.drawable.main_title ),730 ,269 );
 		main_touchstart=Graphic.bitSize(LoadBitmap( R.drawable.main_touchstart ), 594, 85);
 		main_left=			Graphic.bitSize(LoadBitmap( R.drawable.main_left ),(440/2), (583/2));
 		main_right=			Graphic.bitSize(LoadBitmap( R.drawable.main_right), (666/2), (644/2));
+		start =  Graphic.bitSize(LoadBitmap( R.drawable.start), 314,85);
+		exit  =  Graphic.bitSize(LoadBitmap( R.drawable.exit), 314,85);
+		startbtm = new Bottom(activity, start,start, 640, 518);
+		exitbtm = new Bottom(activity, exit, exit, 640, 643);
+
 		Constant.Flag=true;
 		new Thread(){
 			@SuppressLint("WrongCall")
@@ -81,7 +97,6 @@ implements SurfaceHolder.Callback{
 					try {
 						Thread.sleep(20);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					SurfaceHolder myholder=MainView.this.getHolder();
@@ -103,6 +118,14 @@ implements SurfaceHolder.Callback{
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, main_back, 1280/2, 720/2, 0, 255, paint);//背景
+			if(apa<= 10){
+				a =7;
+			} 
+			if(apa >240){
+				a = -7;
+			}
+			apa+= a;
+			Graphic.drawPic(canvas, main_back2, 1280/2, 720/2, 0, apa, paint);
 
 			if(mainFlag==0){
 				if(i<250)
@@ -129,6 +152,17 @@ implements SurfaceHolder.Callback{
 
 				Graphic.drawPic(canvas, main_right, mrx, mry, 0, 255, paint);//Right
 				mrx=Coordinate.AnalogSpeedMove(mrx, mrx1);
+				
+				/*alpha2+=alpha;
+				if(alpha2 > 250){
+					alpha = -10;
+				}
+				if(alpha2 <100){
+					alpha = 10;
+				}*/
+				alpha2=255;
+				startbtm.drawBtm(canvas, paint,alpha2);
+				exitbtm.drawBtm(canvas, paint,alpha2);
 			}
 		}
 	}
@@ -140,32 +174,61 @@ implements SurfaceHolder.Callback{
 			switch(event.getAction())
 			{
 			case MotionEvent.ACTION_DOWN://按下
+				if(deJump == true){
 				mainFlag=1;
+				}
+				deJump = false;
+				break;
+			case MotionEvent.ACTION_UP://抬起
+				if(deJump==false){//防止彈跳part2
+					
+				}
+				deJump = true;
 				break;
 			}
 		}
 		if(mainFlag==1){
 			switch(event.getAction())
 			{
+			//......................................................................................
 			case MotionEvent.ACTION_DOWN://按下
-				/*this.toEditView++;
-				if(this.toEditView>10){
-					Constant.Flag=false;
-					activity.changeView(6);
-				}*/
-				break;
-			case MotionEvent.ACTION_UP:
-				this.toEditView++;
-				if(this.toEditView>2){
-					//Constant.Flag=false;
-					this.toEditView=1;
-					activity.changeView(6);
+				if(deJump==true){//防止彈跳part1
+					if(startbtm.isIn(pointx, pointy)){
+						this.toEditView = true;
+					}
+					if(exitbtm.isIn(pointx, pointy)){
+						exitbtm.setBottomTo(true);
+					}
 				}
+				deJump=false;
+				break;
+			//.....................................................................................
+			case MotionEvent.ACTION_UP://抬起
+				if(deJump==false){//防止彈跳part2
+					if(startbtm.isIn(pointx, pointy)){
+						//進入地圖畫面
+						if(this.toEditView){
+						activity.changeView(2);
+						}
+					}
+					
+					if(exitbtm.isIn(pointx, pointy)){
+						if(this.toEditView){
+							activity.changeView(6);
+						}else if(exitbtm.getBottom()){
+							exitbtm.setBottomTo(false);
+						activity.changeView(255);
+						}
+					}
+					this.toEditView = false;
+				}
+				deJump=true;
 				break;
 			}
 		}
 		return true;
 	}
+
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,int height) {

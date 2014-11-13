@@ -164,6 +164,8 @@ implements SurfaceHolder.Callback{
 		rank_a = Graphic.bitSize(LoadBitmap(R.drawable.r_a), 133, 182);
 		rank_s = Graphic.bitSize(LoadBitmap(R.drawable.r_s), 309, 257);
 		
+		
+		
 
 
 		Constant.Flag=true;

@@ -76,6 +76,7 @@ implements SurfaceHolder.Callback{
 	Bitmap miss;
 	Bitmap safe;
 	Bitmap hit;
+	Bitmap hits;
 
 	Bitmap titlebar;  //狀態欄
 	Bitmap hpbar;
@@ -175,6 +176,15 @@ implements SurfaceHolder.Callback{
 	}
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		combo=0;
+		maxcombo = 0;
+		sc_nice= 0;
+		sc_hit= 0;
+		sc_safe= 0;
+		sc_miss= 0;
+		percent = 0;
+		sc_score = 0;
+		this.hp=this.hp_max;
 		/*int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 	              | View.SYSTEM_UI_FLAG_FULLSCREEN;
 		this.setSystemUiVisibility(uiOptions);*/
@@ -225,6 +235,7 @@ implements SurfaceHolder.Callback{
 		hit = Graphic.bitSize(LoadBitmap(R.drawable.hit), 175, 55);
 		safe = Graphic.bitSize(LoadBitmap(R.drawable.safe), 175, 55);
 		miss = Graphic.bitSize(LoadBitmap(R.drawable.miss), 175, 55);
+		hits =  Graphic.bitSize(LoadBitmap(R.drawable.hits), 155, 80);
 
 		titlebar = Graphic.bitSize(LoadBitmap(R.drawable.titlebar), 1280, 63);
 		hpbar = Graphic.bitSize(LoadBitmap(R.drawable.hpbar2), 1100, 23);
@@ -488,6 +499,10 @@ implements SurfaceHolder.Callback{
 			btn_square.drawBtm(canvas, paint);
 			btn_triangle.drawBtm(canvas, paint);
 			btn_xx.drawBtm(canvas, paint);
+			
+			//combo============================================
+			Graphic.drawPic(canvas, hits, 290, 200, 0, 255, paint);
+			//combo--------------------------------------------
 
 			
 			//特效光繪圖===========================================================================
@@ -496,12 +511,12 @@ implements SurfaceHolder.Callback{
 					Effect_Cyan[i].drawEffect(Effect_speed, canvas, paint);
 				}
 				if(Effect_Red[i].getFlag()){
-					Graphic.drawPic(canvas, lazer_red, 338, 547, 0, 255, paint);
+					Graphic.drawPic(canvas, lazer_red, 338, 550, 0, 255, paint);
 					Effect_Red[i].drawEffect(Effect_speed, canvas, paint);
 					
 				}
 				if(Effect_Yellow[i].getFlag()){
-					Graphic.drawPic(canvas, lazer_yellow, 432, 623, 0, 255, paint);
+					Graphic.drawPic(canvas, lazer_yellow, 432, 619, 0, 255, paint);
 					Effect_Yellow[i].drawEffect(Effect_speed, canvas, paint);
 				}
 				if(Effect_Green[i].getFlag()){
@@ -509,7 +524,7 @@ implements SurfaceHolder.Callback{
 					Effect_Green[i].drawEffect(Effect_speed, canvas, paint);
 				}
 				if(Effect_Blue[i].getFlag()){
-					Graphic.drawPic(canvas, lazer_blue, 937, 549, 0, 255, paint);
+					Graphic.drawPic(canvas, lazer_blue, 937, 545, 0, 255, paint);
 					Effect_Blue[i].drawEffect(Effect_speed, canvas, paint);
 				}
 			}
@@ -530,7 +545,12 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
 			score.setSize(20, 30);
-			score.drawNumberRightStart(1250, 20, activity.score, Number.Wite, canvas, paint);
+			score.drawNumberRightStart(1250, 20, sc_score, Number.Wite, canvas, paint);
+			
+			//combo顯示============================================================
+			score.setSize(50, 70);
+			score.drawNumberRightStart(230, 190, combo, Number.Cyan, canvas, paint);
+			//combo顯示-------------------------------------------------------------
 
 			//Graphic.drawPic(canvas, hpfont_red, 95, 50, 0, 255, paint);
 

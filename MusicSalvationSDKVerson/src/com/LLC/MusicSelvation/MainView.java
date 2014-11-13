@@ -9,6 +9,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.provider.MediaStore.Audio;
+import android.provider.MediaStore.Audio.Media;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -57,6 +62,12 @@ implements SurfaceHolder.Callback{
 	
 	int alpha = 5;
 	int alpha2 = 0;
+	
+	//背景音樂宣告====================================
+	
+	MediaPlayer back_mp;
+	
+	//背景音樂宣告------------------------------------
 
 	Paint paint;			//畫筆的參考
 	int i=0,j=10;
@@ -87,6 +98,15 @@ implements SurfaceHolder.Callback{
 		exit  =  Graphic.bitSize(LoadBitmap( R.drawable.exit), 314,85);
 		startbtm = new Bottom(activity, start,start, 640, 518);
 		exitbtm = new Bottom(activity, exit, exit, 640, 643);
+		
+		//載入音樂=============================================================
+		
+		back_mp=MediaPlayer.create(this.getContext(), R.raw.tell_your_world_piano);
+		back_mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
+		back_mp.setLooping(true);
+		back_mp.start();
+		//載入音樂-------------------------------------------------------------
+		
 
 		Constant.Flag=true;
 		new Thread(){
@@ -110,6 +130,8 @@ implements SurfaceHolder.Callback{
 			}
 		}.start();
 	}
+	
+	
 	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {//重新定義的繪制方法
@@ -118,6 +140,7 @@ implements SurfaceHolder.Callback{
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, main_back, 1280/2, 720/2, 0, 255, paint);//背景
+			
 			if(apa<= 10){
 				a =7;
 			} 
@@ -237,6 +260,7 @@ implements SurfaceHolder.Callback{
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
 		Constant.Flag=false;
+		back_mp.stop();
 	}
 
 

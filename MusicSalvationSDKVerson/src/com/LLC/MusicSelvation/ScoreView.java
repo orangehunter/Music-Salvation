@@ -332,7 +332,7 @@ implements SurfaceHolder.Callback{
 			{
 			case MotionEvent.ACTION_DOWN://«ö¤U
 				if(deJump == true){
-				
+				activity.changeView(2);
 				}
 				deJump = false;
 				break;

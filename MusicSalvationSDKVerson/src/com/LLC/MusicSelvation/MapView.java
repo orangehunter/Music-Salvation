@@ -357,47 +357,48 @@ implements SurfaceHolder.Callback{
 				left_btm3.drawBtm(canvas, paint);
 				left_btm4.drawBtm(canvas, paint);
 				left_btm5.drawBtm(canvas, paint);
+				//選單按鈕===============================================================
+				if(left_btm1.getBottom()){
+					if(sevolmx!=sevolmovex){
+						sevolmx = Coordinate.AnalogSpeedMove(sevolmx, sevolmovex);
+						baralpha = 255;
+						sp_Volume_bar.Move(sevolmx, 167);
+					}
+				}
+				else {
+					if(sevolmx!=-300){
+						sevolmx = Coordinate.AnalogSpeedMove(sevolmx, -300);
+						sp_Volume_bar.Move(sevolmx, 167);
+					}
+				}
+				if(left_btm2.getBottom()){
+					if(songvolmx!=songvolmovex){
+						songvolmx = Coordinate.AnalogSpeedMove(songvolmx, songvolmovex);
+						baralpha = 255;
+						mp_Volume_bar.Move(songvolmx, 259);
+					}
+				}
+				else{
+					if(songvolmx!=-300){
+						songvolmx = Coordinate.AnalogSpeedMove(songvolmx, -300);
+						mp_Volume_bar.Move(songvolmx, 259);
+					}
+				}
+				if(left_btm3.getBottom()){
+					sebtm1.drawBtm(canvas, paint);
+					sebtm2.drawBtm(canvas, paint);
+					sebtm3.drawBtm(canvas, paint);
+					sebtm4.drawBtm(canvas, paint);
+					sebtm5.drawBtm(canvas, paint);
+					sebaralpha = 255;
+				}
+				else{
+					sebaralpha = 0;
+				}
+				//選單按鈕----------------------------------------------------------------------------------------------------
 			}
 
-			//選單按鈕===============================================================
-			if(left_btm1.getBottom()){
-				if(sevolmx!=sevolmovex){
-					sevolmx = Coordinate.AnalogSpeedMove(sevolmx, sevolmovex);
-					baralpha = 255;
-					sp_Volume_bar.Move(sevolmx, 167);
-				}
-			}
-			else {
-				if(sevolmx!=-300){
-					sevolmx = Coordinate.AnalogSpeedMove(sevolmx, -300);
-					sp_Volume_bar.Move(sevolmx, 167);
-				}
-			}
-			if(left_btm2.getBottom()){
-				if(songvolmx!=songvolmovex){
-					songvolmx = Coordinate.AnalogSpeedMove(songvolmx, songvolmovex);
-					baralpha = 255;
-					mp_Volume_bar.Move(songvolmx, 259);
-				}
-			}
-			else{
-				if(songvolmx!=-300){
-					songvolmx = Coordinate.AnalogSpeedMove(songvolmx, -300);
-					mp_Volume_bar.Move(songvolmx, 259);
-				}
-			}
-			if(left_btm3.getBottom()){
-				sebtm1.drawBtm(canvas, paint);
-				sebtm2.drawBtm(canvas, paint);
-				sebtm3.drawBtm(canvas, paint);
-				sebtm4.drawBtm(canvas, paint);
-				sebtm5.drawBtm(canvas, paint);
-				sebaralpha = 255;
-			}
-			else{
-				sebaralpha = 0;
-			}
-			//選單按鈕----------------------------------------------------------------------------------------------------
+			
 			//左半部選單控制至此=======================================================
 
 
@@ -469,58 +470,61 @@ implements SurfaceHolder.Callback{
 					}
 				}
 				//------------------------------
-				if(left_btm1.isIn(pointx, pointy)){
-					if(!left_btm1.getBottom()){
-						left_btm1.setBottomTo(true);
-						left_btm2.setBottomTo(false);
-						left_btm3.setBottomTo(false);
-						left_btm4.setBottomTo(false);
-						left_btm5.setBottomTo(false);
-					}
-					else if(left_btm1.getBottom()){
-						left_btm1.setBottomTo(false);
-
-					}
-				}
-				else if(left_btm2.isIn(pointx, pointy))
+				if(menuFlag == 1)
 				{
-					if(!left_btm2.getBottom()){
-
-						left_btm1.setBottomTo(false);
-						left_btm2.setBottomTo(true);
-						left_btm3.setBottomTo(false);
-						left_btm4.setBottomTo(false);
-						left_btm5.setBottomTo(false);
+					if(left_btm1.isIn(pointx, pointy)){
+						if(!left_btm1.getBottom()){
+							left_btm1.setBottomTo(true);
+							left_btm2.setBottomTo(false);
+							left_btm3.setBottomTo(false);
+							left_btm4.setBottomTo(false);
+							left_btm5.setBottomTo(false);
+						}
+						else if(left_btm1.getBottom()){
+							left_btm1.setBottomTo(false);
+	
+						}
 					}
-					else if(left_btm2.getBottom()){
-						left_btm2.setBottomTo(false);
-
+					else if(left_btm2.isIn(pointx, pointy))
+					{
+						if(!left_btm2.getBottom()){
+	
+							left_btm1.setBottomTo(false);
+							left_btm2.setBottomTo(true);
+							left_btm3.setBottomTo(false);
+							left_btm4.setBottomTo(false);
+							left_btm5.setBottomTo(false);
+						}
+						else if(left_btm2.getBottom()){
+							left_btm2.setBottomTo(false);
+	
+						}
 					}
-				}
-				else if(left_btm3.isIn(pointx, pointy)){
-					if(!left_btm3.getBottom()){
-						left_btm1.setBottomTo(false);
-						left_btm2.setBottomTo(false);
-						left_btm3.setBottomTo(true);
-						left_btm4.setBottomTo(false);
-						left_btm5.setBottomTo(false);
+					else if(left_btm3.isIn(pointx, pointy)){
+						if(!left_btm3.getBottom()){
+							left_btm1.setBottomTo(false);
+							left_btm2.setBottomTo(false);
+							left_btm3.setBottomTo(true);
+							left_btm4.setBottomTo(false);
+							left_btm5.setBottomTo(false);
+						}
+						else if(left_btm3.getBottom()){
+							left_btm3.setBottomTo(false);
+	
+						}
+	
 					}
-					else if(left_btm3.getBottom()){
-						left_btm3.setBottomTo(false);
-
+					else if(left_btm4.isIn(pointx, pointy)){
+						if(!left_btm4.getBottom()){
+							activity.changeView(1);
+						}
 					}
-
-				}
-				else if(left_btm4.isIn(pointx, pointy)){
-					if(!left_btm4.getBottom()){
-						activity.changeView(1);
+					else if(left_btm5.isIn(pointx, pointy)){
+						if(!left_btm5.getBottom()){
+	
+						}
 					}
-				}
-				else if(left_btm5.isIn(pointx, pointy)){
-					if(!left_btm5.getBottom()){
-
-					}
-				}
+				
 				//-------------音效按鈕切換區------------------
 				if(sebtm1.isIn(pointx, pointy)){
 					if(!sebtm1.getBottom()){
@@ -612,6 +616,7 @@ implements SurfaceHolder.Callback{
 				}
 				if(sp_Volume_bar.isOn(pointx, pointy)){
 					sp_Volume_bar.isOn=true;
+				}
 				}
 				//左半部選單按鈕事件至此=====================================================
 

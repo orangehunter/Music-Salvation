@@ -271,7 +271,7 @@ implements SurfaceHolder.Callback{
 			@Override
 			public void onCompletion(MediaPlayer mp) {
 				//TODO 切換至計分畫面
-				activity.changeView(2);
+				activity.changeView(4);
 			}
 		});
 
@@ -375,8 +375,6 @@ implements SurfaceHolder.Callback{
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, bg, 1280/2, 720/2, 0, 255, paint);//背景
-
-
 			Graphic.drawPic(canvas, track, 450, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, track, 575, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, track, 700, 390, 0, 255, paint);
@@ -412,7 +410,7 @@ implements SurfaceHolder.Callback{
 			//HP檢查==========================================================
 			if(hp_x==182+0*55){
 				//TODO 切換至計分畫面
-				activity.changeView(2);
+				activity.changeView(4);
 			}
 			//HP檢查----------------------------------------------------------
 
@@ -663,17 +661,26 @@ implements SurfaceHolder.Callback{
 			}
 		}
 		switch(dis){
-		case 0:
+		case 0:  //NICE
+			activity.percent++;
+			activity.combo++;
+			activity.virus+= 1;
 			activity.score+=200;
 			activity.nice++;
 			Hitflag = 1;
 			break;
-		case 1:
+		case 1: //HIT
+			activity.percent++;
+			activity.combo++;
+			activity.virus+= 1;
 			activity.score+=100;
 			activity.hit++;
 			Hitflag = 2;
 			break;
-		case 2:
+		case 2:  //SAFE
+			activity.percent++;
+			activity.combo = 0;
+			activity.virus+= 1;
 			activity.score += 50;
 			activity.safe++;
 			Hitflag = 3;
@@ -683,6 +690,8 @@ implements SurfaceHolder.Callback{
 	}
 	public void scoreLess(){
 		this.hp--;
+		activity.virus++;
+		activity.miss++;
 		Hitflag = 4;
 		Hitcount = 255;
 	}

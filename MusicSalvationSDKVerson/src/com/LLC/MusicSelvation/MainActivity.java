@@ -54,11 +54,14 @@ public class MainActivity extends Activity{
 	//紇匡拒------------------------------------------------------------
 	
 	//﹚籔だ计===================================
+	int virus = 0;  //痜瑀计秖
+	int percent = 0; //﹚琌筁闽计秖
 	int nice = 0;
 	int hit = 0;
 	int safe = 0;
 	int miss = 0;
 	int score = 0;
+	int combo = 0;  
 	//﹚籔だ计-----------------------------------
 	
 	//匡闽把计=====================================

@@ -651,14 +651,17 @@ implements SurfaceHolder.Callback{
 						if(easy.isIn(pointx, pointy)){
 							modelFlag=0;
 							activity.difficulty=0;//gameview螟把计
+							model.setBottomTo(false);
 						}
 						if(normal.isIn(pointx, pointy)){
 							modelFlag=1;
 							activity.difficulty=1;//gameview螟把计
+							model.setBottomTo(false);
 						}
 						if(hard.isIn(pointx, pointy)){
 							modelFlag=2;
 							activity.difficulty=2;//gameview螟把计
+							model.setBottomTo(false);
 						}
 					}
 				}

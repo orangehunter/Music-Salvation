@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 
+
 public class Bottom {
 	MainActivity activity;
 	float x;//圖片的中央x座標

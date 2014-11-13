@@ -41,6 +41,7 @@ implements SurfaceHolder.Callback{
 	Bitmap game_hard;
 	Bitmap freely;
 
+	/*
 	Bitmap circle;
 	Bitmap square;
 	Bitmap xx;
@@ -49,6 +50,20 @@ implements SurfaceHolder.Callback{
 	Bitmap grey_square;
 	Bitmap grey_xx;
 	Bitmap grey_triangle;
+	*/
+	//浮游砲宣告===============================================
+	Bitmap d_red;
+	Bitmap d_blue;
+	Bitmap d_yellow;
+	Bitmap d_green;
+	//浮游砲宣告-----------------------------------------------
+	
+	//光束===================================================
+	Bitmap lazer_red;
+	Bitmap lazer_blue;
+	Bitmap lazer_green;
+	Bitmap lazer_yellow;
+	//光束----------------------------------------------------
 
 	Bitmap track;  //軌道
 
@@ -99,7 +114,15 @@ implements SurfaceHolder.Callback{
 	int hp_color=Color.GREEN;
 	int hp_to_yellow=12;
 	int hp_to_red = 6;
+	
 	int combo=0;
+	int maxcombo = 0;
+	int sc_nice= 0;
+	int sc_hit= 0;
+	int sc_safe= 0;
+	int sc_miss= 0;
+	int percent = 0;
+	int sc_score = 0;
 
 	//控制判定顯示FLAG==============================
 	int Hitflag = 0;
@@ -168,6 +191,7 @@ implements SurfaceHolder.Callback{
 		game_normal = Graphic.bitSize(LoadBitmap(R.drawable.game_normal), 118, 25);
 		game_hard = Graphic.bitSize(LoadBitmap(R.drawable.game_hard), 118, 25);
 
+		/*
 		circle = Graphic.bitSize(LoadBitmap(R.drawable.btn_circle_v2), 150, 150);
 		square = Graphic.bitSize(LoadBitmap(R.drawable.btn_square_v2), 150, 150);
 		triangle = Graphic.bitSize(LoadBitmap(R.drawable.btn_triangle_v2), 150, 150);
@@ -176,6 +200,19 @@ implements SurfaceHolder.Callback{
 		grey_square = Graphic.bitSize(LoadBitmap(R.drawable.grey_square), 150, 150);
 		grey_triangle = Graphic.bitSize(LoadBitmap(R.drawable.grey_tirangle), 150, 150);
 		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 150, 150);
+		*/
+		
+		//浮游砲與光束=======================================================================
+		d_blue = Graphic.bitSize(LoadBitmap(R.drawable.d_blue), 250, 170);
+		d_red = Graphic.bitSize(LoadBitmap(R.drawable.d_red), 250, 170);
+		d_green = Graphic.bitSize(LoadBitmap(R.drawable.d_green), 260, 130);
+		d_yellow = Graphic.bitSize(LoadBitmap(R.drawable.d_yellow), 260, 130);
+		lazer_red = Graphic.bitSize(LoadBitmap(R.drawable.lazer_r), 220, 125);
+		lazer_blue = Graphic.bitSize(LoadBitmap(R.drawable.lazer_b), 215, 112);
+		lazer_green = Graphic.bitSize(LoadBitmap(R.drawable.lazer_g2), 290, 50);
+		lazer_yellow = Graphic.bitSize(LoadBitmap(R.drawable.lazer_y2), 275, 50);
+		//浮游砲與光束------------------------------------------------------------------------
+		
 
 		track = Graphic.bitSize(LoadBitmap(R.drawable.track_v2), 80, 660);
 
@@ -197,12 +234,13 @@ implements SurfaceHolder.Callback{
 		boss = Graphic.bitSize(LoadBitmap(R.drawable.boss1), 200, 185);
 
 		//特效光（測試中）
-		Cyan[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan01), 150, 150);
-		Cyan[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan02), 150, 150);
-		Cyan[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan03), 150, 150);
-		Cyan[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan04), 150, 150);
-		Cyan[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan05), 150, 150);
-		Cyan[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan06), 150, 150);
+		
+		Cyan[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan00), 150, 150);
+		Cyan[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan01), 150, 150);
+		Cyan[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan02), 150, 150);
+		Cyan[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan03), 150, 150);
+		Cyan[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan04), 150, 150);
+		Cyan[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan05), 150, 150);
 
 		Red[0] 		= Graphic.bitSize(LoadBitmap(R.drawable.red00), 150, 150);
 		Red[1] 		= Graphic.bitSize(LoadBitmap(R.drawable.red01), 150, 150);
@@ -233,6 +271,7 @@ implements SurfaceHolder.Callback{
 		Blue[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue05), 150, 150);
 		
 		
+		
 		for(int i=0;i<Effect_numbers;i++){
 		Effect_Cyan[i]=new shortAnimax(Cyan);
 		
@@ -249,10 +288,12 @@ implements SurfaceHolder.Callback{
 		Effect_Blue[i].setPosition(825, 600);
 		}
 
-		btn_circle = new Bottom(activity, grey_circle, circle, 80, 500);
-		btn_square = new Bottom(activity, grey_square, square, 230, 645);
-		btn_triangle = new Bottom(activity, grey_triangle, triangle, 1050, 645);
-		btn_xx = new Bottom(activity, grey_xx, xx, 1200, 500);
+		
+		btn_circle = new Bottom(activity, d_red, d_red, 125, 450);
+		btn_square = new Bottom(activity, d_yellow, d_yellow, 180, 640);
+		btn_triangle = new Bottom(activity,d_green, d_green, 1100, 640);
+		btn_xx = new Bottom(activity, d_blue, d_blue, 1150, 450);
+		
 
 		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.virus_red), 80, 80);
 		chart_s=Graphic.bitSize(LoadBitmap(R.drawable.virus_yello), 80, 80);
@@ -443,6 +484,11 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, sight, 575, 600, 0, 255, paint);
 			Graphic.drawPic(canvas, sight, 700, 600, 0, 255, paint);
 			Graphic.drawPic(canvas, sight, 825, 600, 0, 255, paint);
+			btn_circle.drawBtm(canvas, paint);
+			btn_square.drawBtm(canvas, paint);
+			btn_triangle.drawBtm(canvas, paint);
+			btn_xx.drawBtm(canvas, paint);
+
 			
 			//特效光繪圖===========================================================================
 			for(int i=0;i<Effect_numbers;i++){
@@ -450,15 +496,20 @@ implements SurfaceHolder.Callback{
 					Effect_Cyan[i].drawEffect(Effect_speed, canvas, paint);
 				}
 				if(Effect_Red[i].getFlag()){
+					Graphic.drawPic(canvas, lazer_red, 338, 547, 0, 255, paint);
 					Effect_Red[i].drawEffect(Effect_speed, canvas, paint);
+					
 				}
 				if(Effect_Yellow[i].getFlag()){
+					Graphic.drawPic(canvas, lazer_yellow, 432, 623, 0, 255, paint);
 					Effect_Yellow[i].drawEffect(Effect_speed, canvas, paint);
 				}
 				if(Effect_Green[i].getFlag()){
+					Graphic.drawPic(canvas, lazer_green, 846, 622, 0, 255, paint);
 					Effect_Green[i].drawEffect(Effect_speed, canvas, paint);
 				}
 				if(Effect_Blue[i].getFlag()){
+					Graphic.drawPic(canvas, lazer_blue, 937, 549, 0, 255, paint);
 					Effect_Blue[i].drawEffect(Effect_speed, canvas, paint);
 				}
 			}
@@ -516,11 +567,7 @@ implements SurfaceHolder.Callback{
 			}
 
 
-			btn_circle.drawBtm(canvas, paint);
-			btn_square.drawBtm(canvas, paint);
-			btn_triangle.drawBtm(canvas, paint);
-			btn_xx.drawBtm(canvas, paint);
-
+			
 		}
 	}
 	@Override
@@ -662,38 +709,48 @@ implements SurfaceHolder.Callback{
 		}
 		switch(dis){
 		case 0:  //NICE
-			activity.percent++;
-			activity.combo++;
-			activity.virus+= 1;
-			activity.score+=200;
-			activity.nice++;
+			percent++;
+			combo++;
+			sc_score+=200;
+			sc_nice++;
 			Hitflag = 1;
+			if(combo > maxcombo)
+			{
+				maxcombo = combo;
+			}
 			break;
 		case 1: //HIT
-			activity.percent++;
-			activity.combo++;
-			activity.virus+= 1;
-			activity.score+=100;
-			activity.hit++;
+			percent++;
+			combo++;
+			sc_score+=100;
+			sc_hit++;
 			Hitflag = 2;
+			if(combo > maxcombo)
+			{
+				maxcombo = combo;
+			}
 			break;
 		case 2:  //SAFE
-			activity.percent++;
-			activity.combo = 0;
-			activity.virus+= 1;
-			activity.score += 50;
-			activity.safe++;
+			percent++;
+			combo = 0;
+			sc_score += 50;
+			sc_safe++;
 			Hitflag = 3;
+			if(combo > maxcombo)
+			{
+				maxcombo = combo;
+			}
 			break;
 		}
 		Hitcount = 255;
 	}
 	public void scoreLess(){
 		this.hp--;
-		activity.virus++;
-		activity.miss++;
+		combo = 0;
+		sc_miss++;
 		Hitflag = 4;
 		Hitcount = 255;
+		
 	}
 
 	public void playSP(){
@@ -710,6 +767,13 @@ implements SurfaceHolder.Callback{
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
 		//TODO 暫停選單
 		mp.stop();
+		activity.combo = maxcombo;
+		activity.nice = sc_nice;
+		activity.hit = sc_hit;
+		activity.safe = sc_safe;
+		activity.miss = sc_miss;
+		activity.score = sc_score;
+		activity.percent = percent;
 		startFlag=true;
 		Constant.Flag=false;
 	}

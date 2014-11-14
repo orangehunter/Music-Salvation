@@ -398,7 +398,7 @@ implements SurfaceHolder.Callback{
 				//選單按鈕----------------------------------------------------------------------------------------------------
 			}
 
-			
+
 			//左半部選單控制至此=======================================================
 
 
@@ -482,13 +482,13 @@ implements SurfaceHolder.Callback{
 						}
 						else if(left_btm1.getBottom()){
 							left_btm1.setBottomTo(false);
-	
+
 						}
 					}
 					else if(left_btm2.isIn(pointx, pointy))
 					{
 						if(!left_btm2.getBottom()){
-	
+
 							left_btm1.setBottomTo(false);
 							left_btm2.setBottomTo(true);
 							left_btm3.setBottomTo(false);
@@ -497,7 +497,7 @@ implements SurfaceHolder.Callback{
 						}
 						else if(left_btm2.getBottom()){
 							left_btm2.setBottomTo(false);
-	
+
 						}
 					}
 					else if(left_btm3.isIn(pointx, pointy)){
@@ -510,9 +510,9 @@ implements SurfaceHolder.Callback{
 						}
 						else if(left_btm3.getBottom()){
 							left_btm3.setBottomTo(false);
-	
+
 						}
-	
+
 					}
 					else if(left_btm4.isIn(pointx, pointy)){
 						if(!left_btm4.getBottom()){
@@ -521,102 +521,102 @@ implements SurfaceHolder.Callback{
 					}
 					else if(left_btm5.isIn(pointx, pointy)){
 						if(!left_btm5.getBottom()){
-	
+
 						}
 					}
-				
-				//-------------音效按鈕切換區------------------
-				if(sebtm1.isIn(pointx, pointy)){
-					if(!sebtm1.getBottom()){
-						sebtm1.setBottomTo(true);
-						sebtm2.setBottomTo(false);
-						sebtm3.setBottomTo(false);
-						sebtm4.setBottomTo(false);
-						sebtm5.setBottomTo(false);
-						sp.play(sp_id[0], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
-						activity.sp_num=0;
-						activity.writeData();
+
+					//-------------音效按鈕切換區------------------
+					if(sebtm1.isIn(pointx, pointy)){
+						if(!sebtm1.getBottom()){
+							sebtm1.setBottomTo(true);
+							sebtm2.setBottomTo(false);
+							sebtm3.setBottomTo(false);
+							sebtm4.setBottomTo(false);
+							sebtm5.setBottomTo(false);
+							sp.play(sp_id[0], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+							activity.sp_num=0;
+							activity.writeData();
+						}
+						else if(sebtm1.getBottom()){
+							sebtm1.setBottomTo(false);
+							activity.sp_num=-1;
+							activity.writeData();
+						}
 					}
-					else if(sebtm1.getBottom()){
-						sebtm1.setBottomTo(false);
-						activity.sp_num=-1;
-						activity.writeData();
+					else if(sebtm2.isIn(pointx, pointy)){
+						if(!sebtm2.getBottom()){
+							sebtm1.setBottomTo(false);
+							sebtm2.setBottomTo(true);
+							sebtm3.setBottomTo(false);
+							sebtm4.setBottomTo(false);
+							sebtm5.setBottomTo(false);
+							sp.play(sp_id[1], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+							activity.sp_num=1;
+							activity.writeData();
+						}
+						else if(sebtm2.getBottom()){
+							sebtm2.setBottomTo(false);
+							activity.sp_num=-1;
+							activity.writeData();
+						}
 					}
-				}
-				else if(sebtm2.isIn(pointx, pointy)){
-					if(!sebtm2.getBottom()){
-						sebtm1.setBottomTo(false);
-						sebtm2.setBottomTo(true);
-						sebtm3.setBottomTo(false);
-						sebtm4.setBottomTo(false);
-						sebtm5.setBottomTo(false);
-						sp.play(sp_id[1], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
-						activity.sp_num=1;
-						activity.writeData();
+					else if(sebtm3.isIn(pointx, pointy)){
+						if(!sebtm3.getBottom()){
+							sebtm1.setBottomTo(false);
+							sebtm2.setBottomTo(false);
+							sebtm3.setBottomTo(true);
+							sebtm4.setBottomTo(false);
+							sebtm5.setBottomTo(false);
+							sp.play(sp_id[2], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+							activity.sp_num=2;
+							activity.writeData();
+						}
+						else if(sebtm3.getBottom()){
+							sebtm3.setBottomTo(false);
+							activity.sp_num=-1;
+							activity.writeData();
+						}
 					}
-					else if(sebtm2.getBottom()){
-						sebtm2.setBottomTo(false);
-						activity.sp_num=-1;
-						activity.writeData();
+					else if(sebtm4.isIn(pointx, pointy)){
+						if(!sebtm4.getBottom()){
+							sebtm1.setBottomTo(false);
+							sebtm2.setBottomTo(false);
+							sebtm3.setBottomTo(false);
+							sebtm4.setBottomTo(true);
+							sebtm5.setBottomTo(false);
+							sp.play(sp_id[3], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+							activity.sp_num=3;
+							activity.writeData();
+						}
+						else if(sebtm4.getBottom()){
+							sebtm4.setBottomTo(false);
+							activity.sp_num=-1;
+							activity.writeData();
+						}
 					}
-				}
-				else if(sebtm3.isIn(pointx, pointy)){
-					if(!sebtm3.getBottom()){
-						sebtm1.setBottomTo(false);
-						sebtm2.setBottomTo(false);
-						sebtm3.setBottomTo(true);
-						sebtm4.setBottomTo(false);
-						sebtm5.setBottomTo(false);
-						sp.play(sp_id[2], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
-						activity.sp_num=2;
-						activity.writeData();
+					else if(sebtm5.isIn(pointx, pointy)){
+						if(!sebtm5.getBottom()){
+							sebtm1.setBottomTo(false);
+							sebtm2.setBottomTo(false);
+							sebtm3.setBottomTo(false);
+							sebtm4.setBottomTo(false);
+							sebtm5.setBottomTo(true);
+							sp.play(sp_id[4], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+							activity.sp_num=4;
+							activity.writeData();
+						}
+						else if(sebtm5.getBottom()){
+							sebtm5.setBottomTo(false);
+							activity.sp_num=-1;
+							activity.writeData();
+						}
 					}
-					else if(sebtm3.getBottom()){
-						sebtm3.setBottomTo(false);
-						activity.sp_num=-1;
-						activity.writeData();
+					if(mp_Volume_bar.isOn(pointx, pointy)){
+						mp_Volume_bar.isOn=true;
 					}
-				}
-				else if(sebtm4.isIn(pointx, pointy)){
-					if(!sebtm4.getBottom()){
-						sebtm1.setBottomTo(false);
-						sebtm2.setBottomTo(false);
-						sebtm3.setBottomTo(false);
-						sebtm4.setBottomTo(true);
-						sebtm5.setBottomTo(false);
-						sp.play(sp_id[3], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
-						activity.sp_num=3;
-						activity.writeData();
+					if(sp_Volume_bar.isOn(pointx, pointy)){
+						sp_Volume_bar.isOn=true;
 					}
-					else if(sebtm4.getBottom()){
-						sebtm4.setBottomTo(false);
-						activity.sp_num=-1;
-						activity.writeData();
-					}
-				}
-				else if(sebtm5.isIn(pointx, pointy)){
-					if(!sebtm5.getBottom()){
-						sebtm1.setBottomTo(false);
-						sebtm2.setBottomTo(false);
-						sebtm3.setBottomTo(false);
-						sebtm4.setBottomTo(false);
-						sebtm5.setBottomTo(true);
-						sp.play(sp_id[4], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
-						activity.sp_num=4;
-						activity.writeData();
-					}
-					else if(sebtm5.getBottom()){
-						sebtm5.setBottomTo(false);
-						activity.sp_num=-1;
-						activity.writeData();
-					}
-				}
-				if(mp_Volume_bar.isOn(pointx, pointy)){
-					mp_Volume_bar.isOn=true;
-				}
-				if(sp_Volume_bar.isOn(pointx, pointy)){
-					sp_Volume_bar.isOn=true;
-				}
 				}
 				//左半部選單按鈕事件至此=====================================================
 

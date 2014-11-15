@@ -50,14 +50,14 @@ implements SurfaceHolder.Callback{
 	Bitmap grey_square;
 	Bitmap grey_xx;
 	Bitmap grey_triangle;
-	*/
+	 */
 	//浮游砲宣告===============================================
 	Bitmap d_red;
 	Bitmap d_blue;
 	Bitmap d_yellow;
 	Bitmap d_green;
 	//浮游砲宣告-----------------------------------------------
-	
+
 	//光束===================================================
 	Bitmap lazer_red;
 	Bitmap lazer_blue;
@@ -85,13 +85,20 @@ implements SurfaceHolder.Callback{
 	Bitmap hpfont;
 	Bitmap hpfont_red;
 
+	Bitmap pause;
+	Bitmap pause2;
+	Bitmap pause_back;
+	Bitmap re_play;
+	Bitmap re_start;
+	Bitmap re_map;
+
 	//特效光宣告================================
 	Bitmap[] Cyan 	= new Bitmap [6],
 			Red		= new Bitmap [6],
 			Green 	= new Bitmap [6],
 			Yellow 	= new Bitmap [6],
 			Blue 	= new Bitmap [6];
-	
+
 	int Effect_numbers=5;
 	double Effect_speed=0.5;
 	shortAnimax  []
@@ -107,6 +114,13 @@ implements SurfaceHolder.Callback{
 	Bottom btn_xx;
 	Bottom btn_triangle;
 
+	//宣告PAUSE、返回遊戲、從頭開始、返回關卡地圖按鈕==================================================
+	Bottom btn_pause;
+	Bottom btn_re_play;
+	Bottom btn_re_start;
+	Bottom btn_re_map;
+	//宣告PAUSE、返回遊戲、從頭開始、返回關卡地圖按鈕--------------------------------------------------
+
 	Number score;
 
 	int hp = 20;
@@ -115,7 +129,7 @@ implements SurfaceHolder.Callback{
 	int hp_color=Color.GREEN;
 	int hp_to_yellow=12;
 	int hp_to_red = 6;
-	
+
 	int combo=0;
 	int maxcombo = 0;
 	int sc_nice= 0;
@@ -129,6 +143,9 @@ implements SurfaceHolder.Callback{
 	int Hitflag = 0;
 	int Hitcount = 0;
 	//控制判定顯示FLAG------------------------------
+
+	int pointx;
+	int pointy;
 
 	Paint paint;			//畫筆的參考
 	int i=0,j=5;
@@ -197,9 +214,17 @@ implements SurfaceHolder.Callback{
 		sight =	Graphic.bitSize(LoadBitmap(R.drawable.sightv2), 100, 100);
 		//cpu   = Graphic.bitSize(LoadBitmap(R.drawable.cpu_chips), 162, 162);
 
-		game_easy = Graphic.bitSize(LoadBitmap(R.drawable.game_easy), 118, 25);
-		game_normal = Graphic.bitSize(LoadBitmap(R.drawable.game_normal), 118, 25);
-		game_hard = Graphic.bitSize(LoadBitmap(R.drawable.game_hard), 118, 25);
+		game_easy = Graphic.bitSize(LoadBitmap(R.drawable.easyv2), 205, 78);
+		game_normal = Graphic.bitSize(LoadBitmap(R.drawable.normalv2psd), 205, 78);
+		game_hard = Graphic.bitSize(LoadBitmap(R.drawable.hardv2), 205, 78);
+
+		pause = Graphic.bitSize(LoadBitmap(R.drawable.pause), 205, 78);
+		pause2 = Graphic.bitSize(LoadBitmap(R.drawable.pause2), 205, 78);
+		pause_back = Graphic.bitSize(LoadBitmap(R.drawable.pasue_back), 450, 310);
+
+		re_map = Graphic.bitSize(LoadBitmap(R.drawable.return_map), 390, 75);
+		re_play = Graphic.bitSize(LoadBitmap(R.drawable.re_play), 390, 75);
+		re_start = Graphic.bitSize(LoadBitmap(R.drawable.re_start), 390, 75);
 
 		/*
 		circle = Graphic.bitSize(LoadBitmap(R.drawable.btn_circle_v2), 150, 150);
@@ -210,8 +235,8 @@ implements SurfaceHolder.Callback{
 		grey_square = Graphic.bitSize(LoadBitmap(R.drawable.grey_square), 150, 150);
 		grey_triangle = Graphic.bitSize(LoadBitmap(R.drawable.grey_tirangle), 150, 150);
 		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 150, 150);
-		*/
-		
+		 */
+
 		//浮游砲與光束=======================================================================
 		d_blue = Graphic.bitSize(LoadBitmap(R.drawable.d_blue), 250, 170);
 		d_red = Graphic.bitSize(LoadBitmap(R.drawable.d_red), 250, 170);
@@ -222,7 +247,7 @@ implements SurfaceHolder.Callback{
 		lazer_green = Graphic.bitSize(LoadBitmap(R.drawable.lazer_g2), 290, 50);
 		lazer_yellow = Graphic.bitSize(LoadBitmap(R.drawable.lazer_y2), 275, 50);
 		//浮游砲與光束------------------------------------------------------------------------
-		
+
 
 		track = Graphic.bitSize(LoadBitmap(R.drawable.track_v2), 80, 660);
 
@@ -245,7 +270,7 @@ implements SurfaceHolder.Callback{
 		boss = Graphic.bitSize(LoadBitmap(R.drawable.boss1), 200, 185);
 
 		//特效光（測試中）
-		
+
 		Cyan[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan00), 150, 150);
 		Cyan[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan01), 150, 150);
 		Cyan[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan02), 150, 150);
@@ -280,31 +305,36 @@ implements SurfaceHolder.Callback{
 		Blue[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue03), 150, 150);
 		Blue[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue04), 150, 150);
 		Blue[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue05), 150, 150);
-		
-		
-		
+
+
+
 		for(int i=0;i<Effect_numbers;i++){
-		Effect_Cyan[i]=new shortAnimax(Cyan);
-		
-		Effect_Red[i]=new shortAnimax(Red);
-		Effect_Red[i].setPosition(450,600);
-		
-		Effect_Yellow[i]=new shortAnimax(Yellow);
-		Effect_Yellow[i].setPosition(575, 600);
-		
-		Effect_Green[i]=new shortAnimax(Green);
-		Effect_Green[i].setPosition(700, 600);
-		
-		Effect_Blue[i]=new shortAnimax(Blue);
-		Effect_Blue[i].setPosition(825, 600);
+			Effect_Cyan[i]=new shortAnimax(Cyan);
+
+			Effect_Red[i]=new shortAnimax(Red);
+			Effect_Red[i].setPosition(450,600);
+
+			Effect_Yellow[i]=new shortAnimax(Yellow);
+			Effect_Yellow[i].setPosition(575, 600);
+
+			Effect_Green[i]=new shortAnimax(Green);
+			Effect_Green[i].setPosition(700, 600);
+
+			Effect_Blue[i]=new shortAnimax(Blue);
+			Effect_Blue[i].setPosition(825, 600);
 		}
 
-		
+
 		btn_circle = new Bottom(activity, d_red, d_red, 125, 450);
 		btn_square = new Bottom(activity, d_yellow, d_yellow, 180, 640);
 		btn_triangle = new Bottom(activity,d_green, d_green, 1100, 640);
 		btn_xx = new Bottom(activity, d_blue, d_blue, 1150, 450);
-		
+
+		btn_pause = new Bottom(activity, pause2, pause , 90, 105);
+		btn_re_map = new Bottom(activity, re_map, re_map, 640 , 410);
+		btn_re_play = new Bottom(activity, re_play, re_play,640 , 315);
+		btn_re_start = new Bottom(activity, re_start , re_start,640 ,225);
+
 
 		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.virus_red), 80, 80);
 		chart_s=Graphic.bitSize(LoadBitmap(R.drawable.virus_yello), 80, 80);
@@ -496,16 +526,29 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, sight, 575, 600, 0, 255, paint);
 			Graphic.drawPic(canvas, sight, 700, 600, 0, 255, paint);
 			Graphic.drawPic(canvas, sight, 825, 600, 0, 255, paint);
+
 			btn_circle.drawBtm(canvas, paint);
 			btn_square.drawBtm(canvas, paint);
 			btn_triangle.drawBtm(canvas, paint);
 			btn_xx.drawBtm(canvas, paint);
-			
+			btn_pause.drawBtm(canvas, paint);
+
+			//PAUSE選單控制==========================================================
+			if(btn_pause.getBottom()){
+
+				Graphic.drawPic(canvas, pause_back, 640, 315, 0, 255, paint);
+				btn_re_map.drawBtm(canvas, paint);
+				btn_re_play.drawBtm(canvas, paint);
+				btn_re_start.drawBtm(canvas, paint);
+			}
+			//PAUSE選單控制-----------------------------------------------------------
+
+
 			//combo============================================
 			Graphic.drawPic(canvas, hits, 290, 200, 0, 255, paint);
 			//combo--------------------------------------------
 
-			
+
 			//特效光繪圖===========================================================================
 			for(int i=0;i<Effect_numbers;i++){
 				if(Effect_Cyan[i].getFlag()){
@@ -514,7 +557,7 @@ implements SurfaceHolder.Callback{
 				if(Effect_Red[i].getFlag()){
 					Graphic.drawPic(canvas, lazer_red, 338, 550, 0, 255, paint);
 					Effect_Red[i].drawEffect(Effect_speed, canvas, paint);
-					
+
 				}
 				if(Effect_Yellow[i].getFlag()){
 					Graphic.drawPic(canvas, lazer_yellow, 432, 619, 0, 255, paint);
@@ -547,7 +590,7 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
 			score.setSize(20, 30);
 			score.drawNumberRightStart(1250, 20, sc_score, Number.Wite, canvas, paint);
-			
+
 			//combo顯示============================================================
 			score.setSize(50, 70);
 			score.drawNumberRightStart(230, 190, combo, Number.Cyan, canvas, paint);
@@ -556,9 +599,9 @@ implements SurfaceHolder.Callback{
 			//Graphic.drawPic(canvas, hpfont_red, 95, 50, 0, 255, paint);
 
 			//難易度
-			Graphic.drawPic(canvas, game_easy, 635, 20, 0, 255, paint);
-			Graphic.drawPic(canvas, game_normal, 635, 20, 0, 255, paint);
-			Graphic.drawPic(canvas, game_hard, 635, 20, 0, 255, paint);
+			Graphic.drawPic(canvas, game_easy, 1180, 105, 0, 255, paint);
+			Graphic.drawPic(canvas, game_normal, 1180, 105, 0, 255, paint);
+			Graphic.drawPic(canvas, game_hard, 1180, 105, 0, 255, paint);
 
 			btn_circle.setBottomTo(false);	
 			btn_square.setBottomTo(false);	
@@ -588,7 +631,7 @@ implements SurfaceHolder.Callback{
 			}
 
 
-			
+
 		}
 	}
 	@Override
@@ -597,6 +640,9 @@ implements SurfaceHolder.Callback{
 
 		// get pointer ID
 		int pointerId = event.getPointerId(pointerIndex);
+
+		pointx=(int) event.getX();
+		pointy=(int) event.getY();
 
 		switch(event.getActionMasked())
 		{
@@ -687,6 +733,40 @@ implements SurfaceHolder.Callback{
 				}
 				btn_pointer.put(pointerId, 3);
 			}
+
+			//PAUSE按鈕功能==============================================
+			if(btn_pause.isIn(pointx, pointy)){
+				if(!btn_pause.getBottom()){
+					btn_pause.setBottomTo(true);
+				}
+				else if(btn_pause.getBottom()){
+					btn_pause.setBottomTo(false);
+				}
+			}
+			//PAUSE按鈕功能----------------------------------------------
+
+			//返回遊戲、從頭開始、返回關卡選擇按鈕功能================================
+			if(btn_pause.getBottom()){   //必須在PAUSE按鈕為TRUE的時候才生效
+
+				if(btn_re_play.isIn(pointx, pointy)){
+					//TODO 返回遊戲
+					btn_pause.setBottomTo(false);
+				}
+				if(btn_re_start.isIn(pointx, pointy)){
+					//TODO 從頭開始
+					btn_pause.setBottomTo(false);
+				}
+				if(btn_re_map.isIn(pointx, pointy)){
+					activity.changeView(2);
+					btn_pause.setBottomTo(false);
+
+				}
+			}
+
+			//返回遊戲、從頭開始、返回關卡選擇按鈕功能---------------------------------
+
+
+
 			//if(startbtm.isIn(pointx, pointy)){
 			//進入地圖畫面
 			//activity.changeView(2);
@@ -772,7 +852,7 @@ implements SurfaceHolder.Callback{
 		sc_miss++;
 		Hitflag = 4;
 		Hitcount = 255;
-		
+
 	}
 
 	public void playSP(){

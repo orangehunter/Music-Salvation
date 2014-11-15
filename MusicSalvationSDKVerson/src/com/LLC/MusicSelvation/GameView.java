@@ -17,13 +17,11 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.SoundPool;
-import android.net.Uri;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 @SuppressLint({ "ViewConstructor", "WrongCall", "ClickableViewAccessibility", "NewApi" })
 public class GameView extends SurfaceView
@@ -50,15 +48,15 @@ implements SurfaceHolder.Callback{
 	Bitmap grey_square;
 	Bitmap grey_xx;
 	Bitmap grey_triangle;
-	*/
-	//浮游砲宣告===============================================
+	 */
+	//TAG 浮游砲宣告===============================================
 	Bitmap d_red;
 	Bitmap d_blue;
 	Bitmap d_yellow;
 	Bitmap d_green;
 	//浮游砲宣告-----------------------------------------------
-	
-	//光束===================================================
+
+	//TAG 光束===================================================
 	Bitmap lazer_red;
 	Bitmap lazer_blue;
 	Bitmap lazer_green;
@@ -85,13 +83,13 @@ implements SurfaceHolder.Callback{
 	Bitmap hpfont;
 	Bitmap hpfont_red;
 
-	//特效光宣告================================
+	//TAG 特效光宣告================================
 	Bitmap[] Cyan 	= new Bitmap [6],
 			Red		= new Bitmap [6],
 			Green 	= new Bitmap [6],
 			Yellow 	= new Bitmap [6],
 			Blue 	= new Bitmap [6];
-	
+
 	int Effect_numbers=5;
 	double Effect_speed=0.5;
 	shortAnimax  []
@@ -115,7 +113,9 @@ implements SurfaceHolder.Callback{
 	int hp_color=Color.GREEN;
 	int hp_to_yellow=12;
 	int hp_to_red = 6;
-	
+
+	int boss_time_Flag;
+
 	int combo=0;
 	int maxcombo = 0;
 	int sc_nice= 0;
@@ -125,7 +125,7 @@ implements SurfaceHolder.Callback{
 	int percent = 0;
 	int sc_score = 0;
 
-	//控制判定顯示FLAG==============================
+	//TAG 控制判定顯示FLAG==============================
 	int Hitflag = 0;
 	int Hitcount = 0;
 	//控制判定顯示FLAG------------------------------
@@ -162,7 +162,6 @@ implements SurfaceHolder.Callback{
 	SparseArray<PointF> mActivePointers=new SparseArray<PointF>();
 	SparseArray<Integer> btn_pointer=new SparseArray<Integer>();
 
-	int temp;
 
 	public GameView(MainActivity mainActivity) {
 		super(mainActivity);
@@ -210,9 +209,9 @@ implements SurfaceHolder.Callback{
 		grey_square = Graphic.bitSize(LoadBitmap(R.drawable.grey_square), 150, 150);
 		grey_triangle = Graphic.bitSize(LoadBitmap(R.drawable.grey_tirangle), 150, 150);
 		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 150, 150);
-		*/
-		
-		//浮游砲與光束=======================================================================
+		 */
+
+		//TAG 浮游砲與光束=======================================================================
 		d_blue = Graphic.bitSize(LoadBitmap(R.drawable.d_blue), 250, 170);
 		d_red = Graphic.bitSize(LoadBitmap(R.drawable.d_red), 250, 170);
 		d_green = Graphic.bitSize(LoadBitmap(R.drawable.d_green), 260, 130);
@@ -222,7 +221,7 @@ implements SurfaceHolder.Callback{
 		lazer_green = Graphic.bitSize(LoadBitmap(R.drawable.lazer_g2), 290, 50);
 		lazer_yellow = Graphic.bitSize(LoadBitmap(R.drawable.lazer_y2), 275, 50);
 		//浮游砲與光束------------------------------------------------------------------------
-		
+
 
 		track = Graphic.bitSize(LoadBitmap(R.drawable.track_v2), 80, 660);
 
@@ -245,7 +244,7 @@ implements SurfaceHolder.Callback{
 		boss = Graphic.bitSize(LoadBitmap(R.drawable.boss1), 200, 185);
 
 		//特效光（測試中）
-		
+
 		Cyan[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan00), 150, 150);
 		Cyan[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan01), 150, 150);
 		Cyan[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan02), 150, 150);
@@ -280,31 +279,31 @@ implements SurfaceHolder.Callback{
 		Blue[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue03), 150, 150);
 		Blue[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue04), 150, 150);
 		Blue[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue05), 150, 150);
-		
-		
-		
+
+
+
 		for(int i=0;i<Effect_numbers;i++){
-		Effect_Cyan[i]=new shortAnimax(Cyan);
-		
-		Effect_Red[i]=new shortAnimax(Red);
-		Effect_Red[i].setPosition(450,600);
-		
-		Effect_Yellow[i]=new shortAnimax(Yellow);
-		Effect_Yellow[i].setPosition(575, 600);
-		
-		Effect_Green[i]=new shortAnimax(Green);
-		Effect_Green[i].setPosition(700, 600);
-		
-		Effect_Blue[i]=new shortAnimax(Blue);
-		Effect_Blue[i].setPosition(825, 600);
+			Effect_Cyan[i]=new shortAnimax(Cyan);
+
+			Effect_Red[i]=new shortAnimax(Red);
+			Effect_Red[i].setPosition(450,600);
+
+			Effect_Yellow[i]=new shortAnimax(Yellow);
+			Effect_Yellow[i].setPosition(575, 600);
+
+			Effect_Green[i]=new shortAnimax(Green);
+			Effect_Green[i].setPosition(700, 600);
+
+			Effect_Blue[i]=new shortAnimax(Blue);
+			Effect_Blue[i].setPosition(825, 600);
 		}
 
-		
+
 		btn_circle = new Bottom(activity, d_red, d_red, 125, 450);
 		btn_square = new Bottom(activity, d_yellow, d_yellow, 180, 640);
 		btn_triangle = new Bottom(activity,d_green, d_green, 1100, 640);
 		btn_xx = new Bottom(activity, d_blue, d_blue, 1150, 450);
-		
+
 
 		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.virus_red), 80, 80);
 		chart_s=Graphic.bitSize(LoadBitmap(R.drawable.virus_yello), 80, 80);
@@ -322,7 +321,6 @@ implements SurfaceHolder.Callback{
 		mp.setOnCompletionListener(new OnCompletionListener() {
 			@Override
 			public void onCompletion(MediaPlayer mp) {
-				//TODO 切換至計分畫面
 				activity.changeView(4);
 			}
 		});
@@ -359,11 +357,55 @@ implements SurfaceHolder.Callback{
 	}
 	@SuppressLint("DrawAllocation")
 	@Override
-	protected void onDraw(Canvas canvas) {//重新定義的繪制方法
+	protected void onDraw(Canvas canvas) {
 		if(canvas!=null){
+			// TAG 載入關卡設定及譜面檔===============================================
 			if(startFlag){
 				JSONObject json=null;
-				json=activity.read( "freely_tomorrow.mp3");
+				switch(activity.level){//關卡
+				case 0 :
+					this.boss_time_Flag=0;//TODO BOSS進場時間
+					switch(activity.difficulty){//難度
+					case 0 :
+						json=activity.read( "freely_tomorrow.mp3");
+						break;
+					case 1 :
+
+						break;
+					case 2 :
+
+						break;
+					}
+					break;
+				case 1 :
+					this.boss_time_Flag=0;
+					switch(activity.difficulty){
+					case 0 :
+
+						break;
+					case 1 :
+
+						break;
+					case 2 :
+
+						break;
+					}
+					break;
+				case 2 :
+					this.boss_time_Flag=0;
+					switch(activity.difficulty){
+					case 0 :
+
+						break;
+					case 1 :
+
+						break;
+					case 2 :
+
+						break;
+					}
+					break;
+				}
 				if(json!=null){
 					try {
 						BtR=json.getJSONObject("R");
@@ -386,7 +428,8 @@ implements SurfaceHolder.Callback{
 				mp.start();
 				startFlag=false;
 			}
-			//TODO 掃描=================================================================================
+			//載入關卡設定及譜面檔---------------------------------------------------------------------------------------------------------------------------
+			//TAG 掃描=================================================================================
 			if(cs.R_scan_flag){
 				for(int i=0;i<chartObject;i++){
 					if(!cr_btm[i].getFlag()){
@@ -433,7 +476,7 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, track, 700, 390, 0, 255, paint);
 			Graphic.drawPic(canvas, track, 825, 390, 0, 255, paint);
 
-			//判定顯示======================================================
+			//TAG 判定顯示======================================================
 			if(Hitcount > 0)
 			{
 				switch(Hitflag){  //偵測hitflag目前的狀態
@@ -460,9 +503,8 @@ implements SurfaceHolder.Callback{
 				Hitcount = 0;
 			}
 			//判定顯示--------------------------------------------------------
-			//HP檢查==========================================================
+			//TAG HP檢查==========================================================
 			if(hp_x==182+0*55){
-				//TODO 切換至計分畫面
 				activity.changeView(4);
 			}
 			//HP檢查----------------------------------------------------------
@@ -500,13 +542,8 @@ implements SurfaceHolder.Callback{
 			btn_square.drawBtm(canvas, paint);
 			btn_triangle.drawBtm(canvas, paint);
 			btn_xx.drawBtm(canvas, paint);
-			
-			//combo============================================
-			Graphic.drawPic(canvas, hits, 290, 200, 0, 255, paint);
-			//combo--------------------------------------------
 
-			
-			//特效光繪圖===========================================================================
+			//TAG 特效光繪圖===========================================================================
 			for(int i=0;i<Effect_numbers;i++){
 				if(Effect_Cyan[i].getFlag()){
 					Effect_Cyan[i].drawEffect(Effect_speed, canvas, paint);
@@ -514,7 +551,7 @@ implements SurfaceHolder.Callback{
 				if(Effect_Red[i].getFlag()){
 					Graphic.drawPic(canvas, lazer_red, 338, 550, 0, 255, paint);
 					Effect_Red[i].drawEffect(Effect_speed, canvas, paint);
-					
+
 				}
 				if(Effect_Yellow[i].getFlag()){
 					Graphic.drawPic(canvas, lazer_yellow, 432, 619, 0, 255, paint);
@@ -547,8 +584,9 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
 			score.setSize(20, 30);
 			score.drawNumberRightStart(1250, 20, sc_score, Number.Wite, canvas, paint);
-			
-			//combo顯示============================================================
+
+			//TAG combo顯示============================================================
+			Graphic.drawPic(canvas, hits, 290, 200, 0, 255, paint);
 			score.setSize(50, 70);
 			score.drawNumberRightStart(230, 190, combo, Number.Cyan, canvas, paint);
 			//combo顯示-------------------------------------------------------------
@@ -588,7 +626,7 @@ implements SurfaceHolder.Callback{
 			}
 
 
-			
+
 		}
 	}
 	@Override
@@ -722,6 +760,7 @@ implements SurfaceHolder.Callback{
 
 		return true;
 	}
+	//TAG 分數
 	public void scoreAdd(int dis){
 		if(this.hp!=this.hp_max){
 			if(this.hp<this.hp_max){
@@ -772,7 +811,7 @@ implements SurfaceHolder.Callback{
 		sc_miss++;
 		Hitflag = 4;
 		Hitcount = 255;
-		
+
 	}
 
 	public void playSP(){
@@ -785,21 +824,6 @@ implements SurfaceHolder.Callback{
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,int height) {
 
 	}
-
-	@Override
-	protected void onAttachedToWindow() {
-		this.hp=this.hp_max;
-		activity.virus = 0;  //病毒數量
-		activity.percent = 0; //判定是否過關數量
-		activity.nice = 0;
-		activity.hit = 0;
-		activity.safe = 0;
-		activity.miss = 0;
-		activity.score = 0;
-		activity.combo = 0;  
-		super.onAttachedToWindow();
-	}
-
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
 		//TODO 暫停選單

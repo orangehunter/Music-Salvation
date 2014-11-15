@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -66,7 +67,10 @@ public class MainActivity extends Activity{
 	
 	//選關參數=====================================
 	int level;//關卡
+	int levels=3;//關卡總數
 	int difficulty;//難度
+	int [][]hight_score=new int [3][3];
+	int [][]hight_rank=new int [3][3];
 	//選關參數-------------------------------------
 	
 	//存檔用參數====================================
@@ -114,7 +118,7 @@ public class MainActivity extends Activity{
 				goToTestView();
 				break;
 			case 255:
-				System.exit(0);
+				Exit();
 				break;
 			}
 		}
@@ -195,6 +199,10 @@ public class MainActivity extends Activity{
 		// TODO 自動產生的方法 Stub
 
 	}
+	private void Exit() {
+		writeData();
+		System.exit(0);//離開游戲
+	}
 
 	public void callToast(String what)//Toast訊息傳送
 	{
@@ -270,7 +278,7 @@ public class MainActivity extends Activity{
 				break;
 			case 0://歡迎界面
 			case 1://主控制界面
-				System.exit(0);//離開游戲
+				Exit();
 				break;
 
 			}
@@ -442,14 +450,19 @@ public class MainActivity extends Activity{
 		}
 	}
 	
-	public void readData(){//存檔讀取
+	public void readData(){//TAG 存檔讀取
 		String fileName="Data.save";
 		JSONObject json=null;
 		String content=""; //內容
 		byte[] buff = new byte[1024];
 
 		try {
-			FileInputStream file=openFileInput(fileName);
+			File sdCard = Environment.getExternalStorageDirectory();
+			File dir = new File (sdCard.getAbsolutePath() + "/charts/data");
+			dir.mkdirs();
+			File files = new File(dir,fileName);
+			FileInputStream file =new FileInputStream(files);
+			//FileInputStream file=openFileInput(fileName);
 			while((file.read(buff))!=-1){
 				content+=new String(buff).trim();
 			}
@@ -457,13 +470,32 @@ public class MainActivity extends Activity{
 			mp_Voiume=Float.valueOf(json.getString("mp_Voiume"));
 			sp_Voiume=Float.valueOf(json.getString("sp_Voiume"));
 			sp_num=json.getInt("sp_num");
+			
+			for(int i=0;i<levels;i++){
+				for(int j=0;j<levels;j++){
+					if(json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j)!=null){
+						hight_score[i][j]=json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).optInt("hight_score");
+						hight_rank[i][j]=json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).optInt("hight_rank");
+					}else{			
+						hight_score[i][j]=0;
+						hight_rank[i][j]=0;
+					}
+				}
+			}
 			file.close();
 			Log.v("Data", "Data read");
 		} catch (FileNotFoundException e) {
 			mp_Voiume=1;
 			sp_Voiume=1;
 			sp_num=0;
+			for(int i=0;i<levels;i++){
+				for(int j=0;j<3;j++){
+					hight_score[i][j]=0;
+					hight_rank[i][j]=0;
+				}
+			}
 			Log.v("Data", "Data not found");
+			writeData();
 			e.printStackTrace();
 		} catch (IOException e) {
 			Log.v("Data","讀取檔案失敗");
@@ -480,13 +512,28 @@ public class MainActivity extends Activity{
 			json.put("mp_Voiume", String.valueOf(mp_Voiume));
 			json.put("sp_Voiume", String.valueOf(sp_Voiume));
 			json.put("sp_num",sp_num);
+			
+			json.put("level_data", new JSONArray());
+			for(int i=0;i<levels;i++){
+				json.optJSONArray("level_data").put(i, new JSONArray());
+				for(int j=0;j<3;j++){
+					json.optJSONArray("level_data").optJSONArray(i).put(j, new JSONObject());
+					json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).put("hight_score",hight_score[i][j]);
+					json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).put("hight_rank",hight_rank[i][j]);
+				}
+			}
 		} catch (JSONException e) {
 			Log.v("Data","無法將參數導入json");
 			e.printStackTrace();
 		}
 		try {
-			String fileName="Data.save";
-			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
+			/*String fileName="Data.save";
+			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);*/
+			File sdCard = Environment.getExternalStorageDirectory();
+			File dir = new File (sdCard.getAbsolutePath() + "/charts/data");
+			dir.mkdirs();
+			File file = new File(dir, "Data.save");
+			FileOutputStream writer =new FileOutputStream(file);
 			writer.write(json.toString().getBytes());
 			writer.close();
 			Log.v("Data", "Data saved");

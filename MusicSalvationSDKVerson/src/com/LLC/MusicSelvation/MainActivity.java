@@ -69,6 +69,9 @@ public class MainActivity extends Activity{
 	int difficulty;//難度
 	//選關參數-------------------------------------
 	
+	//用來辨識難易度的FLAG===========================
+	int modelFlag;
+	//用來辨識難易度的FLAG---------------------------
 	//存檔用參數====================================
 	float mp_Voiume;
 	float sp_Voiume;

@@ -38,8 +38,17 @@ implements SurfaceHolder.Callback{
 	Bitmap song_vol2;
 	Bitmap remain;
 	Bitmap remain2;
-	Bitmap offline;
-
+	
+	//速度與判定圖片宣告=====================================
+	Bitmap timing;
+	Bitmap timing2;
+	Bitmap timing_back;
+	Bitmap timing_r_arrow;
+	Bitmap timing_l_arrow;
+	Bitmap timing_num[] = new Bitmap [11];
+	//速度與判定圖片宣告----------------------------------------
+	
+	
 	Bitmap volchback;
 	Bitmap volBar;
 	Bitmap volbtn;
@@ -55,6 +64,17 @@ implements SurfaceHolder.Callback{
 	Bitmap right_easy;
 	Bitmap right_normal;
 	Bitmap right_hard;
+
+	//新宣告的難易度與箭頭圖片===========================================
+	Bitmap right_easy_ch;
+	Bitmap right_normal_ch;
+	Bitmap right_hard_ch;
+	Bitmap right_arrow_left;
+	Bitmap right_arrow_left2;
+	Bitmap right_arrow_right;
+	Bitmap right_arrow_right2;
+	//新宣告的難易度與箭頭圖片-------------------------------------------
+
 	Bitmap right_start;
 	Bitmap stage01btn0;
 	Bitmap stage01btn;
@@ -70,6 +90,8 @@ implements SurfaceHolder.Callback{
 	Bitmap se05;
 	Bitmap se05l;
 
+	Bitmap model_ch;
+
 
 	Bottom menubtm; //MENU按鈕
 	Bottom left_btm1;
@@ -77,6 +99,10 @@ implements SurfaceHolder.Callback{
 	Bottom left_btm3;
 	Bottom left_btm4;
 	Bottom left_btm5;
+	Bottom speed_left_arrow;
+	Bottom speed_right_arrow;
+	Bottom timing_left_arrow;
+	Bottom timing_right_arrow;
 	MySeekBar mp_Volume_bar;
 	MySeekBar sp_Volume_bar;
 
@@ -92,6 +118,10 @@ implements SurfaceHolder.Callback{
 	Bottom hard;
 	Bottom model;
 	Bottom start;
+
+	//箭頭按鈕宣告================================================
+	Bottom arrow;
+	//箭頭按鈕宣告------------------------------------------------
 
 	SoundPool sp;
 	int sp_id[];
@@ -139,8 +169,19 @@ implements SurfaceHolder.Callback{
 
 	int baralpha = 0;
 	int sebaralpha = 0;
+	int speedbaralpha = 0;
 
 	int right_board_x=1680;
+	
+	int set_speed = 6;
+	int set_timing = 5;
+
+	
+	//最高分紀錄與RANK===============================
+	int score;
+	int rank;
+	Number num;
+	//最高分紀錄與RANK------------------------------
 
 	Paint paint;			//畫筆的參考
 	int i=0,j=5;
@@ -175,9 +216,10 @@ implements SurfaceHolder.Callback{
 		chbtmse2 = Graphic.bitSize(LoadBitmap( R.drawable.chbtmse2) , 263, 65);
 		song_vol = Graphic.bitSize(LoadBitmap( R.drawable.song_vol) , 221, 66);
 		song_vol2 = Graphic.bitSize(LoadBitmap( R.drawable.song_voltou) , 215, 66);
-		remain = Graphic.bitSize(LoadBitmap( R.drawable.remain) , 270, 72);
-		remain2 = Graphic.bitSize(LoadBitmap( R.drawable.remain_tou) , 262, 66);
-		offline = Graphic.bitSize(LoadBitmap( R.drawable.offline) , 114, 68);
+		remain = Graphic.bitSize(LoadBitmap( R.drawable.re_title) , 149, 53);
+		remain2 = Graphic.bitSize(LoadBitmap( R.drawable.re_title2) , 149, 53);
+		timing = Graphic.bitSize(LoadBitmap( R.drawable.speed_timing_font) , 253, 52);
+		timing2 = Graphic.bitSize(LoadBitmap( R.drawable.speed_timing_font2) , 253, 52);
 		volchback =  Graphic.bitSize(LoadBitmap(R.drawable.volchange_back),402 ,67 );
 		volBar = Graphic.bitSize(LoadBitmap(R.drawable.volbar),216 ,37 );
 		volbtn = Graphic.bitSize(LoadBitmap(R.drawable.volbtn),31 ,31 );
@@ -189,10 +231,23 @@ implements SurfaceHolder.Callback{
 		right_freely = Graphic.bitSize(LoadBitmap(R.drawable.right_freely), 378, 58);
 		right_boss01 = Graphic.bitSize(LoadBitmap(R.drawable.right_boss01), 402, 246);
 		right_st01Font = Graphic.bitSize(LoadBitmap(R.drawable.right_stage01infor), 389, 336);
-		right_easy = Graphic.bitSize(LoadBitmap(R.drawable.right_easy), 185, 54);
-		right_normal = Graphic.bitSize(LoadBitmap(R.drawable.right_normal), 185, 54);
-		right_hard = Graphic.bitSize(LoadBitmap(R.drawable.right_hard), 185, 54);
-		right_start = Graphic.bitSize(LoadBitmap(R.drawable.right_start), 154, 60);
+		right_easy = Graphic.bitSize(LoadBitmap(R.drawable.easyv2), 205, 80);
+		right_normal = Graphic.bitSize(LoadBitmap(R.drawable.normalv2psd), 205, 80);
+		right_hard = Graphic.bitSize(LoadBitmap(R.drawable.hardv2), 205, 80);
+		right_start = Graphic.bitSize(LoadBitmap(R.drawable.startv2), 175, 75);
+
+		//顯示難易度的按鈕與展開選單的箭頭===============================================================
+		model_ch =  Graphic.bitSize(LoadBitmap(R.drawable.model), 205, 80);
+		right_easy_ch = Graphic.bitSize(LoadBitmap(R.drawable.easyv2_ch), 205, 80);
+		right_normal_ch = Graphic.bitSize(LoadBitmap(R.drawable.normalv2_ch), 205, 80);
+		right_hard_ch = Graphic.bitSize(LoadBitmap(R.drawable.hardv2_ch), 205, 80);
+		right_arrow_left = Graphic.bitSize(LoadBitmap(R.drawable.map_arrow), 35, 50);
+		right_arrow_left2 = Graphic.bitSize(LoadBitmap(R.drawable.map_arrow2), 35, 50);
+		right_arrow_right = Graphic.bitSize(LoadBitmap(R.drawable.map_arrow_right), 35, 50);
+		right_arrow_right2 = Graphic.bitSize(LoadBitmap(R.drawable.map_arrow_right2), 35, 50);
+
+		//顯示難易度的按鈕與展開選單的箭頭===============================================================
+		
 		stage01btn0 = Graphic.bitSize(LoadBitmap(R.drawable.stage01btn0), 64, 64);
 		stage01btn = Graphic.bitSize(LoadBitmap(R.drawable.stage01btn1), 64, 64);
 
@@ -206,13 +261,37 @@ implements SurfaceHolder.Callback{
 		se04l = Graphic.bitSize(LoadBitmap(R.drawable.se04l),70 ,70 );
 		se05 = Graphic.bitSize(LoadBitmap(R.drawable.se05),70 ,70 );
 		se05l = Graphic.bitSize(LoadBitmap(R.drawable.se05l),70 ,70 );
+		
+		//速度與判定==============================================================
+		timing_back = Graphic.bitSize(LoadBitmap(R.drawable.timing_back), 390 ,295 );
+		timing_l_arrow = Graphic.bitSize(LoadBitmap(R.drawable.timing_l_arrow),45 ,40 );
+		timing_r_arrow = Graphic.bitSize(LoadBitmap(R.drawable.timing_r_arrow),45 ,40 );
+		timing_num[0] = Graphic.bitSize(LoadBitmap(R.drawable.ne5),48 ,48 );
+		timing_num[1] = Graphic.bitSize(LoadBitmap(R.drawable.ne4),48 ,48 );
+		timing_num[2] = Graphic.bitSize(LoadBitmap(R.drawable.ne3),48 ,48 );
+		timing_num[3] = Graphic.bitSize(LoadBitmap(R.drawable.ne2),48 ,48 );
+		timing_num[4] = Graphic.bitSize(LoadBitmap(R.drawable.ne1),48 ,48 );
+		timing_num[5] = Graphic.bitSize(LoadBitmap(R.drawable.zero),48 ,48 );
+		timing_num[6] = Graphic.bitSize(LoadBitmap(R.drawable.one),48 ,48 );
+		timing_num[7] = Graphic.bitSize(LoadBitmap(R.drawable.two),48 ,48 );
+		timing_num[8] = Graphic.bitSize(LoadBitmap(R.drawable.three),48 ,48 );
+		timing_num[9] = Graphic.bitSize(LoadBitmap(R.drawable.four),48 ,48 );
+		timing_num[10] = Graphic.bitSize(LoadBitmap(R.drawable.five),48 ,48 );
+		//速度與判定----------------------------------------------------------------------
 
 		menubtm = new Bottom(activity, left_exitback, left_exitback, 110, 35);
 		left_btm1= new Bottom(activity, btnvol2, btnvol, 114, 166);
 		left_btm2= new Bottom(activity, song_vol2, song_vol, 114, 257);
 		left_btm3= new Bottom(activity, chbtmse2, chbtmse, 136, 355);
-		left_btm4= new Bottom(activity, remain2, remain, 134, 451);
-		left_btm5= new Bottom(activity, offline, offline, 114, 542);
+		left_btm4= new Bottom(activity, timing2, timing, 134, 451);
+		left_btm5= new Bottom(activity, remain2, remain, 114, 542);
+		
+		//速度與判定按鈕===========================================================
+		speed_right_arrow = new Bottom(activity , timing_r_arrow,timing_r_arrow, 435 ,545);
+		speed_left_arrow = new Bottom(activity , timing_l_arrow,timing_l_arrow, 322 ,545);
+		timing_left_arrow = new Bottom(activity, timing_l_arrow , timing_l_arrow ,322 , 660);
+		timing_right_arrow = new Bottom(activity, timing_r_arrow , timing_r_arrow ,435 , 660);
+		//速度與判定按鈕------------------------------------------------------------
 
 		sebtm1 = new Bottom(activity, se01, se01l, 390, 390);
 		sebtm2 = new Bottom(activity, se02, se02l, 393, 451);
@@ -225,16 +304,16 @@ implements SurfaceHolder.Callback{
 		mp_Volume_bar.setSeekBarFloat((int)(activity.mp_Voiume*100));
 		sp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, 167);
 		sp_Volume_bar.setSeekBarFloat((int)(activity.sp_Voiume*100));
-
-		start = new Bottom(activity, right_start, right_start, 1163, 665);
+		
+		start = new Bottom(activity, right_start, right_start, 1161, 655);
 
 		//目前使用的難度
 		//TODO (功能待補)
-		model = new Bottom(activity, right_easy, right_easy, 966, 667);
+		model = new Bottom(activity, model_ch, model_ch, 969, 655);
 		//選擇難度使用的選擇按鈕
-		easy  = new Bottom(activity, right_easy, right_easy, 741, 524);
-		normal  = new Bottom(activity, right_normal, right_normal, 741, 596);
-		hard  = new Bottom(activity, right_hard, right_hard, 741, 667);
+		easy  = new Bottom(activity, right_easy_ch, right_easy, 741, 514);
+		normal  = new Bottom(activity, right_normal_ch, right_normal, 741, 588);
+		hard  = new Bottom(activity, right_hard_ch, right_hard, 741, 662);
 
 
 		sp=new SoundPool(5, AudioManager.STREAM_MUSIC, 5);
@@ -284,6 +363,7 @@ implements SurfaceHolder.Callback{
 			}
 			if(mbgx!=-500){
 				Graphic.drawPic(canvas, left_back, mbgx, 374, rot, 255, paint);
+				Graphic.drawPic(canvas, timing_back, 270, 560, 0, speedbaralpha, paint);
 				Graphic.drawPic(canvas, sechange,344, 504, 0, sebaralpha ,paint);
 				Graphic.drawPic(canvas, volchback,sevolmx, 167, 0, baralpha, paint);
 				Graphic.drawPic(canvas, volchback,songvolmx, 259, 0, baralpha, paint);
@@ -301,10 +381,10 @@ implements SurfaceHolder.Callback{
 			}
 			x2+=alpha2;
 			if(x2 >= 250){
-				alpha2 = -5;
+				alpha2 = -10;
 			}
 			if(x2 < 140){
-				alpha2 = 5;
+				alpha2 = 10;
 			}
 			//左半部選單控制================================================
 			if(menuFlag == 0){
@@ -395,6 +475,19 @@ implements SurfaceHolder.Callback{
 				else{
 					sebaralpha = 0;
 				}
+				if(left_btm4.getBottom()){
+					speedbaralpha = 255;
+					speed_left_arrow.drawBtm(canvas, paint);
+					speed_right_arrow.drawBtm(canvas, paint);
+					Graphic.drawPic(canvas, timing_num[set_speed], 380, 545, 0, 255, paint);
+					timing_left_arrow.drawBtm(canvas, paint);
+					timing_right_arrow.drawBtm(canvas, paint);
+					Graphic.drawPic(canvas, timing_num[set_timing], 380, 660, 0, 255, paint);
+					
+				}else{
+					speedbaralpha = 0;
+					
+				}
 				//選單按鈕----------------------------------------------------------------------------------------------------
 			}
 
@@ -410,12 +503,31 @@ implements SurfaceHolder.Callback{
 					Graphic.drawPic(canvas, rigth_stage01, right_board_x+11, 37, 0, 255, paint);
 					Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
 					Graphic.drawPic(canvas, right_st01Font, right_board_x-4, 459, 0, 255, paint);
-					start.drawBtm(canvas, paint,right_board_x+101, 665);
+
+					//箭頭顯示==================================================
+					if(!model.getBottom()){
+
+						Graphic.drawPic(canvas, right_arrow_left, right_board_x-86, 665, 0, 255,  paint);
+						Graphic.drawPic(canvas, right_arrow_left2, right_board_x-86, 665, 0, x2,  paint);
+					}else if(model.getBottom()){
+						Graphic.drawPic(canvas, right_arrow_right, right_board_x-86, 665, 0, 255,  paint);
+						Graphic.drawPic(canvas, right_arrow_right2, right_board_x-86, 665, 0, x2,  paint);
+					}
+					//箭頭顯示----------------------------------------------------
+					start.drawBtm(canvas, paint,right_board_x+101, 645);
 					model.drawBtm(canvas, paint,right_board_x-86, 667);
-					if(modelFlag==1){
-						Graphic.drawPic(canvas, right_normal, right_board_x-86, 667, 0, 255, paint);
+
+					//追加條件:當Flag = 0 會顯示easy=================================================
+					if(modelFlag==0){
+
+						Graphic.drawPic(canvas, right_easy_ch, right_board_x-86, 655, 0, 255, paint);
+						//追加條件Flag = 0 會顯示easy-----------------------------------------------
+					}else if(modelFlag==1){
+
+						Graphic.drawPic(canvas, right_normal_ch, right_board_x-86, 667, 0, 255, paint);	
 					}else if(modelFlag==2){
-						Graphic.drawPic(canvas, right_hard, right_board_x-86, 667, 0, 255, paint);
+
+						Graphic.drawPic(canvas, right_hard_ch, right_board_x-86, 667, 0, 255, paint);	
 					}
 				}
 			}
@@ -425,21 +537,54 @@ implements SurfaceHolder.Callback{
 				Graphic.drawPic(canvas, right_board, right_board_x, 355, 0, 255, paint);
 				Graphic.drawPic(canvas, rigth_stage01, right_board_x+11, 37, 0, 255, paint);
 				Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
-				Graphic.drawPic(canvas, right_st01Font, right_board_x-4, 459, 0, 255, paint);
-				start.drawBtm(canvas, paint,right_board_x+101, 665,x2);
+				Graphic.drawPic(canvas, right_st01Font, right_board_x-4, 465, 0, 255, paint);
+				start.drawBtm(canvas, paint,right_board_x+101, 655,x2);
 				model.drawBtm(canvas, paint,right_board_x-86, 667);
-				if(modelFlag==1){
-					Graphic.drawPic(canvas, right_normal, right_board_x-86, 667, 0, 255, paint);
+
+				//追加條件:當Flag = 0 會顯示easy=================================================
+				if(modelFlag==0){
+					Graphic.drawPic(canvas, right_easy_ch, right_board_x-86, 655, 0, 255, paint);
+					//追加條件Flag = 0 會顯示easy-----------------------------------------------
+
+				}else if(modelFlag==1){
+					Graphic.drawPic(canvas, right_normal_ch, right_board_x-86, 655, 0, 255, paint);
+
 				}else if(modelFlag==2){
-					Graphic.drawPic(canvas, right_hard, right_board_x-86, 667, 0, 255, paint);
+					Graphic.drawPic(canvas, right_hard_ch, right_board_x-86, 655, 0, 255, paint);
+
 				}
+
+				//箭頭顯示=========================================================================
+				if(!model.getBottom()){
+
+					Graphic.drawPic(canvas, right_arrow_left, right_board_x-150, 655, 0, 255,  paint);
+					Graphic.drawPic(canvas, right_arrow_left2, right_board_x-150, 655, 0, x2,  paint);
+				}else if(model.getBottom()){
+					Graphic.drawPic(canvas, right_arrow_right, right_board_x-150, 655, 0, 255,  paint);
+					Graphic.drawPic(canvas, right_arrow_right2, right_board_x-150, 655,0, x2,  paint);
+				}
+				//箭頭---------------------------------------------------------------------------
 
 				//必須在選擇關卡時才能調整難易度
 				if(model.getBottom()){
 					Graphic.drawPic(canvas, right_chmodel, 741, 588, 0, 255, paint);
-					easy.drawBtm(canvas, paint);
-					normal.drawBtm(canvas, paint);
-					hard.drawBtm(canvas, paint);
+
+					//追加透明度變化，目前選擇的難度為亮，其餘難度為暗=======================================
+					if(modelFlag==0){
+						easy.drawBtm(canvas, paint, 255);
+						normal.drawBtm(canvas, paint,150);
+						hard.drawBtm(canvas, paint, 150);
+					}else if(modelFlag == 1){
+						easy.drawBtm(canvas, paint, 150);
+						normal.drawBtm(canvas, paint,255);
+						hard.drawBtm(canvas, paint, 150);
+					}else if(modelFlag == 2){
+						easy.drawBtm(canvas, paint, 150);
+						normal.drawBtm(canvas, paint,150);
+						hard.drawBtm(canvas, paint, 255);
+					}
+
+					//追加透明度變化，目前選擇的難度為亮，其餘難度為暗----------------------------------------
 				}
 			}
 
@@ -516,16 +661,27 @@ implements SurfaceHolder.Callback{
 					}
 					else if(left_btm4.isIn(pointx, pointy)){
 						if(!left_btm4.getBottom()){
-							activity.changeView(1);
+							left_btm1.setBottomTo(false);
+							left_btm2.setBottomTo(false);
+							left_btm3.setBottomTo(false);
+							left_btm4.setBottomTo(true);
+							left_btm5.setBottomTo(false);
+							
+						}else if(left_btm4.getBottom()){
+							left_btm4.setBottomTo(false);
+
 						}
 					}
 					else if(left_btm5.isIn(pointx, pointy)){
 						if(!left_btm5.getBottom()){
+							activity.changeView(1);
 
 						}
 					}
 
 					//-------------音效按鈕切換區------------------
+					if(left_btm3.getBottom()){ //只有按鈕為true時才生效
+						
 					if(sebtm1.isIn(pointx, pointy)){
 						if(!sebtm1.getBottom()){
 							sebtm1.setBottomTo(true);
@@ -611,12 +767,40 @@ implements SurfaceHolder.Callback{
 							activity.writeData();
 						}
 					}
+					}
 					if(mp_Volume_bar.isOn(pointx, pointy)){
 						mp_Volume_bar.isOn=true;
 					}
 					if(sp_Volume_bar.isOn(pointx, pointy)){
 						sp_Volume_bar.isOn=true;
 					}
+					
+					//速度與判定按鈕事件====================================================
+					if(left_btm4.getBottom())
+					{
+						if(speed_left_arrow.isIn(pointx, pointy)){
+							if(set_speed > 6){
+								set_speed--;
+							}
+						}
+						else if(speed_right_arrow.isIn(pointx, pointy)){
+							if(set_speed < 10){
+								set_speed++;
+							}
+						}
+						else if(timing_left_arrow.isIn(pointx, pointy)){
+							if(set_timing > 0){
+								set_timing--;
+							}
+						}
+						else if(timing_right_arrow.isIn(pointx, pointy)){
+							if(set_timing < 10){
+								set_timing++;
+							}
+						}
+					}
+					//速度與判定按鈕事件-----------------------------------------------------
+				
 				}
 				//左半部選單按鈕事件至此=====================================================
 
@@ -725,6 +909,9 @@ implements SurfaceHolder.Callback{
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
 		Constant.Flag=false;
+		//把選擇的難易度傳給MainActivity供其他View使用=========================
+		activity.modelFlag = modelFlag;
+		//把選擇的難易度傳給MainActivity供其他View使用-------------------------
 		sp.release();
 	}
 

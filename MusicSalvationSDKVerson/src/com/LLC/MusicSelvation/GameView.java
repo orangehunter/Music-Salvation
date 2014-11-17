@@ -41,7 +41,7 @@ implements SurfaceHolder.Callback{
 	Bitmap game_hard;
 	Bitmap freely;
 
-	/*
+	
 	Bitmap circle;
 	Bitmap square;
 	Bitmap xx;
@@ -50,12 +50,14 @@ implements SurfaceHolder.Callback{
 	Bitmap grey_square;
 	Bitmap grey_xx;
 	Bitmap grey_triangle;
-	 */
+	 
 	//疊村===============================================
+	
 	Bitmap d_red;
 	Bitmap d_blue;
 	Bitmap d_yellow;
 	Bitmap d_green;
+	
 	//疊村-----------------------------------------------
 
 	//===================================================
@@ -85,12 +87,15 @@ implements SurfaceHolder.Callback{
 	Bitmap hpfont;
 	Bitmap hpfont_red;
 
+	//pause┮惠璶瓜==========================================
 	Bitmap pause;
 	Bitmap pause2;
 	Bitmap pause_back;
+	Bitmap pause_black; //pause璶ノ堵┏
 	Bitmap re_play;
 	Bitmap re_start;
 	Bitmap re_map;
+	//pause┮惠璶瓜-------------------------------------------
 
 	//疭================================
 	Bitmap[] Cyan 	= new Bitmap [6],
@@ -214,30 +219,38 @@ implements SurfaceHolder.Callback{
 		sight =	Graphic.bitSize(LoadBitmap(R.drawable.sightv2), 100, 100);
 		//cpu   = Graphic.bitSize(LoadBitmap(R.drawable.cpu_chips), 162, 162);
 
+
 		game_easy = Graphic.bitSize(LoadBitmap(R.drawable.easyv2), 205, 78);
 		game_normal = Graphic.bitSize(LoadBitmap(R.drawable.normalv2psd), 205, 78);
 		game_hard = Graphic.bitSize(LoadBitmap(R.drawable.hardv2), 205, 78);
+		
 
+		
+		//pause瓜更=====================================================================
 		pause = Graphic.bitSize(LoadBitmap(R.drawable.pause), 205, 78);
 		pause2 = Graphic.bitSize(LoadBitmap(R.drawable.pause2), 205, 78);
 		pause_back = Graphic.bitSize(LoadBitmap(R.drawable.pasue_back), 450, 310);
+		pause_black = Graphic.bitSize(LoadBitmap(R.drawable.pause_black), 1280, 720);
 
 		re_map = Graphic.bitSize(LoadBitmap(R.drawable.return_map), 390, 75);
 		re_play = Graphic.bitSize(LoadBitmap(R.drawable.re_play), 390, 75);
 		re_start = Graphic.bitSize(LoadBitmap(R.drawable.re_start), 390, 75);
+		
+		//pause瓜更-----------------------------------------------------------------------
 
-		/*
-		circle = Graphic.bitSize(LoadBitmap(R.drawable.btn_circle_v2), 150, 150);
-		square = Graphic.bitSize(LoadBitmap(R.drawable.btn_square_v2), 150, 150);
-		triangle = Graphic.bitSize(LoadBitmap(R.drawable.btn_triangle_v2), 150, 150);
-		xx = Graphic.bitSize(LoadBitmap(R.drawable.btn_x_v2), 150, 150);
-		grey_circle = Graphic.bitSize(LoadBitmap(R.drawable.grey_circle), 150, 150);
-		grey_square = Graphic.bitSize(LoadBitmap(R.drawable.grey_square), 150, 150);
-		grey_triangle = Graphic.bitSize(LoadBitmap(R.drawable.grey_tirangle), 150, 150);
-		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 150, 150);
-		 */
+		
+		circle = Graphic.bitSize(LoadBitmap(R.drawable.btn_circle_v2), 200, 200);
+		square = Graphic.bitSize(LoadBitmap(R.drawable.btn_square_v2), 200, 200);
+		triangle = Graphic.bitSize(LoadBitmap(R.drawable.btn_triangle_v2), 200, 200);
+		xx = Graphic.bitSize(LoadBitmap(R.drawable.btn_x_v2), 200, 200);
+		grey_circle = Graphic.bitSize(LoadBitmap(R.drawable.grey_circle), 200, 200);
+		grey_square = Graphic.bitSize(LoadBitmap(R.drawable.grey_square), 200, 200);
+		grey_triangle = Graphic.bitSize(LoadBitmap(R.drawable.grey_tirangle), 200, 200);
+		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 200, 200);
+		 
 
 		//疊村籔=======================================================================
+		
 		d_blue = Graphic.bitSize(LoadBitmap(R.drawable.d_blue), 250, 170);
 		d_red = Graphic.bitSize(LoadBitmap(R.drawable.d_red), 250, 170);
 		d_green = Graphic.bitSize(LoadBitmap(R.drawable.d_green), 260, 130);
@@ -246,6 +259,7 @@ implements SurfaceHolder.Callback{
 		lazer_blue = Graphic.bitSize(LoadBitmap(R.drawable.lazer_b), 215, 112);
 		lazer_green = Graphic.bitSize(LoadBitmap(R.drawable.lazer_g2), 290, 50);
 		lazer_yellow = Graphic.bitSize(LoadBitmap(R.drawable.lazer_y2), 275, 50);
+		
 		//疊村籔------------------------------------------------------------------------
 
 
@@ -325,15 +339,27 @@ implements SurfaceHolder.Callback{
 		}
 
 
+		btn_circle = new Bottom(activity, grey_circle, circle, 100, 495);
+		btn_square = new Bottom(activity, grey_square, square, 280, 625);
+		btn_triangle = new Bottom(activity, grey_triangle, triangle, 1000, 625);
+		btn_xx = new Bottom(activity, grey_xx, xx, 1180, 495);
+		
+		//疊村===========================================================
+		/*
 		btn_circle = new Bottom(activity, d_red, d_red, 125, 450);
-		btn_square = new Bottom(activity, d_yellow, d_yellow, 180, 640);
-		btn_triangle = new Bottom(activity,d_green, d_green, 1100, 640);
-		btn_xx = new Bottom(activity, d_blue, d_blue, 1150, 450);
+		btn_square = new Bottom(activity, grey_square, square, 180, 640);
+		btn_triangle = new Bottom(activity, grey_triangle, triangle, 1100, 640);
+		btn_xx = new Bottom(activity, d_blue, d_blue, 1155, 450);
+		*/
+		
+		//疊村-----------------------------------------------------------
 
+		//PAUSE秙=======================================================
 		btn_pause = new Bottom(activity, pause2, pause , 90, 105);
 		btn_re_map = new Bottom(activity, re_map, re_map, 640 , 410);
 		btn_re_play = new Bottom(activity, re_play, re_play,640 , 315);
 		btn_re_start = new Bottom(activity, re_start , re_start,640 ,225);
+		//PAUSE秙---------------------------------------------------------
 
 
 		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.virus_red), 80, 80);
@@ -535,7 +561,7 @@ implements SurfaceHolder.Callback{
 
 			//PAUSE匡虫北==========================================================
 			if(btn_pause.getBottom()){
-
+				Graphic.drawPic(canvas, pause_black, 640, 360, 0, 255, paint);
 				Graphic.drawPic(canvas, pause_back, 640, 315, 0, 255, paint);
 				btn_re_map.drawBtm(canvas, paint);
 				btn_re_play.drawBtm(canvas, paint);
@@ -555,20 +581,20 @@ implements SurfaceHolder.Callback{
 					Effect_Cyan[i].drawEffect(Effect_speed, canvas, paint);
 				}
 				if(Effect_Red[i].getFlag()){
-					Graphic.drawPic(canvas, lazer_red, 338, 550, 0, 255, paint);
+					//Graphic.drawPic(canvas, lazer_red, 338, 550, 0, 255, paint);
 					Effect_Red[i].drawEffect(Effect_speed, canvas, paint);
 
 				}
 				if(Effect_Yellow[i].getFlag()){
-					Graphic.drawPic(canvas, lazer_yellow, 432, 619, 0, 255, paint);
+					//Graphic.drawPic(canvas, lazer_yellow, 432, 619, 0, 255, paint);
 					Effect_Yellow[i].drawEffect(Effect_speed, canvas, paint);
 				}
 				if(Effect_Green[i].getFlag()){
-					Graphic.drawPic(canvas, lazer_green, 846, 622, 0, 255, paint);
+					//Graphic.drawPic(canvas, lazer_green, 846, 622, 0, 255, paint);
 					Effect_Green[i].drawEffect(Effect_speed, canvas, paint);
 				}
 				if(Effect_Blue[i].getFlag()){
-					Graphic.drawPic(canvas, lazer_blue, 937, 545, 0, 255, paint);
+					//Graphic.drawPic(canvas, lazer_blue, 937, 545, 0, 255, paint);
 					Effect_Blue[i].drawEffect(Effect_speed, canvas, paint);
 				}
 			}
@@ -599,9 +625,18 @@ implements SurfaceHolder.Callback{
 			//Graphic.drawPic(canvas, hpfont_red, 95, 50, 0, 255, paint);
 
 			//螟
+			if(activity.modelFlag == 0)
+			{
 			Graphic.drawPic(canvas, game_easy, 1180, 105, 0, 255, paint);
+			}else if(activity.modelFlag == 1){
 			Graphic.drawPic(canvas, game_normal, 1180, 105, 0, 255, paint);
+			}else if(activity.modelFlag == 2){
 			Graphic.drawPic(canvas, game_hard, 1180, 105, 0, 255, paint);
+			}
+			
+			
+			
+			
 
 			btn_circle.setBottomTo(false);	
 			btn_square.setBottomTo(false);	

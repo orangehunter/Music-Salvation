@@ -144,9 +144,9 @@ implements SurfaceHolder.Callback{
 		failed = Graphic.bitSize(LoadBitmap(R.drawable.failed), 475, 140);
 		rank = Graphic.bitSize(LoadBitmap(R.drawable.rank), 190, 95);
 
-		easy = Graphic.bitSize(LoadBitmap(R.drawable.sv_easy), 280, 75);
-		normal = Graphic.bitSize(LoadBitmap(R.drawable.sv_normal), 280, 75);
-		hard = Graphic.bitSize(LoadBitmap(R.drawable.sv_hard), 280, 75);
+		easy = Graphic.bitSize(LoadBitmap(R.drawable.easyv2), 205, 80);
+		normal = Graphic.bitSize(LoadBitmap(R.drawable.normalv2psd), 205, 80);
+		hard = Graphic.bitSize(LoadBitmap(R.drawable.hardv2), 205, 80);
 
 		y = Graphic.bitSize(LoadBitmap(R.drawable.y), 30, 50);
 		n = Graphic.bitSize(LoadBitmap(R.drawable.n), 30, 50);
@@ -215,9 +215,14 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, freely, 290, 40, 0, 255, paint);
 
 			//Ãø©ö«×
-			Graphic.drawPic(canvas, easy, 1100, 40, 0, 255, paint);
-			Graphic.drawPic(canvas, normal, 1100, 40, 0, 255, paint);
-			Graphic.drawPic(canvas, hard, 1100, 40, 0, 255, paint);
+			if(activity.modelFlag == 0)
+			{
+			Graphic.drawPic(canvas, easy, 1150, 45, 0, 255, paint);
+			}else if(activity.modelFlag == 1){
+			Graphic.drawPic(canvas, normal, 1150, 45, 0, 255, paint);
+			}else if(activity.modelFlag == 2){
+			Graphic.drawPic(canvas, hard, 1150, 45, 0, 255, paint);
+			}
 
 			Graphic.drawPic(canvas, line, 310, 625, 0, 255, paint);
 			Graphic.drawPic(canvas, line, 310, 625, 0, 255, paint);

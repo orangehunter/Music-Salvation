@@ -32,8 +32,11 @@ implements SurfaceHolder.Callback{
 	Bitmap main_right;
 	Bitmap main_title;
 	Bitmap main_touchstart;
+	
 	Bottom startbtm;
 	Bottom exitbtm;
+	
+	
 	int mainFlag=0;
 
 	boolean toEditView=false;

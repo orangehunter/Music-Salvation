@@ -115,6 +115,7 @@ implements SurfaceHolder.Callback{
 	int hp_to_red = 6;
 
 	int boss_time_Flag;
+	boolean boss_Flag;
 
 	int combo=0;
 	int maxcombo = 0;
@@ -362,9 +363,10 @@ implements SurfaceHolder.Callback{
 			// TAG 載入關卡設定及譜面檔===============================================
 			if(startFlag){
 				JSONObject json=null;
+				boss_Flag=false;
 				switch(activity.level){//關卡
 				case 0 :
-					this.boss_time_Flag=0;//TODO BOSS進場時間
+					this.boss_time_Flag=60000;//TODO BOSS進場時間
 					switch(activity.difficulty){//難度
 					case 0 :
 						json=activity.read( "freely_tomorrow.mp3");
@@ -624,8 +626,12 @@ implements SurfaceHolder.Callback{
 					break;
 				}
 			}
-
-
+			// TAG BOSS 繪製
+			if(boss_Flag){
+				//Graphic.drawPic(canvas, boss, mid_x, mid_y, rot, alpha, paint)
+			}else if(mp.getCurrentPosition()>boss_time_Flag){
+				boss_Flag=true;
+			}
 
 		}
 	}

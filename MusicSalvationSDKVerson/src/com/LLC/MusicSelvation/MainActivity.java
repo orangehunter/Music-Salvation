@@ -12,11 +12,9 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,9 +23,6 @@ import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 //import android.widget.Toast;
@@ -36,7 +31,7 @@ import android.widget.Toast;
 @SuppressLint({ "HandlerLeak", "NewApi" })
 public class MainActivity extends Activity{
 	int first_activity=0;
-	int nowActivity=0;
+	int nowView=0;
 	StartView startview;
 	MainView mainview;
 	EditView editview;
@@ -82,7 +77,7 @@ public class MainActivity extends Activity{
 	{
 		Message msg = myHandler.obtainMessage(what); 
 		myHandler.sendMessage(msg);
-		nowActivity=what;
+		nowView=what;
 	} 
 
 	Handler myHandler = new Handler(){//處理各個SurfaceView傳送的訊息
@@ -262,7 +257,7 @@ public class MainActivity extends Activity{
 	{
 		if(keyCode==4)
 		{
-			switch(nowActivity)
+			switch(nowView)
 			{
 			case 2:
 				Constant.Flag=false;
@@ -549,11 +544,14 @@ public class MainActivity extends Activity{
 	@Override 
 	public void onResume(){
 		Constant.setFlag(true);
+		changeView(nowView);
 		super.onResume();
 	}
 	@Override 
 	public void onPause(){
 		Constant.setFlag(false);
+		if(mainview.back_mp.isPlaying())
+			mainview.back_mp.stop();
 		super.onPause();		
 	}
 	@Override

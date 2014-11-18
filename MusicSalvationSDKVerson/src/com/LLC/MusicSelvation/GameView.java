@@ -125,6 +125,16 @@ implements SurfaceHolder.Callback{
 	Bottom btn_re_start;
 	Bottom btn_re_map;
 	//宣告PAUSE、返回遊戲、從頭開始、返回關卡地圖按鈕--------------------------------------------------
+	
+	//過關等級================================================
+	Bitmap rank_s;
+	Bitmap rank_a;
+	Bitmap rank_b;
+	Bitmap rank_c;
+	Bitmap rank_d;
+	Bitmap rank_e;
+	Bitmap rank_f;
+		//過關等級------------------------------------------------
 
 	Number score;
 
@@ -283,6 +293,13 @@ implements SurfaceHolder.Callback{
 		freely = Graphic.bitSize(LoadBitmap(R.drawable.freely), 260, 30);
 		boss = Graphic.bitSize(LoadBitmap(R.drawable.boss1), 200, 185);
 
+		rank_f = Graphic.bitSize(LoadBitmap(R.drawable.r_f), 86, 146);
+		rank_e = Graphic.bitSize(LoadBitmap(R.drawable.r_e), 99, 152);
+		rank_d = Graphic.bitSize(LoadBitmap(R.drawable.r_d), 124, 152);
+		rank_c = Graphic.bitSize(LoadBitmap(R.drawable.r_c), 117, 176);
+		rank_b = Graphic.bitSize(LoadBitmap(R.drawable.r_b), 92, 152);
+		rank_a = Graphic.bitSize(LoadBitmap(R.drawable.r_a), 133, 182);
+		rank_s = Graphic.bitSize(LoadBitmap(R.drawable.r_s), 309, 257);
 		//特效光（測試中）
 
 		Cyan[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan00), 150, 150);
@@ -430,7 +447,7 @@ implements SurfaceHolder.Callback{
 						Log.e("GameView", "JSON load fail");
 						e.printStackTrace();
 					}
-					activity.virus=BtR.length()+BtS.length()+BtT.length()+BtS.length();
+					activity.virus=BtR.length()+BtS.length()+BtT.length()+BtX.length();
 					cs=new chartScan(BtR,BtS,BtT,BtX,time_dis,"GameView");
 					cs.Start();
 				}else{
@@ -562,6 +579,7 @@ implements SurfaceHolder.Callback{
 			//PAUSE選單控制==========================================================
 			if(btn_pause.getBottom()){
 				Graphic.drawPic(canvas, pause_black, 640, 360, 0, 255, paint);
+				Graphic.drawPic(canvas, pause2, 90, 105, 0, 255, paint);
 				Graphic.drawPic(canvas, pause_back, 640, 315, 0, 255, paint);
 				btn_re_map.drawBtm(canvas, paint);
 				btn_re_play.drawBtm(canvas, paint);

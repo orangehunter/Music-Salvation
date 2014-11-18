@@ -49,17 +49,6 @@ implements SurfaceHolder.Callback{
 
 	Bitmap y;
 	Bitmap n;
-
-	//過關等級================================================
-	Bitmap R_S;
-	Bitmap R_A;
-	Bitmap R_B;
-	Bitmap R_C;
-	Bitmap R_D;
-	Bitmap R_E;
-	Bitmap R_F;
-	//過關等級------------------------------------------------
-
 	Bitmap num_grey;
 	Bitmap num_white;
 	Bitmap num_red;
@@ -75,10 +64,20 @@ implements SurfaceHolder.Callback{
 	Bitmap rank_d;
 	Bitmap rank_e;
 	Bitmap rank_f;
-
+	
+	//離開與再挑戰、更新紀錄圖片宣告===========================================
+	Bitmap exit;
+	Bitmap again;
+	Bitmap rank_new;
+	Bitmap rank_gold;
+	Bitmap rank_record;
+	Bitmap score_record;
 	//成績數字==============================================================================
 	Number num;
 	//---------------------------------------------------------------------------------------
+	
+	Bottom exit_btm;
+	Bottom again_btm;
 
 	int pointx;//觸控到螢幕的x座標
 	int pointy;//觸控到螢幕的y座標
@@ -137,7 +136,7 @@ implements SurfaceHolder.Callback{
 		miss = Graphic.bitSize(LoadBitmap(R.drawable.sv_miss), 165, 60);
 		max_combo = Graphic.bitSize(LoadBitmap(R.drawable.max_combo), 340, 60);
 		quest_stage = Graphic.bitSize(LoadBitmap(R.drawable.quest_stage), 415, 60);
-		bossclear = Graphic.bitSize(LoadBitmap(R.drawable.boss_clear), 375, 60);
+		bossclear = Graphic.bitSize(LoadBitmap(R.drawable.boss_del), 465, 70);
 		score = Graphic.bitSize(LoadBitmap(R.drawable.score), 170, 55);
 		highscore = Graphic.bitSize(LoadBitmap(R.drawable.highscore), 335, 55);
 		clear = Graphic.bitSize(LoadBitmap(R.drawable.clear), 395, 140);
@@ -165,7 +164,18 @@ implements SurfaceHolder.Callback{
 		rank_b = Graphic.bitSize(LoadBitmap(R.drawable.r_b), 92, 152);
 		rank_a = Graphic.bitSize(LoadBitmap(R.drawable.r_a), 133, 182);
 		rank_s = Graphic.bitSize(LoadBitmap(R.drawable.r_s), 309, 257);
-
+		
+		//離開與再挑戰、更新紀錄特效===========================================
+		exit = Graphic.bitSize(LoadBitmap(R.drawable.sc_exit), 215, 95);
+		again = Graphic.bitSize(LoadBitmap(R.drawable.sc_again), 215, 95);
+		rank_gold = Graphic.bitSize(LoadBitmap(R.drawable.rank_gold), 190, 95);
+		rank_new = Graphic.bitSize(LoadBitmap(R.drawable.rank_new), 95, 30);
+		rank_record = Graphic.bitSize(LoadBitmap(R.drawable.rank_record), 610, 180);
+		score_record = Graphic.bitSize(LoadBitmap(R.drawable.score_record), 655, 160);
+		//離開與再挑戰、更新紀錄特效---------------------------------------------
+		
+		exit_btm = new Bottom(activity, exit, exit, 1120, 670);
+		again_btm = new Bottom(activity, again, again, 825, 670);
 
 
 		Constant.Flag=true;
@@ -209,8 +219,10 @@ implements SurfaceHolder.Callback{
 
 			Graphic.drawPic(canvas, rightbar, 960, 300, 0, 255, paint);
 			Graphic.drawPic(canvas, rightbar, 960, 390, 0, 255, paint);
-			Graphic.drawPic(canvas, rightbar, 960, 480, 0, 255, paint);
-			Graphic.drawPic(canvas, rankbar, 960, 625, 0, 255, paint);
+			//Graphic.drawPic(canvas, rightbar, 960, 480, 0, 255, paint);
+			Graphic.drawPic(canvas, rank_record, 960, 530, 0, 255, paint);
+			Graphic.drawPic(canvas, rank_new, 1150, 475, 0, 255, paint);
+			Graphic.drawPic(canvas, score_record, 325, 640, 0, 255, paint);
 
 			Graphic.drawPic(canvas, freely, 290, 40, 0, 255, paint);
 
@@ -224,8 +236,8 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, hard, 1150, 45, 0, 255, paint);
 			}
 
-			Graphic.drawPic(canvas, line, 310, 625, 0, 255, paint);
-			Graphic.drawPic(canvas, line, 310, 625, 0, 255, paint);
+			Graphic.drawPic(canvas, line, 323, 640, 0, 255, paint);
+			Graphic.drawPic(canvas, line, 323, 710, 0, 255, paint);
 
 			Graphic.drawPic(canvas, totalvirus, 240, 180, 0, 255, paint);
 			Graphic.drawPic(canvas, nice, 120, 275, 0, 255, paint);
@@ -233,11 +245,16 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, safe, 120, 440, 0, 255, paint);
 			Graphic.drawPic(canvas, miss, 120, 520, 0, 255, paint);
 			Graphic.drawPic(canvas, max_combo, 845, 300, 0, 255, paint);
-			Graphic.drawPic(canvas, quest_stage, 880, 390, 0, 255, paint);
-			Graphic.drawPic(canvas, bossclear, 860, 490, 0, 255, paint);
-			Graphic.drawPic(canvas, score, 120, 590, 0, 255, paint);
-			Graphic.drawPic(canvas, highscore, 200, 665, 0, 255, paint);
-			Graphic.drawPic(canvas, rank, 760, 645, 0, 255, paint);
+			//Graphic.drawPic(canvas, quest_stage, 880, 390, 0, 255, paint);
+			Graphic.drawPic(canvas, bossclear, 900, 390, 0, 255, paint);
+			Graphic.drawPic(canvas, score, 120, 610, 0, 255, paint);
+			Graphic.drawPic(canvas, highscore, 200, 675, 0, 255, paint);
+			Graphic.drawPic(canvas, rank, 760, 560, 0, 255, paint);
+			//Graphic.drawPic(canvas, rank_gold, 765, 565, 0, 255, paint);
+			
+			exit_btm.drawBtm(canvas, paint);
+			again_btm.drawBtm(canvas, paint);
+			
 
 
 			//數字====================================================================================
@@ -270,8 +287,8 @@ implements SurfaceHolder.Callback{
 			num.drawNumberRightStart(1250, 300, sc_combo, Number.Blue, canvas, paint);
 
 			num.setSize(30, 55);
-			num.drawNumberRightStart(620, 590, sc_score, Number.Wite, canvas, paint);
-			num.drawNumberRightStart(620, 660, activity.score, Number.Wite, canvas, paint);
+			num.drawNumberRightStart(620, 610, sc_score, Number.Wite, canvas, paint);
+			num.drawNumberRightStart(620, 675, activity.score, Number.Wite, canvas, paint);
 			//數字------------------------------------------------------------------------------------
 
 			//判定是否過關==============================================================================
@@ -280,22 +297,22 @@ implements SurfaceHolder.Callback{
 				Graphic.drawPic(canvas, clear, 950, 165, 0, 255, paint);
 				//FULL COMBO判定為S級
 				if(activity.combo == activity.virus){   
-					Graphic.drawPic(canvas, rank_s, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_s, 1030, 540, 0, 255, paint);
 				}
 				//打擊率超過90% 為A
 				else if(activity.percent > ((int)activity.virus*0.9))  
 				{
-					Graphic.drawPic(canvas, rank_a, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_a, 1030, 540, 0, 255, paint);
 				}
 				//打擊率超過80% 低於90%為B
 				else if(activity.percent > ((int)activity.virus*0.8) && activity.percent < ((int)activity.virus*0.9))
 				{
-					Graphic.drawPic(canvas, rank_b, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_b, 1030, 540, 0, 255, paint);
 				}
 				//打擊率超過70% 低於80%為C
 				else if(activity.percent > ((int)activity.virus*0.7) && activity.percent < ((int)activity.virus*0.8)) //大於70% 小於80%
 				{
-					Graphic.drawPic(canvas, rank_c, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_c, 1030, 540, 0, 255, paint);
 				}
 
 			}
@@ -305,28 +322,25 @@ implements SurfaceHolder.Callback{
 				//打擊率超過60% 低於70%為D
 				if(activity.percent > ((int)activity.virus*0.6) && activity.percent < ((int)activity.virus*0.7))
 				{
-					Graphic.drawPic(canvas, rank_d, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_d, 1030, 540, 0, 255, paint);
 				}
 				//打擊率超過50% 低於60%為E
 				else if(activity.percent > ((int)activity.virus*0.5) && activity.percent < ((int)activity.virus*0.6))
 				{
-					Graphic.drawPic(canvas, rank_e, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_e, 1030, 540, 0, 255, paint);
 				}
 				//低於50%以下一律為F
 				else
 				{
-					Graphic.drawPic(canvas, rank_f, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_f, 1030, 540, 0, 255, paint);
 				}
 
 			}
 			//判定是否過關------------------------------------------------------------------------------
 
-
-
-
 			/*擊殺BOSS與否
-			Graphic.drawPic(canvas, y, 1225, 490, 0, 255, paint);
-			Graphic.drawPic(canvas, n, 1225, 490, 0, 255, paint);
+			Graphic.drawPic(canvas, y, 1225, 390, 0, 255, paint);
+			Graphic.drawPic(canvas, n, 1225, 390, 0, 255, paint);
 			 */
 		}
 	}
@@ -347,8 +361,14 @@ implements SurfaceHolder.Callback{
 					sc_score = activity.score;
 					sc_combo = activity.combo;
 					touch_flag=1;
-				}if(touch_flag==1){
+				}/*if(touch_flag==1){
 					activity.changeView(2);
+				}*/
+				if(exit_btm.isIn(pointx, pointy)){
+					activity.changeView(2);
+				}
+				if(again_btm.isIn(pointx, pointy)){
+					activity.changeView(3);
 				}
 			}
 			deJump = false;

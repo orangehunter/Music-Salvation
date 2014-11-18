@@ -404,6 +404,8 @@ implements SurfaceHolder.Callback{
 				if(songvolmx!=-300)
 					mp_Volume_bar.Move(songvolmx, 259);
 				baralpha = 0;
+				speedbaralpha = 0;
+				sebaralpha = 0;
 			}else if(menuFlag == 1)  {
 				rot-= 0.5;
 				if(rot == -360){
@@ -816,6 +818,7 @@ implements SurfaceHolder.Callback{
 					{
 						stageFlag = 0;
 						stbtn01.setBottomTo(false);
+						model.setBottomTo(false);
 					}
 				}
 				if(stageFlag==1){

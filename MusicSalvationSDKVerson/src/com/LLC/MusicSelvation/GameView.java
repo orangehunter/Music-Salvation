@@ -114,8 +114,13 @@ implements SurfaceHolder.Callback{
 	int hp_to_yellow=12;
 	int hp_to_red = 6;
 
-	int boss_time_Flag;
+	int boss_show;
+	int boss_kill;
 	boolean boss_Flag;
+	int boss_y=242;
+	int boss_x;
+	int boss_x_side=1025;
+	int boss_x_middle=640;
 
 	int combo=0;
 	int maxcombo = 0;
@@ -364,9 +369,11 @@ implements SurfaceHolder.Callback{
 			if(startFlag){
 				JSONObject json=null;
 				boss_Flag=false;
+				boss_x=boss_x_side;
 				switch(activity.level){//關卡
 				case 0 :
-					this.boss_time_Flag=60000;//TODO BOSS進場時間
+					this.boss_show=60000;//TAG BOSS進場時間
+					boss_kill=90000;
 					switch(activity.difficulty){//難度
 					case 0 :
 						json=activity.read( "freely_tomorrow.mp3");
@@ -380,7 +387,8 @@ implements SurfaceHolder.Callback{
 					}
 					break;
 				case 1 :
-					this.boss_time_Flag=0;
+					this.boss_show=0;
+					boss_kill=0;
 					switch(activity.difficulty){
 					case 0 :
 
@@ -394,7 +402,7 @@ implements SurfaceHolder.Callback{
 					}
 					break;
 				case 2 :
-					this.boss_time_Flag=0;
+					this.boss_show=0;
 					switch(activity.difficulty){
 					case 0 :
 
@@ -626,11 +634,14 @@ implements SurfaceHolder.Callback{
 					break;
 				}
 			}
-			// TAG BOSS 繪製
+			// TAG BOSS 模式狀態
+			if(mp.getCurrentPosition()>boss_show){
+			Graphic.drawPic(canvas, boss, boss_x, boss_y, 0, 255, paint);
 			if(boss_Flag){
-				//Graphic.drawPic(canvas, boss, mid_x, mid_y, rot, alpha, paint)
-			}else if(mp.getCurrentPosition()>boss_time_Flag){
+				boss_x=Coordinate.AnalogSpeedMove(boss_x, boss_x_middle);
+			}else if(mp.getCurrentPosition()>boss_kill){
 				boss_Flag=true;
+			}
 			}
 
 		}

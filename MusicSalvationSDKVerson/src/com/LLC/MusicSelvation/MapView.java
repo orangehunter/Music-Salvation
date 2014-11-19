@@ -785,17 +785,17 @@ implements SurfaceHolder.Callback{
 								set_speed--;
 							}
 						}
-						else if(speed_right_arrow.isIn(pointx, pointy)){
+						if(speed_right_arrow.isIn(pointx, pointy)){
 							if(set_speed < 10){
 								set_speed++;
 							}
 						}
-						else if(timing_left_arrow.isIn(pointx, pointy)){
+						if(timing_left_arrow.isIn(pointx, pointy)){
 							if(set_timing > 0){
 								set_timing--;
 							}
 						}
-						else if(timing_right_arrow.isIn(pointx, pointy)){
+						if(timing_right_arrow.isIn(pointx, pointy)){
 							if(set_timing < 10){
 								set_timing++;
 							}

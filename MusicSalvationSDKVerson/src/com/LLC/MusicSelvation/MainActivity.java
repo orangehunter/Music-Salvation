@@ -71,10 +71,13 @@ public class MainActivity extends Activity{
 	//用來辨識難易度的FLAG===========================
 	int modelFlag;
 	//用來辨識難易度的FLAG---------------------------
+	
 	//存檔用參數====================================
 	float mp_Voiume;
 	float sp_Voiume;
 	int sp_num;
+	double timing;
+	int speed;
 	//存檔用參數-------------------------------------
 	public void changeView(int what)//
 	{
@@ -468,6 +471,8 @@ public class MainActivity extends Activity{
 			mp_Voiume=Float.valueOf(json.getString("mp_Voiume"));
 			sp_Voiume=Float.valueOf(json.getString("sp_Voiume"));
 			sp_num=json.getInt("sp_num");
+			speed=json.getInt("game_speed");
+			timing=json.getDouble("game_timing");
 			
 			for(int i=0;i<levels;i++){
 				for(int j=0;j<levels;j++){
@@ -486,6 +491,8 @@ public class MainActivity extends Activity{
 			mp_Voiume=1;
 			sp_Voiume=1;
 			sp_num=0;
+			speed=1;
+			timing=0;
 			for(int i=0;i<levels;i++){
 				for(int j=0;j<3;j++){
 					hight_score[i][j]=0;
@@ -510,6 +517,8 @@ public class MainActivity extends Activity{
 			json.put("mp_Voiume", String.valueOf(mp_Voiume));
 			json.put("sp_Voiume", String.valueOf(sp_Voiume));
 			json.put("sp_num",sp_num);
+			json.put("game_speed",speed);
+			json.put("game_timing", timing);
 			
 			json.put("level_data", new JSONArray());
 			for(int i=0;i<levels;i++){

@@ -194,7 +194,7 @@ implements SurfaceHolder.Callback{
 					,ct_btm[]=new gameChartBottom[chartObject]
 							,cx_btm[]=new gameChartBottom[chartObject];
 
-	static int time_dis=3000;
+	static int time_dis;
 	SparseArray<PointF> mActivePointers=new SparseArray<PointF>();
 	SparseArray<Integer> btn_pointer=new SparseArray<Integer>();
 
@@ -219,6 +219,7 @@ implements SurfaceHolder.Callback{
 		sc_miss= 0;
 		percent = 0;
 		sc_score = 0;
+		time_dis=3000/activity.speed;
 		this.hp=this.hp_max;
 		/*int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 	              | View.SYSTEM_UI_FLAG_FULLSCREEN;

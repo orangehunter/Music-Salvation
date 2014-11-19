@@ -33,15 +33,13 @@ implements SurfaceHolder.Callback{
 	boolean startFlag=true;
 	Bitmap bg;   //背景
 	Bitmap sight;  //準星
-	Bitmap cpu;
-	Bitmap virus;
 	Bitmap boss;
 	Bitmap game_easy;
 	Bitmap game_normal;
 	Bitmap game_hard;
 	Bitmap freely;
 
-	
+
 	Bitmap circle;
 	Bitmap square;
 	Bitmap xx;
@@ -50,14 +48,14 @@ implements SurfaceHolder.Callback{
 	Bitmap grey_square;
 	Bitmap grey_xx;
 	Bitmap grey_triangle;
-	 
+
 	//浮游砲宣告===============================================
-	
+
 	Bitmap d_red;
 	Bitmap d_blue;
 	Bitmap d_yellow;
 	Bitmap d_green;
-	
+
 	//浮游砲宣告-----------------------------------------------
 
 	//光束===================================================
@@ -82,8 +80,6 @@ implements SurfaceHolder.Callback{
 
 	Bitmap titlebar;  //狀態欄
 	Bitmap hpbar;
-	Bitmap hp_green;
-	Bitmap hp_red;
 	Bitmap hpfont;
 	Bitmap hpfont_red;
 
@@ -125,7 +121,7 @@ implements SurfaceHolder.Callback{
 	Bottom btn_re_start;
 	Bottom btn_re_map;
 	//宣告PAUSE、返回遊戲、從頭開始、返回關卡地圖按鈕--------------------------------------------------
-	
+
 	//過關等級================================================
 	Bitmap rank_s;
 	Bitmap rank_a;
@@ -134,7 +130,7 @@ implements SurfaceHolder.Callback{
 	Bitmap rank_d;
 	Bitmap rank_e;
 	Bitmap rank_f;
-		//過關等級------------------------------------------------
+	//過關等級------------------------------------------------
 
 	Number score;
 
@@ -233,9 +229,9 @@ implements SurfaceHolder.Callback{
 		game_easy = Graphic.bitSize(LoadBitmap(R.drawable.easyv2), 205, 78);
 		game_normal = Graphic.bitSize(LoadBitmap(R.drawable.normalv2psd), 205, 78);
 		game_hard = Graphic.bitSize(LoadBitmap(R.drawable.hardv2), 205, 78);
-		
 
-		
+
+
 		//pause圖片載入=====================================================================
 		pause = Graphic.bitSize(LoadBitmap(R.drawable.pause), 205, 78);
 		pause2 = Graphic.bitSize(LoadBitmap(R.drawable.pause2), 205, 78);
@@ -245,10 +241,10 @@ implements SurfaceHolder.Callback{
 		re_map = Graphic.bitSize(LoadBitmap(R.drawable.return_map), 390, 75);
 		re_play = Graphic.bitSize(LoadBitmap(R.drawable.re_play), 390, 75);
 		re_start = Graphic.bitSize(LoadBitmap(R.drawable.re_start), 390, 75);
-		
+
 		//pause圖片載入-----------------------------------------------------------------------
 
-		
+
 		circle = Graphic.bitSize(LoadBitmap(R.drawable.btn_circle_v2), 200, 200);
 		square = Graphic.bitSize(LoadBitmap(R.drawable.btn_square_v2), 200, 200);
 		triangle = Graphic.bitSize(LoadBitmap(R.drawable.btn_triangle_v2), 200, 200);
@@ -257,10 +253,10 @@ implements SurfaceHolder.Callback{
 		grey_square = Graphic.bitSize(LoadBitmap(R.drawable.grey_square), 200, 200);
 		grey_triangle = Graphic.bitSize(LoadBitmap(R.drawable.grey_tirangle), 200, 200);
 		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 200, 200);
-		 
+
 
 		//浮游砲與光束=======================================================================
-		
+
 		d_blue = Graphic.bitSize(LoadBitmap(R.drawable.d_blue), 250, 170);
 		d_red = Graphic.bitSize(LoadBitmap(R.drawable.d_red), 250, 170);
 		d_green = Graphic.bitSize(LoadBitmap(R.drawable.d_green), 260, 130);
@@ -269,7 +265,7 @@ implements SurfaceHolder.Callback{
 		lazer_blue = Graphic.bitSize(LoadBitmap(R.drawable.lazer_b), 215, 112);
 		lazer_green = Graphic.bitSize(LoadBitmap(R.drawable.lazer_g2), 290, 50);
 		lazer_yellow = Graphic.bitSize(LoadBitmap(R.drawable.lazer_y2), 275, 50);
-		
+
 		//浮游砲與光束------------------------------------------------------------------------
 
 
@@ -360,15 +356,15 @@ implements SurfaceHolder.Callback{
 		btn_square = new Bottom(activity, grey_square, square, 280, 625);
 		btn_triangle = new Bottom(activity, grey_triangle, triangle, 1000, 625);
 		btn_xx = new Bottom(activity, grey_xx, xx, 1180, 495);
-		
+
 		//浮游砲===========================================================
 		/*
 		btn_circle = new Bottom(activity, d_red, d_red, 125, 450);
 		btn_square = new Bottom(activity, grey_square, square, 180, 640);
 		btn_triangle = new Bottom(activity, grey_triangle, triangle, 1100, 640);
 		btn_xx = new Bottom(activity, d_blue, d_blue, 1155, 450);
-		*/
-		
+		 */
+
 		//浮游砲-----------------------------------------------------------
 
 		//PAUSE按鈕=======================================================
@@ -645,16 +641,16 @@ implements SurfaceHolder.Callback{
 			//難易度
 			if(activity.modelFlag == 0)
 			{
-			Graphic.drawPic(canvas, game_easy, 1180, 105, 0, 255, paint);
+				Graphic.drawPic(canvas, game_easy, 1180, 105, 0, 255, paint);
 			}else if(activity.modelFlag == 1){
-			Graphic.drawPic(canvas, game_normal, 1180, 105, 0, 255, paint);
+				Graphic.drawPic(canvas, game_normal, 1180, 105, 0, 255, paint);
 			}else if(activity.modelFlag == 2){
-			Graphic.drawPic(canvas, game_hard, 1180, 105, 0, 255, paint);
+				Graphic.drawPic(canvas, game_hard, 1180, 105, 0, 255, paint);
 			}
-			
-			
-			
-			
+
+
+
+
 
 			btn_circle.setBottomTo(false);	
 			btn_square.setBottomTo(false);	
@@ -945,6 +941,91 @@ implements SurfaceHolder.Callback{
 		activity.score = sc_score;
 		activity.percent = percent;
 		startFlag=true;
+		
+		bg.recycle();   //背景
+		sight.recycle();  //準星
+		boss.recycle();
+		game_easy.recycle();
+		game_normal.recycle();
+		game_hard.recycle();
+		freely.recycle();
+
+
+		circle.recycle();
+		square.recycle();
+		xx.recycle();
+		triangle.recycle();
+		grey_circle.recycle();
+		grey_square.recycle();
+		grey_xx.recycle();
+		grey_triangle.recycle();
+
+		//浮游砲宣告===============================================
+
+		d_red.recycle();
+		d_blue.recycle();
+		d_yellow.recycle();
+		d_green.recycle();
+
+		//浮游砲宣告-----------------------------------------------
+
+		//光束===================================================
+		lazer_red.recycle();
+		lazer_blue.recycle();
+		lazer_green.recycle();
+		lazer_yellow.recycle();
+		//光束----------------------------------------------------
+
+		track.recycle();  //軌道
+
+		virus_red.recycle();
+		virus_yellow.recycle();
+		virus_blue.recycle();
+		virus_green.recycle();
+
+		nice.recycle();
+		miss.recycle();
+		safe.recycle();
+		hit.recycle();
+		hits.recycle();
+
+		titlebar.recycle();  //狀態欄
+		hpbar.recycle();
+		hpfont.recycle();
+		hpfont_red.recycle();
+
+		//宣告pause所需要的圖片==========================================
+		pause.recycle();
+		pause2.recycle();
+		pause_back.recycle();
+		pause_black.recycle(); //pause時要用的黑底
+		re_play.recycle();
+		re_start.recycle();
+		re_map.recycle();
+		//宣告pause所需要的圖片-------------------------------------------
+
+		//特效光宣告================================
+		for(int i=0;i<6;i++){
+			Cyan[i].recycle();
+			Red[i]	.recycle();
+			Green[i].recycle();
+			Yellow[i].recycle();
+			Blue[i].recycle();
+		}
+
+		//過關等級================================================
+		 rank_s.recycle();
+		 rank_a.recycle();
+		 rank_b.recycle();
+		 rank_c.recycle();
+		 rank_d.recycle();
+		 rank_e.recycle();
+		 rank_f.recycle();
+		//過關等級------------------------------------------------
+		 chart_r.recycle();
+		 chart_s.recycle();
+		 chart_t.recycle();
+		 chart_x.recycle();
 		Constant.Flag=false;
 	}
 

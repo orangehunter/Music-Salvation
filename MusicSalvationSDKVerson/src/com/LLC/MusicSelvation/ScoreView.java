@@ -82,20 +82,19 @@ implements SurfaceHolder.Callback{
 	int pointx;//觸控到螢幕的x座標
 	int pointy;//觸控到螢幕的y座標
 
-	//過關判定============
-	int percent = 0;
-	//過關判定------------------
-
 	//儲存遊戲判定用參數=======================================
-	int sc_nice = 0;
-	int sc_hit = 0;
-	int sc_safe = 0;
-	int sc_miss = 0;
-	int sc_combo = 0;
-	int sc_score = 0;
+	int sc_nice ;
+	int sc_hit ;
+	int sc_safe ;
+	int sc_miss ;
+	int sc_combo ;
+	int sc_score ;
 	//儲存遊戲判定用參數---------------------------------------
 
 	int touch_flag=0;
+	boolean clear_flag;
+	boolean new_score_flag;
+	boolean new_rank_flag;
 
 	Paint paint;			//畫筆的參考
 	int i=0,j=10;
@@ -116,10 +115,19 @@ implements SurfaceHolder.Callback{
 	public void surfaceCreated(SurfaceHolder holder) {
 		paint = new Paint();//建立畫筆
 		paint.setAntiAlias(true);//開啟抗鋸齒
-
+		//初始化=======================================================
 		num =new Number(getResources());
+		sc_nice = 0;
+		sc_hit = 0;
+		sc_safe = 0;
+		sc_miss = 0;
+		sc_combo = 0;
+		sc_score = 0;
 
-
+		clear_flag=false;
+		new_score_flag=false;
+		new_rank_flag=false;
+		//初始化--------------------------------------------------------------------------------------------
 		bg=Graphic.bitSize(LoadBitmap( R.drawable.sv_background), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
 		titlebar = Graphic.bitSize(LoadBitmap(R.drawable.title_bar), 1280, 90);
 		rightbar = Graphic.bitSize(LoadBitmap(R.drawable.right_bar), 625, 75);
@@ -176,7 +184,52 @@ implements SurfaceHolder.Callback{
 		
 		exit_btm = new Bottom(activity, exit, exit, 1120, 670);
 		again_btm = new Bottom(activity, again, again, 825, 670);
-
+		//判定是否過關==============================================================================
+		if(activity.percent > ((int)activity.virus*0.7) )  //如果打擊率超過70%
+		{
+			clear_flag=true;
+			//FULL COMBO判定為S級
+			if(activity.combo == activity.virus){   
+				activity.hight_rank[activity.level][activity.difficulty]=7;
+			}
+			//打擊率超過90% 為A
+			else if(activity.percent > ((int)activity.virus*0.9))  
+			{
+				activity.hight_rank[activity.level][activity.difficulty]=6;
+			}
+			//打擊率超過80% 低於90%為B
+			else if(activity.percent > ((int)activity.virus*0.8) && activity.percent < ((int)activity.virus*0.9))
+			{
+				activity.hight_rank[activity.level][activity.difficulty]=5;
+			}
+			//打擊率超過70% 低於80%為C
+			else if(activity.percent > ((int)activity.virus*0.7) && activity.percent < ((int)activity.virus*0.8)) //大於70% 小於80%
+			{
+				activity.hight_rank[activity.level][activity.difficulty]=4;
+			}
+		}
+		else
+		{
+			clear_flag=false;
+			//打擊率超過60% 低於70%為D
+			if(activity.percent > ((int)activity.virus*0.6) && activity.percent < ((int)activity.virus*0.7))
+			{
+				activity.hight_rank[activity.level][activity.difficulty]=3;
+			}
+			//打擊率超過50% 低於60%為E
+			else if(activity.percent > ((int)activity.virus*0.5) && activity.percent < ((int)activity.virus*0.6))
+			{
+				activity.hight_rank[activity.level][activity.difficulty]=2;
+			}
+			//低於50%以下一律為F
+			else
+			{
+				activity.hight_rank[activity.level][activity.difficulty]=1;
+			}
+		}
+		if(activity.score>activity.hight_score[activity.level][activity.difficulty]){
+			new_score_flag=true;
+		}
 
 		Constant.Flag=true;
 		new Thread(){
@@ -287,54 +340,40 @@ implements SurfaceHolder.Callback{
 			num.drawNumberRightStart(1250, 300, sc_combo, Number.Blue, canvas, paint);
 
 			num.setSize(30, 55);
-			num.drawNumberRightStart(620, 610, sc_score, Number.Wite, canvas, paint);
-			num.drawNumberRightStart(620, 675, activity.score, Number.Wite, canvas, paint);
+
+			num.drawNumberRightStart(620, 590, sc_score, Number.Wite, canvas, paint);
+			num.drawNumberRightStart(620, 660, activity.hight_score[activity.level][activity.difficulty], Number.Wite, canvas, paint);
 			//數字------------------------------------------------------------------------------------
 
-			//判定是否過關==============================================================================
-			if(activity.percent > ((int)activity.virus*0.7) )  //如果打擊率超過70%
-			{
-				Graphic.drawPic(canvas, clear, 950, 165, 0, 255, paint);
-				//FULL COMBO判定為S級
-				if(activity.combo == activity.virus){   
-					Graphic.drawPic(canvas, rank_s, 1030, 540, 0, 255, paint);
+			if(sc_score != activity.score){
+				if(clear_flag){
+					Graphic.drawPic(canvas, clear, 950, 165, 0, 255, paint);
+				}else{
+					Graphic.drawPic(canvas, failed, 950, 160, 0, 255, paint);
 				}
-				//打擊率超過90% 為A
-				else if(activity.percent > ((int)activity.virus*0.9))  
-				{
-					Graphic.drawPic(canvas, rank_a, 1030, 540, 0, 255, paint);
+				switch(activity.hight_rank[activity.level][activity.difficulty]){
+				case 7:
+					Graphic.drawPic(canvas, rank_s, 1030, 630, 0, 255, paint);
+					break;
+				case 6:
+					Graphic.drawPic(canvas, rank_a, 1030, 630, 0, 255, paint);
+					break;
+				case 5:
+					Graphic.drawPic(canvas, rank_b, 1030, 630, 0, 255, paint);
+					break;
+				case 4:
+					Graphic.drawPic(canvas, rank_c, 1030, 630, 0, 255, paint);
+					break;
+				case 3:
+					Graphic.drawPic(canvas, rank_d, 1030, 630, 0, 255, paint);
+					break;
+				case 2:
+					Graphic.drawPic(canvas, rank_e, 1030, 630, 0, 255, paint);
+					break;
+				case 1:
+					Graphic.drawPic(canvas, rank_f, 1030, 630, 0, 255, paint);
+					break;
 				}
-				//打擊率超過80% 低於90%為B
-				else if(activity.percent > ((int)activity.virus*0.8) && activity.percent < ((int)activity.virus*0.9))
-				{
-					Graphic.drawPic(canvas, rank_b, 1030, 540, 0, 255, paint);
-				}
-				//打擊率超過70% 低於80%為C
-				else if(activity.percent > ((int)activity.virus*0.7) && activity.percent < ((int)activity.virus*0.8)) //大於70% 小於80%
-				{
-					Graphic.drawPic(canvas, rank_c, 1030, 540, 0, 255, paint);
-				}
-
-			}
-			else
-			{
-				Graphic.drawPic(canvas, failed, 950, 160, 0, 255, paint);
-				//打擊率超過60% 低於70%為D
-				if(activity.percent > ((int)activity.virus*0.6) && activity.percent < ((int)activity.virus*0.7))
-				{
-					Graphic.drawPic(canvas, rank_d, 1030, 540, 0, 255, paint);
-				}
-				//打擊率超過50% 低於60%為E
-				else if(activity.percent > ((int)activity.virus*0.5) && activity.percent < ((int)activity.virus*0.6))
-				{
-					Graphic.drawPic(canvas, rank_e, 1030, 540, 0, 255, paint);
-				}
-				//低於50%以下一律為F
-				else
-				{
-					Graphic.drawPic(canvas, rank_f, 1030, 540, 0, 255, paint);
-				}
-
 			}
 			//判定是否過關------------------------------------------------------------------------------
 

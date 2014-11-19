@@ -144,6 +144,11 @@ implements SurfaceHolder.Callback{
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, main_back, 1280/2, 720/2, 0, 255, paint);//背景
 			
+			if(!back_mp.isPlaying()){
+				back_mp.prepareAsync();
+				back_mp.start();
+			}
+			
 			if(apa<= 10){
 				a =7;
 			} 

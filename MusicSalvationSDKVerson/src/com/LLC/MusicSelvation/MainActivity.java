@@ -6,16 +6,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,9 +23,6 @@ import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 //import android.widget.Toast;
@@ -35,7 +31,7 @@ import android.widget.Toast;
 @SuppressLint({ "HandlerLeak", "NewApi" })
 public class MainActivity extends Activity{
 	int first_activity=0;
-	int nowActivity=0;
+	int nowView=0;
 	StartView startview;
 	MainView mainview;
 	EditView editview;
@@ -66,7 +62,10 @@ public class MainActivity extends Activity{
 	
 	//選關參數=====================================
 	int level;//關卡
+	int levels=3;//關卡總數
 	int difficulty;//難度
+	int [][]hight_score=new int [3][3];
+	int [][]hight_rank=new int [3][3];
 	//選關參數-------------------------------------
 	
 	//用來辨識難易度的FLAG===========================
@@ -81,7 +80,7 @@ public class MainActivity extends Activity{
 	{
 		Message msg = myHandler.obtainMessage(what); 
 		myHandler.sendMessage(msg);
-		nowActivity=what;
+		nowView=what;
 	} 
 
 	Handler myHandler = new Handler(){//處理各個SurfaceView傳送的訊息
@@ -117,7 +116,7 @@ public class MainActivity extends Activity{
 				goToTestView();
 				break;
 			case 255:
-				System.exit(0);
+				Exit();
 				break;
 			}
 		}
@@ -198,6 +197,10 @@ public class MainActivity extends Activity{
 		// TODO 自動產生的方法 Stub
 
 	}
+	private void Exit() {
+		writeData();
+		System.exit(0);//離開游戲
+	}
 
 	public void callToast(String what)//Toast訊息傳送
 	{
@@ -257,7 +260,7 @@ public class MainActivity extends Activity{
 	{
 		if(keyCode==4)
 		{
-			switch(nowActivity)
+			switch(nowView)
 			{
 			case 2:
 				Constant.Flag=false;
@@ -273,7 +276,7 @@ public class MainActivity extends Activity{
 				break;
 			case 0://歡迎界面
 			case 1://主控制界面
-				System.exit(0);//離開游戲
+				Exit();
 				break;
 
 			}
@@ -445,14 +448,19 @@ public class MainActivity extends Activity{
 		}
 	}
 	
-	public void readData(){//存檔讀取
+	public void readData(){//TAG 存檔讀取
 		String fileName="Data.save";
 		JSONObject json=null;
 		String content=""; //內容
 		byte[] buff = new byte[1024];
 
 		try {
-			FileInputStream file=openFileInput(fileName);
+			File sdCard = Environment.getExternalStorageDirectory();
+			File dir = new File (sdCard.getAbsolutePath() + "/charts/data");
+			dir.mkdirs();
+			File files = new File(dir,fileName);
+			FileInputStream file =new FileInputStream(files);
+			//FileInputStream file=openFileInput(fileName);
 			while((file.read(buff))!=-1){
 				content+=new String(buff).trim();
 			}
@@ -460,13 +468,32 @@ public class MainActivity extends Activity{
 			mp_Voiume=Float.valueOf(json.getString("mp_Voiume"));
 			sp_Voiume=Float.valueOf(json.getString("sp_Voiume"));
 			sp_num=json.getInt("sp_num");
+			
+			for(int i=0;i<levels;i++){
+				for(int j=0;j<levels;j++){
+					if(json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j)!=null){
+						hight_score[i][j]=json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).optInt("hight_score");
+						hight_rank[i][j]=json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).optInt("hight_rank");
+					}else{			
+						hight_score[i][j]=0;
+						hight_rank[i][j]=0;
+					}
+				}
+			}
 			file.close();
 			Log.v("Data", "Data read");
 		} catch (FileNotFoundException e) {
 			mp_Voiume=1;
 			sp_Voiume=1;
 			sp_num=0;
+			for(int i=0;i<levels;i++){
+				for(int j=0;j<3;j++){
+					hight_score[i][j]=0;
+					hight_rank[i][j]=0;
+				}
+			}
 			Log.v("Data", "Data not found");
+			writeData();
 			e.printStackTrace();
 		} catch (IOException e) {
 			Log.v("Data","讀取檔案失敗");
@@ -483,13 +510,28 @@ public class MainActivity extends Activity{
 			json.put("mp_Voiume", String.valueOf(mp_Voiume));
 			json.put("sp_Voiume", String.valueOf(sp_Voiume));
 			json.put("sp_num",sp_num);
+			
+			json.put("level_data", new JSONArray());
+			for(int i=0;i<levels;i++){
+				json.optJSONArray("level_data").put(i, new JSONArray());
+				for(int j=0;j<3;j++){
+					json.optJSONArray("level_data").optJSONArray(i).put(j, new JSONObject());
+					json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).put("hight_score",hight_score[i][j]);
+					json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).put("hight_rank",hight_rank[i][j]);
+				}
+			}
 		} catch (JSONException e) {
 			Log.v("Data","無法將參數導入json");
 			e.printStackTrace();
 		}
 		try {
-			String fileName="Data.save";
-			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
+			/*String fileName="Data.save";
+			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);*/
+			File sdCard = Environment.getExternalStorageDirectory();
+			File dir = new File (sdCard.getAbsolutePath() + "/charts/data");
+			dir.mkdirs();
+			File file = new File(dir, "Data.save");
+			FileOutputStream writer =new FileOutputStream(file);
 			writer.write(json.toString().getBytes());
 			writer.close();
 			Log.v("Data", "Data saved");
@@ -505,11 +547,14 @@ public class MainActivity extends Activity{
 	@Override 
 	public void onResume(){
 		Constant.setFlag(true);
+		changeView(nowView);
 		super.onResume();
 	}
 	@Override 
 	public void onPause(){
 		Constant.setFlag(false);
+		if(mainview.back_mp.isPlaying())
+			mainview.back_mp.stop();
 		super.onPause();		
 	}
 	@Override

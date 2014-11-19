@@ -89,6 +89,7 @@ implements SurfaceHolder.Callback{
 	int sc_miss ;
 	int sc_combo ;
 	int sc_score ;
+	int sc_rank;
 	//儲存遊戲判定用參數---------------------------------------
 
 	int touch_flag=0;
@@ -190,22 +191,22 @@ implements SurfaceHolder.Callback{
 			clear_flag=true;
 			//FULL COMBO判定為S級
 			if(activity.combo == activity.virus){   
-				activity.hight_rank[activity.level][activity.difficulty]=7;
+				sc_rank=7;
 			}
 			//打擊率超過90% 為A
 			else if(activity.percent > ((int)activity.virus*0.9))  
 			{
-				activity.hight_rank[activity.level][activity.difficulty]=6;
+				sc_rank=6;
 			}
 			//打擊率超過80% 低於90%為B
 			else if(activity.percent > ((int)activity.virus*0.8) && activity.percent < ((int)activity.virus*0.9))
 			{
-				activity.hight_rank[activity.level][activity.difficulty]=5;
+				sc_rank=5;
 			}
 			//打擊率超過70% 低於80%為C
 			else if(activity.percent > ((int)activity.virus*0.7) && activity.percent < ((int)activity.virus*0.8)) //大於70% 小於80%
 			{
-				activity.hight_rank[activity.level][activity.difficulty]=4;
+				sc_rank=4;
 			}
 		}
 		else
@@ -214,21 +215,28 @@ implements SurfaceHolder.Callback{
 			//打擊率超過60% 低於70%為D
 			if(activity.percent > ((int)activity.virus*0.6) && activity.percent < ((int)activity.virus*0.7))
 			{
-				activity.hight_rank[activity.level][activity.difficulty]=3;
+				sc_rank=3;
 			}
 			//打擊率超過50% 低於60%為E
 			else if(activity.percent > ((int)activity.virus*0.5) && activity.percent < ((int)activity.virus*0.6))
 			{
-				activity.hight_rank[activity.level][activity.difficulty]=2;
+				sc_rank=2;
 			}
 			//低於50%以下一律為F
 			else
 			{
-				activity.hight_rank[activity.level][activity.difficulty]=1;
+				sc_rank=1;
 			}
 		}
 		if(activity.score>activity.hight_score[activity.level][activity.difficulty]){
 			new_score_flag=true;
+			activity.hight_score[activity.level][activity.difficulty]=activity.score;
+			activity.writeData();
+		}
+		if(sc_rank>activity.hight_rank[activity.level][activity.difficulty]){
+			new_rank_flag=true;
+			activity.hight_rank[activity.level][activity.difficulty]=this.sc_rank;
+			activity.writeData();
 		}
 
 		Constant.Flag=true;
@@ -273,8 +281,11 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, rightbar, 960, 300, 0, 255, paint);
 			Graphic.drawPic(canvas, rightbar, 960, 390, 0, 255, paint);
 			//Graphic.drawPic(canvas, rightbar, 960, 480, 0, 255, paint);
+			if(new_rank_flag){
 			Graphic.drawPic(canvas, rank_record, 960, 530, 0, 255, paint);
 			Graphic.drawPic(canvas, rank_new, 1150, 475, 0, 255, paint);
+			}
+			if(new_score_flag)
 			Graphic.drawPic(canvas, score_record, 325, 640, 0, 255, paint);
 
 			Graphic.drawPic(canvas, freely, 290, 40, 0, 255, paint);
@@ -341,37 +352,37 @@ implements SurfaceHolder.Callback{
 
 			num.setSize(30, 55);
 
-			num.drawNumberRightStart(620, 590, sc_score, Number.Wite, canvas, paint);
-			num.drawNumberRightStart(620, 660, activity.hight_score[activity.level][activity.difficulty], Number.Wite, canvas, paint);
+			num.drawNumberRightStart(620, 605, sc_score, Number.Wite, canvas, paint);
+			num.drawNumberRightStart(620, 675, activity.hight_score[activity.level][activity.difficulty], Number.Wite, canvas, paint);
 			//數字------------------------------------------------------------------------------------
 
-			if(sc_score != activity.score){
+			if(sc_score == activity.score){
 				if(clear_flag){
 					Graphic.drawPic(canvas, clear, 950, 165, 0, 255, paint);
 				}else{
 					Graphic.drawPic(canvas, failed, 950, 160, 0, 255, paint);
 				}
-				switch(activity.hight_rank[activity.level][activity.difficulty]){
+				switch(sc_rank){
 				case 7:
-					Graphic.drawPic(canvas, rank_s, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_s, 1030, 530, 0, 255, paint);
 					break;
 				case 6:
-					Graphic.drawPic(canvas, rank_a, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_a, 1030, 530, 0, 255, paint);
 					break;
 				case 5:
-					Graphic.drawPic(canvas, rank_b, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_b, 1030, 530, 0, 255, paint);
 					break;
 				case 4:
-					Graphic.drawPic(canvas, rank_c, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_c, 1030, 530, 0, 255, paint);
 					break;
 				case 3:
-					Graphic.drawPic(canvas, rank_d, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_d, 1030, 530, 0, 255, paint);
 					break;
 				case 2:
-					Graphic.drawPic(canvas, rank_e, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_e, 1030, 530, 0, 255, paint);
 					break;
 				case 1:
-					Graphic.drawPic(canvas, rank_f, 1030, 630, 0, 255, paint);
+					Graphic.drawPic(canvas, rank_f, 1030, 530, 0, 255, paint);
 					break;
 				}
 			}

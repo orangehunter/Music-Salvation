@@ -74,6 +74,16 @@ implements SurfaceHolder.Callback{
 	Bitmap right_arrow_right;
 	Bitmap right_arrow_right2;
 	//新宣告的難易度與箭頭圖片-------------------------------------------
+	
+	//第2、第3關卡所需要的圖片===========================================
+		/*Bitmap right_stage02info;
+		Bitmap right_stage03info;
+		Bitmap right_boss_del;  //過關之後會顯示的BOSS圖片
+		Bitmap stagebtn_green;
+		Bitmap stagebtn_green_l;
+		Bitmap right_stage2;
+		Bitmap right_stage3;*/
+		//第2、第3關卡所需要的圖片-------------------------------------------
 
 	Bitmap right_start;
 	Bitmap stage01btn0;
@@ -113,6 +123,8 @@ implements SurfaceHolder.Callback{
 	Bottom sebtm5;
 
 	Bottom stbtn01;
+	Bottom stbtn02;  //第二關按鈕
+	Bottom stbtn03;  //第三關按鈕
 	Bottom easy;
 	Bottom normal;
 	Bottom hard;
@@ -246,7 +258,18 @@ implements SurfaceHolder.Callback{
 		right_arrow_right = Graphic.bitSize(LoadBitmap(R.drawable.map_arrow_right), 35, 50);
 		right_arrow_right2 = Graphic.bitSize(LoadBitmap(R.drawable.map_arrow_right2), 35, 50);
 
-		//顯示難易度的按鈕與展開選單的箭頭===============================================================
+		//顯示難易度的按鈕與展開選單的箭頭---------------------------------------------------------------
+		
+		//新增的2、3關卡資訊====================================================================
+			/*	right_stage02info = Graphic.bitSize(LoadBitmap(R.drawable.right_stage02infor), 389, 336);
+				right_stage03info = Graphic.bitSize(LoadBitmap(R.drawable.right_stage03infor), 389, 336);
+				right_stage2 = Graphic.bitSize(LoadBitmap(R.drawable.right_stage02), 266, 62);
+				right_stage3 = Graphic.bitSize(LoadBitmap(R.drawable.right_stage03), 266, 62);
+				stagebtn_green = Graphic.bitSize(LoadBitmap(R.drawable.stagebtn_green), 64, 64);
+				stagebtn_green_l = Graphic.bitSize(LoadBitmap(R.drawable.stagebtn_green_l), 64, 64);*/
+				
+				
+		//新增的2、3關卡資訊---------------------------------------------------------------------
 		
 		stage01btn0 = Graphic.bitSize(LoadBitmap(R.drawable.stage01btn0), 64, 64);
 		stage01btn = Graphic.bitSize(LoadBitmap(R.drawable.stage01btn1), 64, 64);
@@ -299,6 +322,9 @@ implements SurfaceHolder.Callback{
 		sebtm4 = new Bottom(activity, se04, se04l, 393, 569);
 		sebtm5 = new Bottom(activity, se05, se05l, 393, 628);
 		stbtn01 = new Bottom(activity, stage01btn , stage01btn0 , 644, 609);
+		/*stbtn02 = new Bottom(activity, stage01btn , stage01btn0 , 815, 165);
+		stbtn03 = new Bottom(activity, stage01btn , stage01btn0 , 430, 335);*/
+
 
 		mp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, 259);
 		mp_Volume_bar.setSeekBarFloat((int)(activity.mp_Voiume*100));

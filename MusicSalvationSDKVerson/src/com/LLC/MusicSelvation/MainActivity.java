@@ -562,8 +562,12 @@ public class MainActivity extends Activity{
 	@Override 
 	public void onPause(){
 		Constant.setFlag(false);
+		/*try{
 		if(mainview.back_mp.isPlaying())
 			mainview.back_mp.stop();
+		}catch(Exception e){
+			Log.e("pause", ""+e);
+		}*/
 		super.onPause();		
 	}
 	@Override

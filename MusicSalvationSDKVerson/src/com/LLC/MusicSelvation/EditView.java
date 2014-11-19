@@ -17,6 +17,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -299,7 +300,23 @@ implements SurfaceHolder.Callback {
 					//for(int j=0;j<50;j++){//«ö¶s_¶ê °»´ú
 					//int BtTime=mp.getCurrentPosition()+target_dis+j;
 					paint.setColor(Color.BLACK);
+					try{
 					canvas.drawText(String.valueOf(mp.getCurrentPosition()-temp), Coordinate.CoordinateX(1110),Coordinate.CoordinateY(600) , paint);
+					}catch(IllegalStateException e){
+						mp.release();
+						mp=null;
+						mp=new MediaPlayer();
+						try {
+							mp.setDataSource(activity, uri);
+							mp.prepare();
+						} catch (IllegalStateException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
 					temp=mp.getCurrentPosition();
 					paint.reset();
 					if(chartscan.R_scan_flag){//BtR.optBoolean(Integer.toString(BtTime))){

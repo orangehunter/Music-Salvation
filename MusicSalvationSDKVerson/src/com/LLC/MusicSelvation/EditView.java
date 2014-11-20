@@ -234,7 +234,7 @@ implements SurfaceHolder.Callback {
 					}
 					for(int i=0;i<chartObject;i++){
 						if(!cr_btm[i].getFlag()){
-							cr_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition());
+							cr_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition()/accuracy);
 							cr_btm_flag=false;
 							break;
 						}
@@ -250,7 +250,7 @@ implements SurfaceHolder.Callback {
 					}
 					for(int i=0;i<chartObject;i++){
 						if(!cs_btm[i].getFlag()){
-							cs_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition());
+							cs_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition()/accuracy);
 							cs_btm_flag=false;
 							break;
 						}
@@ -266,7 +266,7 @@ implements SurfaceHolder.Callback {
 					}
 					for(int i=0;i<chartObject;i++){
 						if(!ct_btm[i].getFlag()){
-							ct_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition());
+							ct_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition()/accuracy);
 							ct_btm_flag=false;
 							break;
 						}
@@ -282,7 +282,7 @@ implements SurfaceHolder.Callback {
 					}
 					for(int i=0;i<chartObject;i++){
 						if(!cx_btm[i].getFlag()){
-							cx_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition());
+							cx_btm[i].start(mp.getCurrentPosition()-target_dis, target_dis, mp.getCurrentPosition()/accuracy);
 							cx_btm_flag=false;
 							break;
 						}
@@ -309,6 +309,12 @@ implements SurfaceHolder.Callback {
 						try {
 							mp.setDataSource(activity, uri);
 							mp.prepare();
+						} catch (IllegalArgumentException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SecurityException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						} catch (IllegalStateException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -322,7 +328,7 @@ implements SurfaceHolder.Callback {
 					if(chartscan.R_scan_flag){//BtR.optBoolean(Integer.toString(BtTime))){
 						for(int i=0;i<chartObject;i++){
 							if(!cr_btm[i].getFlag()){
-								cr_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+								cr_btm[i].start(mp.getCurrentPosition(), target_dis, chartscan.R_scan_id);
 								chartscan.R_scan_flag=false;
 								break;
 							}
@@ -331,7 +337,7 @@ implements SurfaceHolder.Callback {
 					if(chartscan.S_scan_flag){//BtS.optBoolean(Integer.toString(BtTime))){
 						for(int i=0;i<chartObject;i++){
 							if(!cs_btm[i].getFlag()){
-								cs_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+								cs_btm[i].start(mp.getCurrentPosition(), target_dis, chartscan.S_scan_id);
 								chartscan.S_scan_flag=false;
 								break;
 							}
@@ -340,7 +346,7 @@ implements SurfaceHolder.Callback {
 					if(chartscan.T_scan_flag){//BtT.optBoolean(Integer.toString(BtTime))){
 						for(int i=0;i<chartObject;i++){
 							if(!ct_btm[i].getFlag()){
-								ct_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+								ct_btm[i].start(mp.getCurrentPosition(), target_dis, chartscan.T_scan_id);
 								chartscan.T_scan_flag=false;
 								break;
 							}
@@ -349,7 +355,7 @@ implements SurfaceHolder.Callback {
 					if(chartscan.X_scan_flag){//BtX.optBoolean(Integer.toString(BtTime))){
 						for(int i=0;i<chartObject;i++){
 							if(!cx_btm[i].getFlag()){
-								cx_btm[i].start(mp.getCurrentPosition(), target_dis, mp.getCurrentPosition());
+								cx_btm[i].start(mp.getCurrentPosition(), target_dis, chartscan.X_scan_id);
 								chartscan.X_scan_flag=false;
 								break;
 							}
@@ -556,6 +562,24 @@ implements SurfaceHolder.Callback {
 			if(btm_x.isIn(f.x, f.y)){
 				btn_pointer.put(pointerId, 3);
 				cx_btm_flag=true;
+			}
+			for(int i=0;i<chartObject;i++){
+				if(cr_btm[i].btm.isIn(f.x, f.y)){
+					BtR.remove(String.valueOf(cr_btm[i].getId()));
+					cr_btm[i].cancel();
+				}
+				if(cs_btm[i].btm.isIn(f.x, f.y)){
+					BtS.remove(String.valueOf(cs_btm[i].getId()));
+					cs_btm[i].cancel();
+				}
+				if(ct_btm[i].btm.isIn(f.x, f.y)){
+					BtT.remove(String.valueOf(ct_btm[i].getId()));
+					ct_btm[i].cancel();
+				}
+				if(cx_btm[i].btm.isIn(f.x, f.y)){
+					BtX.remove(String.valueOf(cx_btm[i].getId()));
+					cx_btm[i].cancel();
+				}
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:

@@ -64,8 +64,8 @@ public class MainActivity extends Activity{
 	int level;//關卡
 	int levels=3;//關卡總數
 	int difficulty;//難度
-	int [][]hight_score=new int [3][3];
-	int [][]hight_rank=new int [3][3];
+	int [][]hight_score=new int [levels][3];
+	int [][]hight_rank=new int [levels][3];
 	//選關參數-------------------------------------
 	
 	//用來辨識難易度的FLAG===========================

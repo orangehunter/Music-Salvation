@@ -20,6 +20,10 @@ public class chartScan {
 	boolean S_scan_flag=false;
 	boolean T_scan_flag=false;
 	boolean X_scan_flag=false;
+	int R_scan_id;
+	int S_scan_id;
+	int T_scan_id;
+	int X_scan_id;
 
 	int r_last=-10;
 	int s_last=-10;
@@ -100,18 +104,22 @@ public class chartScan {
 		if(BtR.optBoolean(Integer.toString(scan_time_flag))&&scan_time_flag-r_last>=1){
 			r_last=scan_time_flag;
 			R_scan_flag=true;
+			R_scan_id=scan_time_flag;
 		}else
 			if(BtS.optBoolean(Integer.toString(scan_time_flag))&&scan_time_flag-s_last>=1){
 				s_last=scan_time_flag;
 				S_scan_flag=true;
+				S_scan_id=scan_time_flag;
 			}else
 				if(BtT.optBoolean(Integer.toString(scan_time_flag))&&scan_time_flag-t_last>=1){
 					t_last=scan_time_flag;
 					T_scan_flag=true;
+					T_scan_id=scan_time_flag;
 				}else
 					if(BtX.optBoolean(Integer.toString(scan_time_flag))&&scan_time_flag-x_last>=1){
 						x_last=scan_time_flag;
 						X_scan_flag=true;
+						X_scan_id=scan_time_flag;
 					}
 	}
 	public int getTime(){

@@ -43,6 +43,9 @@ public class chartBottom {
 	public boolean getFlag(){
 		return flag;
 	}
+	public void cancel(){
+		this.flag=false;
+	}
 	public int getId(){
 		return ID;
 	}

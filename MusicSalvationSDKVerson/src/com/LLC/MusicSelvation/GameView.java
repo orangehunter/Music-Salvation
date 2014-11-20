@@ -130,6 +130,13 @@ implements SurfaceHolder.Callback{
 	Bitmap rank_e;
 	Bitmap rank_f;
 	//過關等級------------------------------------------------
+	
+	//能量條切換=============================================
+	Bitmap enebar[] = new Bitmap[10];
+	int enebar_num = 9;
+	double enebar_speed = 0.1;
+	shortAnimax change_enebar[] = new shortAnimax[enebar_num];
+	//能量條切換---------------------------------------------
 
 	Number score;
 
@@ -340,6 +347,18 @@ implements SurfaceHolder.Callback{
 		Blue[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue03), 150, 150);
 		Blue[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue04), 150, 150);
 		Blue[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue05), 150, 150);
+		
+		//能量條圖片
+		enebar[0] = Graphic.bitSize(LoadBitmap(R.drawable.enebar00), 1280, 28);
+		enebar[1] = Graphic.bitSize(LoadBitmap(R.drawable.enebar01), 1280, 28);
+		enebar[2] = Graphic.bitSize(LoadBitmap(R.drawable.enebar02), 1280, 28);
+		enebar[3] = Graphic.bitSize(LoadBitmap(R.drawable.enebar03), 1280, 28);
+		enebar[4] = Graphic.bitSize(LoadBitmap(R.drawable.enebar04), 1280, 28);
+		enebar[5] = Graphic.bitSize(LoadBitmap(R.drawable.enebar05), 1280, 28);
+		enebar[6] = Graphic.bitSize(LoadBitmap(R.drawable.enebar06), 1280, 28);
+		enebar[7] = Graphic.bitSize(LoadBitmap(R.drawable.enebar07), 1280, 28);
+		enebar[8] = Graphic.bitSize(LoadBitmap(R.drawable.enebar08), 1280, 28);
+		enebar[9] = Graphic.bitSize(LoadBitmap(R.drawable.enebar09), 1280, 28);
 
 
 
@@ -357,6 +376,11 @@ implements SurfaceHolder.Callback{
 
 			Effect_Blue[i]=new shortAnimax(Blue);
 			Effect_Blue[i].setPosition(825, 600);
+		}
+		
+		for(int e=0;e<enebar_num;e++){
+			change_enebar[e] = new shortAnimax(enebar);
+			change_enebar[e].setPosition(640, 50);
 		}
 
 
@@ -669,6 +693,8 @@ implements SurfaceHolder.Callback{
 				}
 			}
 			//特效光繪圖----------------------------------------------------------------------------
+			
+			
 
 			hp_x=Coordinate.AnalogSpeedMove(hp_x, 182+hp*55);
 			hp_color=Color.GREEN;
@@ -681,8 +707,16 @@ implements SurfaceHolder.Callback{
 			}
 			Graphic.drawPic(canvas, titlebar, 641, 31, 0, 255, paint);
 			Graphic.drawLine(canvas, hp_color, 182, 50, hp_x, 50, 16, paint);
-			Graphic.drawPic(canvas, hpbar, 730, 50, 0, 255, paint);
-			Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
+			//Graphic.drawPic(canvas, hpbar, 730, 50, 0, 255, paint);
+			//Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
+			//能量條切換特效==========================================================================
+			for(int e=0;e<enebar_num;e++){
+				if(Effect_Red[i].getFlag()){
+				change_enebar[e].drawEffect(enebar_speed, canvas, paint);
+				}
+				
+			}
+			//能量條切換特效--------------------------------------------------------------------------
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
 			score.setSize(20, 30);
 			score.drawNumberRightStart(1250, 20, sc_score, Number.Wite, canvas, paint);
@@ -784,6 +818,7 @@ implements SurfaceHolder.Callback{
 						}
 					}
 				}
+				
 				btn_pointer.put(pointerId, 0);
 			}
 			if(btn_square.isIn(f.x, f.y)){
@@ -851,6 +886,12 @@ implements SurfaceHolder.Callback{
 			if(btn_pause.isIn(pointx, pointy)){
 				if(!btn_pause.getBottom()){
 					btn_pause.setBottomTo(true);
+					//測試enebar切換動畫========================================
+					for(int e =0;e<enebar_num;e++){
+						change_enebar[e].start();
+						break;
+					}
+					//測試enebar切換動畫----------------------------------------
 				}
 				else if(btn_pause.getBottom()){
 					btn_pause.setBottomTo(false);

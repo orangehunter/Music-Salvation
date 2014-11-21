@@ -468,8 +468,8 @@ implements SurfaceHolder.Callback{
 				boss_x=boss_x_side;
 				switch(activity.level){//關卡
 				case 0 :
-					this.boss_show=60000;//TAG BOSS進場時間
-					boss_kill=90000;
+					this.boss_show=600000;//TAG BOSS進場時間
+					boss_kill=900000;
 					switch(activity.difficulty){//難度
 					case 0 :
 						json=activity.read( "freely_tomorrow.mp3");

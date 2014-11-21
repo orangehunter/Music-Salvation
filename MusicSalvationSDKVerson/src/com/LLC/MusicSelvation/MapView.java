@@ -1086,7 +1086,7 @@ implements SurfaceHolder.Callback{
 		//第2、第3關卡所需要的圖片===========================================
 		 right_stage02info.recycle();
 		 right_stage03info.recycle();
-		 right_boss_del.recycle();  //過關之後會顯示的BOSS圖片
+		// right_boss_del.recycle();  //過關之後會顯示的BOSS圖片
 		 stagebtn_green.recycle();
 		 stagebtn_green_l.recycle();
 		 right_stage2.recycle();
@@ -1141,7 +1141,7 @@ implements SurfaceHolder.Callback{
 		 start.recycle();
 
 		//箭頭按鈕宣告================================================
-		 arrow.recycle();
+		// arrow.recycle();
 		//箭頭按鈕宣告--------------------------------------------------------------------------------
 		 
 		Constant.Flag=false;

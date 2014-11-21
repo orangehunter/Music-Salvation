@@ -32,11 +32,11 @@ implements SurfaceHolder.Callback{
 	Bitmap main_right;
 	Bitmap main_title;
 	Bitmap main_touchstart;
-	
+
 	Bottom startbtm;
 	Bottom exitbtm;
-	
-	
+
+
 	int mainFlag=0;
 
 	boolean toEditView=false;
@@ -62,14 +62,14 @@ implements SurfaceHolder.Callback{
 	int mrx=1280+333;
 	int mrx1=1280-333+190;
 	int mry=360+140;
-	
+
 	int alpha = 5;
 	int alpha2 = 0;
-	
+
 	//背景音樂宣告====================================
-	
+
 	MediaPlayer back_mp;
-	
+
 	//背景音樂宣告------------------------------------
 
 	Paint paint;			//畫筆的參考
@@ -101,15 +101,15 @@ implements SurfaceHolder.Callback{
 		exit  =  Graphic.bitSize(LoadBitmap( R.drawable.exit), 314,85);
 		startbtm = new Bottom(activity, start,start, 640, 518);
 		exitbtm = new Bottom(activity, exit, exit, 640, 643);
-		
+
 		//載入音樂=============================================================
-		
+
 		back_mp=MediaPlayer.create(this.getContext(), R.raw.tell_your_world_piano);
 		back_mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
 		back_mp.setLooping(true);
 		back_mp.start();
 		//載入音樂-------------------------------------------------------------
-		
+
 
 		Constant.Flag=true;
 		new Thread(){
@@ -133,8 +133,8 @@ implements SurfaceHolder.Callback{
 			}
 		}.start();
 	}
-	
-	
+
+
 	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {//重新定義的繪制方法
@@ -143,12 +143,12 @@ implements SurfaceHolder.Callback{
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, main_back, 1280/2, 720/2, 0, 255, paint);//背景
-			
+
 			if(!back_mp.isPlaying()){
 				back_mp.prepareAsync();
 				back_mp.start();
 			}
-			
+
 			if(apa<= 10){
 				a =7;
 			} 
@@ -183,7 +183,7 @@ implements SurfaceHolder.Callback{
 
 				Graphic.drawPic(canvas, main_right, mrx, mry, 0, 255, paint);//Right
 				mrx=Coordinate.AnalogSpeedMove(mrx, mrx1);
-				
+
 				/*alpha2+=alpha;
 				if(alpha2 > 250){
 					alpha = -10;
@@ -206,13 +206,13 @@ implements SurfaceHolder.Callback{
 			{
 			case MotionEvent.ACTION_DOWN://按下
 				if(deJump == true){
-				mainFlag=1;
+					mainFlag=1;
 				}
 				deJump = false;
 				break;
 			case MotionEvent.ACTION_UP://抬起
 				if(deJump==false){//防止彈跳part2
-					
+
 				}
 				deJump = true;
 				break;
@@ -233,22 +233,22 @@ implements SurfaceHolder.Callback{
 				}
 				deJump=false;
 				break;
-			//.....................................................................................
+				//.....................................................................................
 			case MotionEvent.ACTION_UP://抬起
 				if(deJump==false){//防止彈跳part2
 					if(startbtm.isIn(pointx, pointy)){
 						//進入地圖畫面
 						if(this.toEditView){
-						activity.changeView(2);
+							activity.changeView(2);
 						}
 					}
-					
+
 					if(exitbtm.isIn(pointx, pointy)){
 						if(this.toEditView){
 							activity.changeView(6);
 						}else if(exitbtm.getBottom()){
 							exitbtm.setBottomTo(false);
-						activity.changeView(255);
+							activity.changeView(255);
 						}
 					}
 					this.toEditView = false;
@@ -267,6 +267,16 @@ implements SurfaceHolder.Callback{
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
+		main_back.recycle();
+		main_back2.recycle();
+		start.recycle();
+		exit.recycle();
+		main_left.recycle();
+		main_right.recycle();
+		main_title.recycle();
+		main_touchstart.recycle();
+		startbtm.recycle();
+		exitbtm.recycle();
 		Constant.Flag=false;
 		back_mp.stop();
 	}

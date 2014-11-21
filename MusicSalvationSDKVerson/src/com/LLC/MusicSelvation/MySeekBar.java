@@ -7,50 +7,50 @@ import android.util.Log;
 
 public class MySeekBar {
 	MainActivity activity;
-	
+
 	float btmX;//按鈕的中央x座標
 	float btmY;//按鈕的中央y座標
-	
+
 	float barX;//搜尋條的中央x座標
 	float barY;//搜尋條的中央y座標
-	
+
 	float btm_width;//按鈕的寬
 	float btm_height;//按鈕的高
-	
+
 	float bar_width;//搜尋條的寬
 	float bar_height;//搜尋條的高
-	
+
 	float bar_btn_dis;
-	
+
 	Boolean isOn;
-	
+
 	Bitmap Bar;//搜尋條
 	Bitmap Btm;//按鈕
-	
+
 	public MySeekBar(MainActivity activity,Bitmap Bar,Bitmap Btm,int x,int y){
 		this.activity=activity;
 		this.Bar=Bar;
 		this.Btm=Btm;
 		this.isOn=false;
-		
+
 		this.bar_width=this.Bar.getWidth();
 		this.bar_height=this.Bar.getHeight();
-		
+
 		this.btm_width=this.Btm.getWidth();
 		this.btm_height=this.Btm.getHeight();
-		
+
 		this.barX=Coordinate.CoordinateX(x)-(this.bar_width/2);
 		this.barY=Coordinate.CoordinateY(y)-(this.bar_height/2);
-		
+
 		this.btmX=Coordinate.CoordinateX(x)-(this.btm_width/2);
 		this.btmY=Coordinate.CoordinateY(y)-(this.btm_height/2);
-		
+
 	}
 	public void Move(int x,int y){
 		//Log.v("SeekBar", "X:"+x+"Y:"+y);
 		this.barX=Coordinate.CoordinateX(x)-(this.bar_width/2);
 		this.barY=Coordinate.CoordinateY(y)-(this.bar_height/2);
-		
+
 		this.btmX=barX+bar_btn_dis;
 		this.btmY=Coordinate.CoordinateY(y)-(this.btm_height/2);
 	}
@@ -72,10 +72,10 @@ public class MySeekBar {
 		//Log.v("SeekBar", "X"+x);
 		if(x>(this.barX+(this.btm_width/2))&& x<(this.barX+this.bar_width-(this.btm_width/2))){
 			this.btmX=x-(this.btm_width/2);
-			
+
 		}else if(x<(this.barX+(this.btm_width/2))-(this.btm_width/2)){
 			setSeekBarInt(0);
-			
+
 		}else if(x>(this.barX+this.bar_width-(this.btm_width/2))-(this.btm_width/2)){
 			setSeekBarInt(100);
 		}
@@ -88,5 +88,9 @@ public class MySeekBar {
 		if(x>this.btmX&&x<this.btmX+this.btm_width   &&   y>this.btmY&&y<this.btmY+this.btm_height)
 			return true;
 		return false;
+	}
+	public void recycle(){
+		Bar.recycle();//搜尋條
+		Btm.recycle();//按鈕
 	}
 }

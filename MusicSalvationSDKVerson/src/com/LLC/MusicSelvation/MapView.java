@@ -1026,6 +1026,124 @@ implements SurfaceHolder.Callback{
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
+		 wmap.recycle();
+		 left_back.recycle();
+		 left_exit.recycle();    //<<箭頭-淺色  離開MENU用
+		 left_exit2.recycle();   //<<箭頭-深色
+
+		 menubtn.recycle();      //>>箭頭-淺色  呼叫MENU用
+		 menubtn2.recycle();    //>>箭頭-深色
+
+		 left_exitback.recycle(); //離開按鈕背景
+		 left_btmback.recycle();  //MENU選項背景
+		 btnvol.recycle();
+		 btnvol2.recycle();
+		 chbtmse.recycle();
+		 chbtmse2.recycle();
+		 song_vol.recycle();
+		 song_vol2.recycle();
+		 remain.recycle();
+		 remain2.recycle();
+
+		//速度與判定圖片宣告=====================================
+		 timing.recycle();
+		 timing2.recycle();
+		 timing_back.recycle();
+		 timing_r_arrow.recycle();
+		 timing_l_arrow.recycle();
+		 for(int i=0;i<11;i++){
+		 timing_num[i].recycle();
+		 }
+		//速度與判定圖片宣告----------------------------------------
+
+
+		 volchback.recycle();
+		 volBar.recycle();
+		 volbtn.recycle();
+		 sechange.recycle();
+
+		//右邊關卡選擇區塊
+		 right_board.recycle();
+		 right_chmodel.recycle();
+		 right_stage01.recycle();
+		 right_freely.recycle();
+		 right_boss01.recycle();
+		 right_st01Font.recycle();
+		 right_easy.recycle();
+		 right_normal.recycle();
+		 right_hard.recycle();
+
+		//新宣告的難易度與箭頭圖片===========================================
+		 right_easy_ch.recycle();
+		 right_normal_ch.recycle();
+		 right_hard_ch.recycle();
+		 right_arrow_left.recycle();
+		 right_arrow_left2.recycle();
+		 right_arrow_right.recycle();
+		 right_arrow_right2.recycle();
+		//新宣告的難易度與箭頭圖片-------------------------------------------
+
+		//第2、第3關卡所需要的圖片===========================================
+		 right_stage02info.recycle();
+		 right_stage03info.recycle();
+		 right_boss_del.recycle();  //過關之後會顯示的BOSS圖片
+		 stagebtn_green.recycle();
+		 stagebtn_green_l.recycle();
+		 right_stage2.recycle();
+		 right_stage3.recycle();
+		//第2、第3關卡所需要的圖片-------------------------------------------
+
+		 right_start.recycle();
+		 stage01btn0.recycle();
+		 stage01btn.recycle();
+
+		 se01.recycle();
+		 se01l.recycle();
+		 se02.recycle();
+		 se02l.recycle();
+		 se03.recycle();
+		 se03l.recycle();
+		 se04.recycle();
+		 se04l.recycle();
+		 se05.recycle();
+		 se05l.recycle();
+
+		 model_ch.recycle();
+
+
+		menubtm.recycle(); //MENU按鈕
+		left_btm1.recycle();
+		left_btm2.recycle();
+		left_btm3.recycle();
+		left_btm4.recycle();
+		left_btm5.recycle();
+		speed_left_arrow.recycle();
+		speed_right_arrow.recycle();
+		timing_left_arrow.recycle();
+		timing_right_arrow.recycle();
+		mp_Volume_bar.recycle();
+		sp_Volume_bar.recycle();
+
+
+		sebtm1.recycle();
+		sebtm2.recycle();
+		sebtm3.recycle();
+		sebtm4.recycle();
+		sebtm5.recycle();
+
+		 stbtn01.recycle();
+		 stbtn02.recycle();  //第二關按鈕
+		 stbtn03.recycle();  //第三關按鈕
+		 easy.recycle();
+		 normal.recycle();
+		 hard.recycle();
+		 model.recycle();
+		 start.recycle();
+
+		//箭頭按鈕宣告================================================
+		 arrow.recycle();
+		//箭頭按鈕宣告--------------------------------------------------------------------------------
+		 
 		Constant.Flag=false;
 		//把選擇的難易度傳給MainActivity供其他View使用=========================
 		activity.modelFlag = modelFlag;

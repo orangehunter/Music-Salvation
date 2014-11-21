@@ -91,7 +91,7 @@ implements SurfaceHolder.Callback{
 	Bitmap re_map;
 	//宣告pause所需要的圖片-------------------------------------------
 
-	
+
 	//TAG 特效光宣告================================
 	Bitmap[] Cyan 	= new Bitmap [6],
 			Red		= new Bitmap [6],
@@ -130,7 +130,7 @@ implements SurfaceHolder.Callback{
 	Bitmap rank_e;
 	Bitmap rank_f;
 	//過關等級------------------------------------------------
-	
+
 	//能量條切換=============================================
 	Bitmap enebar[] = new Bitmap[10];
 	int enebar_num = 9;
@@ -155,7 +155,7 @@ implements SurfaceHolder.Callback{
 	int boss_x;
 	int boss_x_side=1025;
 	int boss_x_middle=640;
-	
+
 	int combo=0;
 	int maxcombo = 0;
 	int sc_nice= 0;
@@ -269,7 +269,7 @@ implements SurfaceHolder.Callback{
 		grey_square = Graphic.bitSize(LoadBitmap(R.drawable.grey_square), 200, 200);
 		grey_triangle = Graphic.bitSize(LoadBitmap(R.drawable.grey_tirangle), 200, 200);
 		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 200, 200);
-		
+
 
 		//TAG 浮游砲與光束=======================================================================
 		d_blue = Graphic.bitSize(LoadBitmap(R.drawable.d_blue), 250, 170);
@@ -347,7 +347,7 @@ implements SurfaceHolder.Callback{
 		Blue[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue03), 150, 150);
 		Blue[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue04), 150, 150);
 		Blue[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue05), 150, 150);
-		
+
 		//能量條圖片
 		enebar[0] = Graphic.bitSize(LoadBitmap(R.drawable.enebar00), 1280, 28);
 		enebar[1] = Graphic.bitSize(LoadBitmap(R.drawable.enebar01), 1280, 28);
@@ -377,7 +377,7 @@ implements SurfaceHolder.Callback{
 			Effect_Blue[i]=new shortAnimax(Blue);
 			Effect_Blue[i].setPosition(825, 600);
 		}
-		
+
 		for(int e=0;e<enebar_num;e++){
 			change_enebar[e] = new shortAnimax(enebar);
 			change_enebar[e].setPosition(640, 50);
@@ -693,8 +693,8 @@ implements SurfaceHolder.Callback{
 				}
 			}
 			//特效光繪圖----------------------------------------------------------------------------
-			
-			
+
+
 
 			hp_x=Coordinate.AnalogSpeedMove(hp_x, 182+hp*55);
 			hp_color=Color.GREEN;
@@ -712,9 +712,9 @@ implements SurfaceHolder.Callback{
 			//能量條切換特效==========================================================================
 			for(int e=0;e<enebar_num;e++){
 				if(Effect_Red[i].getFlag()){
-				change_enebar[e].drawEffect(enebar_speed, canvas, paint);
+					change_enebar[e].drawEffect(enebar_speed, canvas, paint);
 				}
-				
+
 			}
 			//能量條切換特效--------------------------------------------------------------------------
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
@@ -772,12 +772,12 @@ implements SurfaceHolder.Callback{
 			}
 			// TAG BOSS 模式狀態
 			if(mp.getCurrentPosition()>boss_show){
-			Graphic.drawPic(canvas, boss, boss_x, boss_y, 0, 255, paint);
-			if(boss_Flag){
-				boss_x=Coordinate.AnalogSpeedMove(boss_x, boss_x_middle);
-			}else if(mp.getCurrentPosition()>boss_kill){
-				boss_Flag=true;
-			}
+				Graphic.drawPic(canvas, boss, boss_x, boss_y, 0, 255, paint);
+				if(boss_Flag){
+					boss_x=Coordinate.AnalogSpeedMove(boss_x, boss_x_middle);
+				}else if(mp.getCurrentPosition()>boss_kill){
+					boss_Flag=true;
+				}
 			}
 		}
 	}
@@ -818,7 +818,7 @@ implements SurfaceHolder.Callback{
 						}
 					}
 				}
-				
+
 				btn_pointer.put(pointerId, 0);
 			}
 			if(btn_square.isIn(f.x, f.y)){
@@ -1032,7 +1032,7 @@ implements SurfaceHolder.Callback{
 		activity.score = sc_score;
 		activity.percent = percent;
 		startFlag=true;
-		
+
 		bg.recycle();   //背景
 		sight.recycle();  //準星
 		boss.recycle();
@@ -1105,18 +1105,56 @@ implements SurfaceHolder.Callback{
 		}
 
 		//過關等級================================================
-		 rank_s.recycle();
-		 rank_a.recycle();
-		 rank_b.recycle();
-		 rank_c.recycle();
-		 rank_d.recycle();
-		 rank_e.recycle();
-		 rank_f.recycle();
+		rank_s.recycle();
+		rank_a.recycle();
+		rank_b.recycle();
+		rank_c.recycle();
+		rank_d.recycle();
+		rank_e.recycle();
+		rank_f.recycle();
 		//過關等級------------------------------------------------
-		 chart_r.recycle();
-		 chart_s.recycle();
-		 chart_t.recycle();
-		 chart_x.recycle();
+		chart_r.recycle();
+		chart_s.recycle();
+		chart_t.recycle();
+		chart_x.recycle();
+		
+		for(int i=0;i<6;i++){
+			Cyan[i].recycle();
+			Red[i].recycle();
+			Green[i].recycle();
+			Yellow[i].recycle();
+			Blue[i].recycle();
+		}
+		for(int i=0;i<Effect_numbers;i++){
+			Effect_Cyan[i].recycle();
+			Effect_Red[i].recycle();
+			Effect_Green[i].recycle();
+			Effect_Yellow[i].recycle();
+			Effect_Blue[i].recycle();
+		}
+
+		btn_circle.recycle();
+		btn_square.recycle();
+		btn_xx.recycle();
+		btn_triangle.recycle();
+
+		//宣告PAUSE、返回遊戲、從頭開始、返回關卡地圖按鈕==================================================
+		btn_pause.recycle();
+		btn_re_play.recycle();
+		btn_re_start.recycle();
+		btn_re_map.recycle();
+		//宣告PAUSE、返回遊戲、從頭開始、返回關卡地圖按鈕--------------------------------------------------
+
+		//能量條切換=============================================
+		for(int i=0;i<10;i++){
+			enebar[i].recycle() ;
+		}
+		for(int i=0;i<enebar_num;i++){
+			change_enebar[i].recycle() ;
+		}
+		//能量條切換---------------------------------------------
+		score.recycle();
+		
 		Constant.Flag=false;
 	}
 

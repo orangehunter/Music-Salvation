@@ -49,4 +49,9 @@ public class shortAnimax {
 	public int getCountFlag(){
 		return ((int)animax_count_flag);
 	}
+	public void recycle(){
+		for(int i=0;i<pic.length;i++){
+			pic[i].recycle();
+		}		
+	}
 }

@@ -75,4 +75,8 @@ public class Bottom {
 			return true;
 		return false;
 	}
+	public void recycle(){
+		onBitmap.recycle();//按下狀態的圖片
+		offBitmap.recycle();//未按下狀態的圖片
+	}
 }

@@ -49,4 +49,7 @@ public class chartBottom {
 	public int getId(){
 		return ID;
 	}
+public void recycle(){
+		btm.recycle();
+	}
 }

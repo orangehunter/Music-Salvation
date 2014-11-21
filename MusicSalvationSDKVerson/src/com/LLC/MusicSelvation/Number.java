@@ -68,4 +68,12 @@ public class Number {
 		this.height=this.default_height;
 		this.dis=0;
 	}
+	public void recycle(){
+		for(int i=0;i<7;i++){
+			origin[i].recycle();
+			for(int j=0;j<10;j++){
+				nums[i][j].recycle();
+			}
+		}
+	}
 }

@@ -23,7 +23,7 @@ public class Graphic {
 		matrix.postScale(scaleWidth, scaleHeight);
 		Bitmap bit=Bitmap.createBitmap(bf, 0,0,bw,bh, matrix, true);//縮放圖片
 		matrix.reset();
-		bf.recycle();//銷毀原圖
+		//bf.recycle();//銷毀原圖
 
 		return bit;
 	}

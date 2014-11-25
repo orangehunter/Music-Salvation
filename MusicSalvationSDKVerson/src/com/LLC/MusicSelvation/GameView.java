@@ -647,11 +647,17 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, sight, 575, 600, 0, 255, paint);
 			Graphic.drawPic(canvas, sight, 700, 600, 0, 255, paint);
 			Graphic.drawPic(canvas, sight, 825, 600, 0, 255, paint);
-
+			if(!boss_attack_Flag){
 			btn_circle.drawBtm(canvas, paint);
 			btn_square.drawBtm(canvas, paint);
 			btn_triangle.drawBtm(canvas, paint);
 			btn_xx.drawBtm(canvas, paint);
+			}else{
+				Graphic.drawPic(canvas, d_red, 100, 495, 315, 255, paint);
+				Graphic.drawPic(canvas,  d_yellow, 280, 625, 330, 255, paint);
+				Graphic.drawPic(canvas,  d_blue, 1180, 495, 45, 255, paint);
+				Graphic.drawPic(canvas,  d_green, 1000, 625, 30, 255, paint);
+			}
 			btn_pause.drawBtm(canvas, paint);
 
 			//PAUSE選單控制==========================================================
@@ -709,7 +715,7 @@ implements SurfaceHolder.Callback{
 				hp_color=Color.RED;
 			}
 			Graphic.drawPic(canvas, titlebar, 641, 31, 0, 255, paint);
-			Graphic.drawLine(canvas, hp_color, 182, 50, hp_x, 50, 16, paint);
+			Graphic.drawLine(canvas, hp_color, 190, 50, hp_x, 50, 16, paint);
 			//Graphic.drawPic(canvas, hpbar, 730, 50, 0, 255, paint);
 			//Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
 			//能量條切換特效==========================================================================

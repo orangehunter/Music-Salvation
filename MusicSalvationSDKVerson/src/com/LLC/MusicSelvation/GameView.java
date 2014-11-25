@@ -133,9 +133,10 @@ implements SurfaceHolder.Callback{
 
 	//能量條切換=============================================
 	Bitmap enebar[] = new Bitmap[10];
-	int enebar_num = 9;
+
 	double enebar_speed = 0.1;
-	shortAnimax change_enebar[] = new shortAnimax[enebar_num];
+	shortAnimax change_enebar;
+	boolean ene_flag;
 	//能量條切換---------------------------------------------
 
 	Number score;
@@ -151,6 +152,7 @@ implements SurfaceHolder.Callback{
 	int boss_show;
 	int boss_kill;
 	boolean boss_Flag;
+	boolean boss_attack_Flag;
 	int boss_y=242;
 	int boss_x;
 	int boss_x_side=1025;
@@ -378,10 +380,8 @@ implements SurfaceHolder.Callback{
 			Effect_Blue[i].setPosition(825, 600);
 		}
 
-		for(int e=0;e<enebar_num;e++){
-			change_enebar[e] = new shortAnimax(enebar);
-			change_enebar[e].setPosition(640, 50);
-		}
+		change_enebar = new shortAnimax(enebar);
+		change_enebar.setPosition(640, 50);
 
 
 
@@ -465,11 +465,14 @@ implements SurfaceHolder.Callback{
 			if(startFlag){
 				JSONObject json=null;
 				boss_Flag=false;
+				boss_attack_Flag=false;
+				ene_flag=false;
 				boss_x=boss_x_side;
+
 				switch(activity.level){//關卡
 				case 0 :
-					this.boss_show=600000;//TAG BOSS進場時間
-					boss_kill=900000;
+					this.boss_show=6000;//TAG BOSS進場時間
+					boss_kill=9000;
 					switch(activity.difficulty){//難度
 					case 0 :
 						json=activity.read( "freely_tomorrow.mp3");
@@ -710,13 +713,36 @@ implements SurfaceHolder.Callback{
 			//Graphic.drawPic(canvas, hpbar, 730, 50, 0, 255, paint);
 			//Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
 			//能量條切換特效==========================================================================
-			for(int e=0;e<enebar_num;e++){
-				if(Effect_Red[i].getFlag()){
-					change_enebar[e].drawEffect(enebar_speed, canvas, paint);
+			if(!change_enebar.getFlag()){
+				if(ene_flag){
+					Graphic.drawPic(canvas, enebar[9], 640, 50, 0, 255, paint);
+				}else{
+					Graphic.drawPic(canvas, enebar[0], 640, 50, 0, 255, paint);
 				}
-
 			}
+			change_enebar.drawEffect(enebar_speed, canvas, paint);
 			//能量條切換特效--------------------------------------------------------------------------
+			// TAG BOSS 模式狀態=======================================================================
+			if(mp.getCurrentPosition()>boss_show){
+				Graphic.drawPic(canvas, boss, boss_x, boss_y, 0, 255, paint);
+				if(!ene_flag){
+					change_enebar.start();
+					ene_flag=true;
+				}
+				if(!boss_attack_Flag){
+					if(boss_Flag){
+						if(boss_x!=boss_x_middle){
+							boss_x=Coordinate.AnalogSpeedMove(boss_x, boss_x_middle);
+						}else{
+							boss_attack_Flag=true;
+						}
+					}else if(mp.getCurrentPosition()>boss_kill){
+						boss_Flag=true;
+					}
+				}
+			}
+			// BOSS 模式狀態-------------------------------------------------------------------------------------------------------------------------
+
 			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
 			score.setSize(20, 30);
 			score.drawNumberRightStart(1250, 20, sc_score, Number.Wite, canvas, paint);
@@ -768,15 +794,6 @@ implements SurfaceHolder.Callback{
 				case 3:
 					btn_xx.setBottomTo(true);
 					break;
-				}
-			}
-			// TAG BOSS 模式狀態
-			if(mp.getCurrentPosition()>boss_show){
-				Graphic.drawPic(canvas, boss, boss_x, boss_y, 0, 255, paint);
-				if(boss_Flag){
-					boss_x=Coordinate.AnalogSpeedMove(boss_x, boss_x_middle);
-				}else if(mp.getCurrentPosition()>boss_kill){
-					boss_Flag=true;
 				}
 			}
 		}
@@ -886,12 +903,6 @@ implements SurfaceHolder.Callback{
 			if(btn_pause.isIn(pointx, pointy)){
 				if(!btn_pause.getBottom()){
 					btn_pause.setBottomTo(true);
-					//測試enebar切換動畫========================================
-					for(int e =0;e<enebar_num;e++){
-						change_enebar[e].start();
-						break;
-					}
-					//測試enebar切換動畫----------------------------------------
 				}
 				else if(btn_pause.getBottom()){
 					btn_pause.setBottomTo(false);
@@ -1117,7 +1128,7 @@ implements SurfaceHolder.Callback{
 		chart_s.recycle();
 		chart_t.recycle();
 		chart_x.recycle();
-		
+
 		for(int i=0;i<6;i++){
 			Cyan[i].recycle();
 			Red[i].recycle();
@@ -1145,16 +1156,14 @@ implements SurfaceHolder.Callback{
 		btn_re_map.recycle();
 		//宣告PAUSE、返回遊戲、從頭開始、返回關卡地圖按鈕--------------------------------------------------
 
-		//能量條切換=============================================
+
 		for(int i=0;i<10;i++){
 			enebar[i].recycle() ;
 		}
-		for(int i=0;i<enebar_num;i++){
-			change_enebar[i].recycle() ;
-		}
-		//能量條切換---------------------------------------------
+
+		change_enebar.recycle() ;
 		score.recycle();
-		
+
 		Constant.Flag=false;
 	}
 

@@ -1,6 +1,8 @@
 package com.LLC.MusicSelvation;
 //
 
+import java.io.InputStream;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -138,6 +140,15 @@ implements SurfaceHolder.Callback{
 	shortAnimax change_enebar;
 	boolean ene_flag;
 	//能量條切換---------------------------------------------
+	
+	
+	//BOSS 前警告==
+	int warning_time=3000;
+	Bitmap warning_pic[]=new Bitmap[30];
+	shortAnimax warning;
+	int warning_sound;
+	boolean warning_flag;
+	//BOSS 前警告--
 
 	Number score;
 
@@ -214,12 +225,26 @@ implements SurfaceHolder.Callback{
 		this.getHolder().addCallback(this);//設定生命周期回調接口的實現者
 	}
 
-
+	public Bitmap LoadBitmap(int r,int scale){
+		 InputStream inputStream = getResources().openRawResource(r);
+		    return BitmapFactory.decodeStream(inputStream, null, getBitmapOptions(scale));
+		//return BitmapFactory.decodeResource(getResources(), r);
+	}
 	public Bitmap LoadBitmap(int r){
+		 //InputStream inputStream = getResources().openRawResource(r);
+		    //return BitmapFactory.decodeStream(inputStream, null, getBitmapOptions(3));
 		return BitmapFactory.decodeResource(getResources(), r);
+	}
+	public BitmapFactory.Options getBitmapOptions(int scale){
+	    BitmapFactory.Options options = new BitmapFactory.Options();
+	    options.inPurgeable = true;
+	    options.inInputShareable = true;
+	    options.inSampleSize = scale;
+	    return options;
 	}
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		sp=new SoundPool(6, AudioManager.STREAM_MUSIC, 5);
 		combo=0;
 		maxcombo = 0;
 		sc_nice= 0;
@@ -362,7 +387,15 @@ implements SurfaceHolder.Callback{
 		enebar[8] = Graphic.bitSize(LoadBitmap(R.drawable.enebar08), 1280, 28);
 		enebar[9] = Graphic.bitSize(LoadBitmap(R.drawable.enebar09), 1280, 28);
 
-
+		//BOSS 前警告==
+		for(int i=0;i<warning_pic.length;i++){
+		 warning_pic[i]=Graphic.bitSize(LoadBitmap(R.drawable.warning_00+i,1), 1280, 720);
+		}
+		 warning=new shortAnimax(warning_pic);
+		 warning.setPosition(1280/2, 720/2);
+		warning_sound=sp.load(activity, R.raw.warning, 1);
+		warning_flag=false;
+		//BOSS 前警告--
 
 		for(int i=0;i<Effect_numbers;i++){
 			Effect_Cyan[i]=new shortAnimax(Cyan);
@@ -427,7 +460,7 @@ implements SurfaceHolder.Callback{
 			}
 		});
 
-		sp=new SoundPool(5, AudioManager.STREAM_MUSIC, 5);
+		
 		sp_id=new int[5];
 		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
 		sp_id[1]=sp.load(activity, R.raw.drum, 1);
@@ -648,10 +681,10 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, sight, 700, 600, 0, 255, paint);
 			Graphic.drawPic(canvas, sight, 825, 600, 0, 255, paint);
 			if(!boss_attack_Flag){
-			btn_circle.drawBtm(canvas, paint);
-			btn_square.drawBtm(canvas, paint);
-			btn_triangle.drawBtm(canvas, paint);
-			btn_xx.drawBtm(canvas, paint);
+				btn_circle.drawBtm(canvas, paint);
+				btn_square.drawBtm(canvas, paint);
+				btn_triangle.drawBtm(canvas, paint);
+				btn_xx.drawBtm(canvas, paint);
 			}else{
 				Graphic.drawPic(canvas, d_red, 100, 495, 315, 255, paint);
 				Graphic.drawPic(canvas,  d_yellow, 280, 625, 330, 255, paint);
@@ -772,9 +805,15 @@ implements SurfaceHolder.Callback{
 				Graphic.drawPic(canvas, game_hard, 1180, 105, 0, 255, paint);
 			}
 
-
-
-
+			//TAG BOSS 前警告=========================================
+			if(mp.getCurrentPosition()>boss_show-warning_time&&!warning_flag){
+				//warning.setDuration(warning_time);
+				warning.start();//mp.getCurrentPosition());
+				sp.play(warning_sound, activity.mp_Voiume, activity.mp_Voiume, 0, 0, 1);
+				warning_flag=true;
+			}
+			warning.drawEffect(1, canvas, paint);
+			//BOSS 前警告------------------------------------------------------------------------
 
 			btn_circle.setBottomTo(false);	
 			btn_square.setBottomTo(false);	
@@ -1050,6 +1089,8 @@ implements SurfaceHolder.Callback{
 		activity.percent = percent;
 		startFlag=true;
 
+		warning.recycle();
+		
 		bg.recycle();   //背景
 		sight.recycle();  //準星
 		boss.recycle();
@@ -1170,6 +1211,7 @@ implements SurfaceHolder.Callback{
 		change_enebar.recycle() ;
 		score.recycle();
 
+		System.gc();
 		Constant.Flag=false;
 	}
 

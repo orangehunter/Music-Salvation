@@ -269,15 +269,45 @@ public final class R {
         public static final int volbar=0x7f0200ff;
         public static final int volbtn=0x7f020100;
         public static final int volchange_back=0x7f020101;
-        public static final int wmap=0x7f020102;
-        public static final int y=0x7f020103;
-        public static final int yellow00=0x7f020104;
-        public static final int yellow01=0x7f020105;
-        public static final int yellow02=0x7f020106;
-        public static final int yellow03=0x7f020107;
-        public static final int yellow04=0x7f020108;
-        public static final int yellow05=0x7f020109;
-        public static final int zero=0x7f02010a;
+        public static final int warning_00=0x7f020102;
+        public static final int warning_01=0x7f020103;
+        public static final int warning_02=0x7f020104;
+        public static final int warning_03=0x7f020105;
+        public static final int warning_04=0x7f020106;
+        public static final int warning_05=0x7f020107;
+        public static final int warning_06=0x7f020108;
+        public static final int warning_07=0x7f020109;
+        public static final int warning_08=0x7f02010a;
+        public static final int warning_09=0x7f02010b;
+        public static final int warning_10=0x7f02010c;
+        public static final int warning_11=0x7f02010d;
+        public static final int warning_12=0x7f02010e;
+        public static final int warning_13=0x7f02010f;
+        public static final int warning_14=0x7f020110;
+        public static final int warning_15=0x7f020111;
+        public static final int warning_16=0x7f020112;
+        public static final int warning_17=0x7f020113;
+        public static final int warning_18=0x7f020114;
+        public static final int warning_19=0x7f020115;
+        public static final int warning_20=0x7f020116;
+        public static final int warning_21=0x7f020117;
+        public static final int warning_22=0x7f020118;
+        public static final int warning_23=0x7f020119;
+        public static final int warning_24=0x7f02011a;
+        public static final int warning_25=0x7f02011b;
+        public static final int warning_26=0x7f02011c;
+        public static final int warning_27=0x7f02011d;
+        public static final int warning_28=0x7f02011e;
+        public static final int warning_29=0x7f02011f;
+        public static final int wmap=0x7f020120;
+        public static final int y=0x7f020121;
+        public static final int yellow00=0x7f020122;
+        public static final int yellow01=0x7f020123;
+        public static final int yellow02=0x7f020124;
+        public static final int yellow03=0x7f020125;
+        public static final int yellow04=0x7f020126;
+        public static final int yellow05=0x7f020127;
+        public static final int zero=0x7f020128;
     }
     public static final class raw {
         public static final int drum=0x7f030000;
@@ -285,6 +315,7 @@ public final class R {
         public static final int llc=0x7f030002;
         public static final int tambourine=0x7f030003;
         public static final int tell_your_world_piano=0x7f030004;
+        public static final int warning=0x7f030005;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

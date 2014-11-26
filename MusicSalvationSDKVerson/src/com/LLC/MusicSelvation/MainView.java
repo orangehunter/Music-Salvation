@@ -277,6 +277,7 @@ implements SurfaceHolder.Callback{
 		main_touchstart.recycle();
 		startbtm.recycle();
 		exitbtm.recycle();
+		System.gc();
 		Constant.Flag=false;
 		back_mp.stop();
 	}

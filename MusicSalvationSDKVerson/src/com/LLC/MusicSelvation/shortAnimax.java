@@ -26,7 +26,7 @@ public class shortAnimax {
 	}
 	public void setDuration(int duration){//設定長度
 		this.duration=duration;
-		this.count_unit=pic_number/this.duration;
+		this.count_unit=(pic_number*1.0)/(this.duration*1.0);
 	}
 	public void setPosition(int x,int y){//設定位置
 		this.x=x;
@@ -49,7 +49,10 @@ public class shortAnimax {
 	public boolean getPause(){//取得暫停狀態
 		return pause_flag;
 	}
-	public void drawEffect(int CurrentPosition,Canvas canvas,Paint paint){//繪圖(有設定長度){
+	public int getCount(){
+		return (int)animax_count_flag;
+	}
+	public void drawEffect_time(int CurrentPosition,Canvas canvas,Paint paint){//繪圖(有設定長度){
 		if(animax_flag){
 			animax_count_flag=count_unit*(CurrentPosition-start_position);
 			if(((int)animax_count_flag)<pic_number){

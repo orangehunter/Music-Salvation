@@ -143,8 +143,8 @@ implements SurfaceHolder.Callback{
 	
 	
 	//BOSS 前警告==
-	int warning_time=3000;
-	Bitmap warning_pic[]=new Bitmap[30];
+	int warning_time=5000;
+	Bitmap warning_pic[]=new Bitmap[60];
 	shortAnimax warning;
 	int warning_sound;
 	boolean warning_flag;
@@ -225,23 +225,32 @@ implements SurfaceHolder.Callback{
 		this.getHolder().addCallback(this);//設定生命周期回調接口的實現者
 	}
 
-	public Bitmap LoadBitmap(int r,int scale){
+	/*public Bitmap LoadBitmap(int r,int scale){
+		try{
 		 InputStream inputStream = getResources().openRawResource(r);
 		    return BitmapFactory.decodeStream(inputStream, null, getBitmapOptions(scale));
+		}catch(OutOfMemoryError e){
+			return null;
+		}
 		//return BitmapFactory.decodeResource(getResources(), r);
 	}
 	public Bitmap LoadBitmap(int r){
-		 //InputStream inputStream = getResources().openRawResource(r);
-		    //return BitmapFactory.decodeStream(inputStream, null, getBitmapOptions(3));
-		return BitmapFactory.decodeResource(getResources(), r);
+		try{
+		 InputStream inputStream = getResources().openRawResource(r);
+		    return BitmapFactory.decodeStream(inputStream, null, getBitmapOptions(1));
+		}catch(OutOfMemoryError e){
+			return null;
+		}
+		//return BitmapFactory.decodeResource(getResources(), r);
 	}
 	public BitmapFactory.Options getBitmapOptions(int scale){
 	    BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inPreferredConfig=Bitmap.Config.ARGB_4444;
 	    options.inPurgeable = true;
 	    options.inInputShareable = true;
 	    options.inSampleSize = scale;
 	    return options;
-	}
+	}*/
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		sp=new SoundPool(6, AudioManager.STREAM_MUSIC, 5);
@@ -263,133 +272,133 @@ implements SurfaceHolder.Callback{
 
 		score =new Number(getResources());
 
-		bg = 	Graphic.bitSize(LoadBitmap(R.drawable.gamemap01), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
-		sight =	Graphic.bitSize(LoadBitmap(R.drawable.sightv2), 100, 100);
-		//cpu   = Graphic.bitSize(LoadBitmap(R.drawable.cpu_chips), 162, 162);
+		bg = 	Graphic.LoadBitmap(getResources(), R.drawable.gamemap01, 1280, 720);//LoadBitmap(LoadBitmap(R.drawable.gamemap01), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
+		sight =	Graphic.LoadBitmap(getResources(), R.drawable.sightv2, 100, 100);
+		//cpu   = Graphic.LoadBitmap(LoadBitmap(R.drawable.cpu_chips), 162, 162);
 
 
 
-		game_easy = Graphic.bitSize(LoadBitmap(R.drawable.easyv2), 205, 78);
-		game_normal = Graphic.bitSize(LoadBitmap(R.drawable.normalv2psd), 205, 78);
-		game_hard = Graphic.bitSize(LoadBitmap(R.drawable.hardv2), 205, 78);
+		game_easy = Graphic.LoadBitmap(getResources(), R.drawable.easyv2, 205, 78);
+		game_normal = Graphic.LoadBitmap(getResources(), R.drawable.normalv2psd, 205, 78);
+		game_hard = Graphic.LoadBitmap(getResources(), R.drawable.hardv2, 205, 78);
 
 
 
 		//pause圖片載入=====================================================================
-		pause = Graphic.bitSize(LoadBitmap(R.drawable.pause), 205, 78);
-		pause2 = Graphic.bitSize(LoadBitmap(R.drawable.pause2), 205, 78);
-		pause_back = Graphic.bitSize(LoadBitmap(R.drawable.pasue_back), 450, 310);
-		pause_black = Graphic.bitSize(LoadBitmap(R.drawable.pause_black), 1280, 720);
+		pause = Graphic.LoadBitmap(getResources(), R.drawable.pause, 205, 78);
+		pause2 = Graphic.LoadBitmap(getResources(), R.drawable.pause2, 205, 78);
+		pause_back = Graphic.LoadBitmap(getResources(), R.drawable.pasue_back, 450, 310);
+		pause_black = Graphic.LoadBitmap(getResources(), R.drawable.pause_black, 1280, 720);
 
-		re_map = Graphic.bitSize(LoadBitmap(R.drawable.return_map), 390, 75);
-		re_play = Graphic.bitSize(LoadBitmap(R.drawable.re_play), 390, 75);
-		re_start = Graphic.bitSize(LoadBitmap(R.drawable.re_start), 390, 75);
+		re_map = Graphic.LoadBitmap(getResources(), R.drawable.return_map, 390, 75);
+		re_play = Graphic.LoadBitmap(getResources(), R.drawable.re_play, 390, 75);
+		re_start = Graphic.LoadBitmap(getResources(), R.drawable.re_start, 390, 75);
 
 		//pause圖片載入-----------------------------------------------------------------------
 
 
-		circle = Graphic.bitSize(LoadBitmap(R.drawable.btn_circle_v2), 200, 200);
-		square = Graphic.bitSize(LoadBitmap(R.drawable.btn_square_v2), 200, 200);
-		triangle = Graphic.bitSize(LoadBitmap(R.drawable.btn_triangle_v2), 200, 200);
-		xx = Graphic.bitSize(LoadBitmap(R.drawable.btn_x_v2), 200, 200);
-		grey_circle = Graphic.bitSize(LoadBitmap(R.drawable.grey_circle), 200, 200);
-		grey_square = Graphic.bitSize(LoadBitmap(R.drawable.grey_square), 200, 200);
-		grey_triangle = Graphic.bitSize(LoadBitmap(R.drawable.grey_tirangle), 200, 200);
-		grey_xx = Graphic.bitSize(LoadBitmap(R.drawable.grey_x), 200, 200);
+		circle = Graphic.LoadBitmap(getResources(), R.drawable.btn_circle_v2, 200, 200);
+		square = Graphic.LoadBitmap(getResources(), R.drawable.btn_square_v2, 200, 200);
+		triangle = Graphic.LoadBitmap(getResources(), R.drawable.btn_triangle_v2, 200, 200);
+		xx = Graphic.LoadBitmap(getResources(), R.drawable.btn_x_v2, 200, 200);
+		grey_circle = Graphic.LoadBitmap(getResources(), R.drawable.grey_circle, 200, 200);
+		grey_square = Graphic.LoadBitmap(getResources(), R.drawable.grey_square, 200, 200);
+		grey_triangle = Graphic.LoadBitmap(getResources(), R.drawable.grey_tirangle, 200, 200);
+		grey_xx = Graphic.LoadBitmap(getResources(), R.drawable.grey_x, 200, 200);
 
 
 		//TAG 浮游砲與光束=======================================================================
-		d_blue = Graphic.bitSize(LoadBitmap(R.drawable.d_blue), 250, 170);
-		d_red = Graphic.bitSize(LoadBitmap(R.drawable.d_red), 250, 170);
-		d_green = Graphic.bitSize(LoadBitmap(R.drawable.d_green), 260, 130);
-		d_yellow = Graphic.bitSize(LoadBitmap(R.drawable.d_yellow), 260, 130);
-		lazer_red = Graphic.bitSize(LoadBitmap(R.drawable.lazer_r), 220, 125);
-		lazer_blue = Graphic.bitSize(LoadBitmap(R.drawable.lazer_b), 215, 112);
-		lazer_green = Graphic.bitSize(LoadBitmap(R.drawable.lazer_g2), 290, 50);
-		lazer_yellow = Graphic.bitSize(LoadBitmap(R.drawable.lazer_y2), 275, 50);
+		d_blue = Graphic.LoadBitmap(getResources(), R.drawable.d_blue, 250, 170);
+		d_red = Graphic.LoadBitmap(getResources(), R.drawable.d_red, 250, 170);
+		d_green = Graphic.LoadBitmap(getResources(), R.drawable.d_green, 260, 130);
+		d_yellow = Graphic.LoadBitmap(getResources(), R.drawable.d_yellow, 260, 130);
+		lazer_red = Graphic.LoadBitmap(getResources(), R.drawable.lazer_r, 220, 125);
+		lazer_blue = Graphic.LoadBitmap(getResources(), R.drawable.lazer_b, 215, 112);
+		lazer_green = Graphic.LoadBitmap(getResources(), R.drawable.lazer_g2, 290, 50);
+		lazer_yellow = Graphic.LoadBitmap(getResources(), R.drawable.lazer_y2, 275, 50);
 
 		//浮游砲與光束------------------------------------------------------------------------
 
 
-		track = Graphic.bitSize(LoadBitmap(R.drawable.track_v2), 80, 660);
+		track = Graphic.LoadBitmap(getResources(), R.drawable.track_v2, 80, 660);
 
-		virus_blue = Graphic.bitSize(LoadBitmap(R.drawable.virus_blue), 80, 80);
-		virus_red = Graphic.bitSize(LoadBitmap(R.drawable.virus_red), 80, 80);
-		virus_yellow = Graphic.bitSize(LoadBitmap(R.drawable.virus_yello), 80, 80);
-		virus_green = Graphic.bitSize(LoadBitmap(R.drawable.virus_green), 80, 80);
+		virus_blue = Graphic.LoadBitmap(getResources(), R.drawable.virus_blue, 80, 80);
+		virus_red = Graphic.LoadBitmap(getResources(), R.drawable.virus_red, 80, 80);
+		virus_yellow = Graphic.LoadBitmap(getResources(), R.drawable.virus_yello, 80, 80);
+		virus_green = Graphic.LoadBitmap(getResources(), R.drawable.virus_green, 80, 80);
 
-		nice = Graphic.bitSize(LoadBitmap(R.drawable.nice), 175, 55);
-		hit = Graphic.bitSize(LoadBitmap(R.drawable.hit), 175, 55);
-		safe = Graphic.bitSize(LoadBitmap(R.drawable.safe), 175, 55);
-		miss = Graphic.bitSize(LoadBitmap(R.drawable.miss), 175, 55);
-		hits =  Graphic.bitSize(LoadBitmap(R.drawable.hits), 155, 80);
+		nice = Graphic.LoadBitmap(getResources(), R.drawable.nice, 175, 55);
+		hit = Graphic.LoadBitmap(getResources(), R.drawable.hit, 175, 55);
+		safe = Graphic.LoadBitmap(getResources(), R.drawable.safe, 175, 55);
+		miss = Graphic.LoadBitmap(getResources(), R.drawable.miss, 175, 55);
+		hits =  Graphic.LoadBitmap(getResources(), R.drawable.hits, 155, 80);
 
-		titlebar = Graphic.bitSize(LoadBitmap(R.drawable.titlebar), 1280, 63);
-		hpbar = Graphic.bitSize(LoadBitmap(R.drawable.hpbar2), 1100, 23);
-		hpfont = Graphic.bitSize(LoadBitmap(R.drawable.hpfont0), 80, 25);
-		hpfont_red = Graphic.bitSize(LoadBitmap(R.drawable.hpfont_red0), 80, 25);
-		freely = Graphic.bitSize(LoadBitmap(R.drawable.freely), 260, 30);
-		boss = Graphic.bitSize(LoadBitmap(R.drawable.boss1), 200, 185);
+		titlebar = Graphic.LoadBitmap(getResources(), R.drawable.titlebar, 1280, 63);
+		hpbar = Graphic.LoadBitmap(getResources(), R.drawable.hpbar2, 1100, 23);
+		hpfont = Graphic.LoadBitmap(getResources(), R.drawable.hpfont0, 80, 25);
+		hpfont_red = Graphic.LoadBitmap(getResources(), R.drawable.hpfont_red0, 80, 25);
+		freely = Graphic.LoadBitmap(getResources(), R.drawable.freely, 260, 30);
+		boss = Graphic.LoadBitmap(getResources(), R.drawable.boss1, 200, 185);
 
-		rank_f = Graphic.bitSize(LoadBitmap(R.drawable.r_f), 86, 146);
-		rank_e = Graphic.bitSize(LoadBitmap(R.drawable.r_e), 99, 152);
-		rank_d = Graphic.bitSize(LoadBitmap(R.drawable.r_d), 124, 152);
-		rank_c = Graphic.bitSize(LoadBitmap(R.drawable.r_c), 117, 176);
-		rank_b = Graphic.bitSize(LoadBitmap(R.drawable.r_b), 92, 152);
-		rank_a = Graphic.bitSize(LoadBitmap(R.drawable.r_a), 133, 182);
-		rank_s = Graphic.bitSize(LoadBitmap(R.drawable.r_s), 309, 257);
+		rank_f = Graphic.LoadBitmap(getResources(), R.drawable.r_f, 86, 146);
+		rank_e = Graphic.LoadBitmap(getResources(), R.drawable.r_e, 99, 152);
+		rank_d = Graphic.LoadBitmap(getResources(), R.drawable.r_d, 124, 152);
+		rank_c = Graphic.LoadBitmap(getResources(), R.drawable.r_c, 117, 176);
+		rank_b = Graphic.LoadBitmap(getResources(), R.drawable.r_b, 92, 152);
+		rank_a = Graphic.LoadBitmap(getResources(), R.drawable.r_a, 133, 182);
+		rank_s = Graphic.LoadBitmap(getResources(), R.drawable.r_s, 309, 257);
 		//特效光（測試中）
 
-		Cyan[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan00), 150, 150);
-		Cyan[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan01), 150, 150);
-		Cyan[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan02), 150, 150);
-		Cyan[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan03), 150, 150);
-		Cyan[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan04), 150, 150);
-		Cyan[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.cyan05), 150, 150);
+		Cyan[0] 	= Graphic.LoadBitmap(getResources(), R.drawable.cyan00, 150, 150);
+		Cyan[1] 	= Graphic.LoadBitmap(getResources(), R.drawable.cyan01, 150, 150);
+		Cyan[2] 	= Graphic.LoadBitmap(getResources(), R.drawable.cyan02, 150, 150);
+		Cyan[3] 	= Graphic.LoadBitmap(getResources(), R.drawable.cyan03, 150, 150);
+		Cyan[4] 	= Graphic.LoadBitmap(getResources(), R.drawable.cyan04, 150, 150);
+		Cyan[5] 	= Graphic.LoadBitmap(getResources(), R.drawable.cyan05, 150, 150);
 
-		Red[0] 		= Graphic.bitSize(LoadBitmap(R.drawable.red00), 150, 150);
-		Red[1] 		= Graphic.bitSize(LoadBitmap(R.drawable.red01), 150, 150);
-		Red[2] 		= Graphic.bitSize(LoadBitmap(R.drawable.red02), 150, 150);
-		Red[3] 		= Graphic.bitSize(LoadBitmap(R.drawable.red03), 150, 150);
-		Red[4] 		= Graphic.bitSize(LoadBitmap(R.drawable.red04), 150, 150);
-		Red[5] 		= Graphic.bitSize(LoadBitmap(R.drawable.red05), 150, 150);
+		Red[0] 		= Graphic.LoadBitmap(getResources(), R.drawable.red00, 150, 150);
+		Red[1] 		= Graphic.LoadBitmap(getResources(), R.drawable.red01, 150, 150);
+		Red[2] 		= Graphic.LoadBitmap(getResources(), R.drawable.red02, 150, 150);
+		Red[3] 		= Graphic.LoadBitmap(getResources(), R.drawable.red03, 150, 150);
+		Red[4] 		= Graphic.LoadBitmap(getResources(), R.drawable.red04, 150, 150);
+		Red[5] 		= Graphic.LoadBitmap(getResources(), R.drawable.red05, 150, 150);
 
-		Yellow[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow00), 150, 150);
-		Yellow[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow01), 150, 150);
-		Yellow[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow02), 150, 150);
-		Yellow[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow03), 150, 150);
-		Yellow[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow04), 150, 150);
-		Yellow[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.yellow05), 150, 150);
+		Yellow[0] 	= Graphic.LoadBitmap(getResources(), R.drawable.yellow00, 150, 150);
+		Yellow[1] 	= Graphic.LoadBitmap(getResources(), R.drawable.yellow01, 150, 150);
+		Yellow[2] 	= Graphic.LoadBitmap(getResources(), R.drawable.yellow02, 150, 150);
+		Yellow[3] 	= Graphic.LoadBitmap(getResources(), R.drawable.yellow03, 150, 150);
+		Yellow[4] 	= Graphic.LoadBitmap(getResources(), R.drawable.yellow04, 150, 150);
+		Yellow[5] 	= Graphic.LoadBitmap(getResources(), R.drawable.yellow05, 150, 150);
 
-		Green[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.green00), 150, 150);
-		Green[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.green01), 150, 150);
-		Green[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.green02), 150, 150);
-		Green[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.green03), 150, 150);
-		Green[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.green04), 150, 150);
-		Green[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.green05), 150, 150);
+		Green[0] 	= Graphic.LoadBitmap(getResources(), R.drawable.green00, 150, 150);
+		Green[1] 	= Graphic.LoadBitmap(getResources(), R.drawable.green01, 150, 150);
+		Green[2] 	= Graphic.LoadBitmap(getResources(), R.drawable.green02, 150, 150);
+		Green[3] 	= Graphic.LoadBitmap(getResources(), R.drawable.green03, 150, 150);
+		Green[4] 	= Graphic.LoadBitmap(getResources(), R.drawable.green04, 150, 150);
+		Green[5] 	= Graphic.LoadBitmap(getResources(), R.drawable.green05, 150, 150);
 
-		Blue[0] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue00), 150, 150);
-		Blue[1] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue01), 150, 150);
-		Blue[2] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue02), 150, 150);
-		Blue[3] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue03), 150, 150);
-		Blue[4] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue04), 150, 150);
-		Blue[5] 	= Graphic.bitSize(LoadBitmap(R.drawable.blue05), 150, 150);
+		Blue[0] 	= Graphic.LoadBitmap(getResources(), R.drawable.blue00, 150, 150);
+		Blue[1] 	= Graphic.LoadBitmap(getResources(), R.drawable.blue01, 150, 150);
+		Blue[2] 	= Graphic.LoadBitmap(getResources(), R.drawable.blue02, 150, 150);
+		Blue[3] 	= Graphic.LoadBitmap(getResources(), R.drawable.blue03, 150, 150);
+		Blue[4] 	= Graphic.LoadBitmap(getResources(), R.drawable.blue04, 150, 150);
+		Blue[5] 	= Graphic.LoadBitmap(getResources(), R.drawable.blue05, 150, 150);
 
 		//能量條圖片
-		enebar[0] = Graphic.bitSize(LoadBitmap(R.drawable.enebar00), 1280, 28);
-		enebar[1] = Graphic.bitSize(LoadBitmap(R.drawable.enebar01), 1280, 28);
-		enebar[2] = Graphic.bitSize(LoadBitmap(R.drawable.enebar02), 1280, 28);
-		enebar[3] = Graphic.bitSize(LoadBitmap(R.drawable.enebar03), 1280, 28);
-		enebar[4] = Graphic.bitSize(LoadBitmap(R.drawable.enebar04), 1280, 28);
-		enebar[5] = Graphic.bitSize(LoadBitmap(R.drawable.enebar05), 1280, 28);
-		enebar[6] = Graphic.bitSize(LoadBitmap(R.drawable.enebar06), 1280, 28);
-		enebar[7] = Graphic.bitSize(LoadBitmap(R.drawable.enebar07), 1280, 28);
-		enebar[8] = Graphic.bitSize(LoadBitmap(R.drawable.enebar08), 1280, 28);
-		enebar[9] = Graphic.bitSize(LoadBitmap(R.drawable.enebar09), 1280, 28);
+		enebar[0] = Graphic.LoadBitmap(getResources(), R.drawable.enebar00, 1280, 28);
+		enebar[1] = Graphic.LoadBitmap(getResources(), R.drawable.enebar01, 1280, 28);
+		enebar[2] = Graphic.LoadBitmap(getResources(), R.drawable.enebar02, 1280, 28);
+		enebar[3] = Graphic.LoadBitmap(getResources(), R.drawable.enebar03, 1280, 28);
+		enebar[4] = Graphic.LoadBitmap(getResources(), R.drawable.enebar04, 1280, 28);
+		enebar[5] = Graphic.LoadBitmap(getResources(), R.drawable.enebar05, 1280, 28);
+		enebar[6] = Graphic.LoadBitmap(getResources(), R.drawable.enebar06, 1280, 28);
+		enebar[7] = Graphic.LoadBitmap(getResources(), R.drawable.enebar07, 1280, 28);
+		enebar[8] = Graphic.LoadBitmap(getResources(), R.drawable.enebar08, 1280, 28);
+		enebar[9] = Graphic.LoadBitmap(getResources(), R.drawable.enebar09, 1280, 28);
 
 		//BOSS 前警告==
 		for(int i=0;i<warning_pic.length;i++){
-		 warning_pic[i]=Graphic.bitSize(LoadBitmap(R.drawable.warning_00+i,1), 1280, 720);
+		 warning_pic[i]=Graphic.LoadBitmap(getResources(), R.drawable.boss_delet00000+i, 1280, 720,4);//LoadBitmap(LoadBitmap(R.drawable.boss_delet00000+i,3), 1280, 720);
 		}
 		 warning=new shortAnimax(warning_pic);
 		 warning.setPosition(1280/2, 720/2);
@@ -440,10 +449,10 @@ implements SurfaceHolder.Callback{
 		btn_re_start = new Bottom(activity, re_start , re_start,640 ,225);
 		//PAUSE按鈕---------------------------------------------------------
 
-		chart_r=Graphic.bitSize(LoadBitmap(R.drawable.virus_red), 80, 80);
-		chart_s=Graphic.bitSize(LoadBitmap(R.drawable.virus_yello), 80, 80);
-		chart_t=Graphic.bitSize(LoadBitmap(R.drawable.virus_green), 80, 80);
-		chart_x=Graphic.bitSize(LoadBitmap(R.drawable.virus_blue), 80, 80);
+		chart_r=Graphic.LoadBitmap(getResources(), R.drawable.virus_red, 80, 80);
+		chart_s=Graphic.LoadBitmap(getResources(), R.drawable.virus_yello, 80, 80);
+		chart_t=Graphic.LoadBitmap(getResources(), R.drawable.virus_green, 80, 80);
+		chart_x=Graphic.LoadBitmap(getResources(), R.drawable.virus_blue, 80, 80);
 
 		for(int i=0;i<chartObject;i++){
 			cr_btm[i]=new gameChartBottom(-100,600, 820,activity, chart_r, chart_r,450);
@@ -807,12 +816,15 @@ implements SurfaceHolder.Callback{
 
 			//TAG BOSS 前警告=========================================
 			if(mp.getCurrentPosition()>boss_show-warning_time&&!warning_flag){
-				//warning.setDuration(warning_time);
-				warning.start();//mp.getCurrentPosition());
+				warning.setDuration(warning_time);
+				warning.start(mp.getCurrentPosition());
 				sp.play(warning_sound, activity.mp_Voiume, activity.mp_Voiume, 0, 0, 1);
 				warning_flag=true;
 			}
-			warning.drawEffect(1, canvas, paint);
+			if(warning.getFlag()){
+				Log.v("ani", ""+warning.getCount());
+			}
+			warning.drawEffect_time(mp.getCurrentPosition()/*1*/, canvas, paint);
 			//BOSS 前警告------------------------------------------------------------------------
 
 			btn_circle.setBottomTo(false);	

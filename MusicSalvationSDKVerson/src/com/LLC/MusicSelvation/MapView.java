@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 @SuppressLint({ "ViewConstructor", "WrongCall", "ClickableViewAccessibility" })
 public class MapView extends SurfaceView

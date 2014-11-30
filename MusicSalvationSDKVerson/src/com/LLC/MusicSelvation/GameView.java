@@ -103,12 +103,12 @@ implements SurfaceHolder.Callback{
 
 	int Effect_numbers=5;
 	double Effect_speed=0.5;
-	shortAnimax  []
-			Effect_Cyan		=new shortAnimax[Effect_numbers],
-			Effect_Red		=new shortAnimax[Effect_numbers],
-			Effect_Green	=new shortAnimax[Effect_numbers],
-			Effect_Yellow	=new shortAnimax[Effect_numbers],
-			Effect_Blue		=new shortAnimax[Effect_numbers];
+	smallAnimax  []
+			Effect_Cyan		=new smallAnimax[Effect_numbers],
+			Effect_Red		=new smallAnimax[Effect_numbers],
+			Effect_Green	=new smallAnimax[Effect_numbers],
+			Effect_Yellow	=new smallAnimax[Effect_numbers],
+			Effect_Blue		=new smallAnimax[Effect_numbers];
 	//特效光宣告----------------------------------
 
 	Bottom btn_circle;
@@ -137,7 +137,7 @@ implements SurfaceHolder.Callback{
 	Bitmap enebar[] = new Bitmap[10];
 
 	double enebar_speed = 0.1;
-	shortAnimax change_enebar;
+	smallAnimax change_enebar;
 	boolean ene_flag;
 	//能量條切換---------------------------------------------
 	
@@ -145,7 +145,7 @@ implements SurfaceHolder.Callback{
 	//BOSS 前警告==
 	int warning_time=5000;
 	Bitmap warning_pic[]=new Bitmap[60];
-	shortAnimax warning;
+	smallAnimax warning;
 	int warning_sound;
 	boolean warning_flag;
 	//BOSS 前警告--
@@ -397,32 +397,32 @@ implements SurfaceHolder.Callback{
 		enebar[9] = Graphic.LoadBitmap(getResources(), R.drawable.enebar09, 1280, 28);
 
 		//BOSS 前警告==
-		for(int i=0;i<warning_pic.length;i++){
+		/*for(int i=0;i<warning_pic.length;i++){
 		 warning_pic[i]=Graphic.LoadBitmap(getResources(), R.drawable.boss_delet00000+i, 1280, 720,4);//LoadBitmap(LoadBitmap(R.drawable.boss_delet00000+i,3), 1280, 720);
-		}
-		 warning=new shortAnimax(warning_pic);
-		 warning.setPosition(1280/2, 720/2);
+		}*/
+		 //warning=new shortAnimax(warning_pic);
+		 //warning.setPosition(1280/2, 720/2);
 		warning_sound=sp.load(activity, R.raw.warning, 1);
 		warning_flag=false;
 		//BOSS 前警告--
 
 		for(int i=0;i<Effect_numbers;i++){
-			Effect_Cyan[i]=new shortAnimax(Cyan);
+			Effect_Cyan[i]=new smallAnimax(Cyan);
 
-			Effect_Red[i]=new shortAnimax(Red);
+			Effect_Red[i]=new smallAnimax(Red);
 			Effect_Red[i].setPosition(450,600);
 
-			Effect_Yellow[i]=new shortAnimax(Yellow);
+			Effect_Yellow[i]=new smallAnimax(Yellow);
 			Effect_Yellow[i].setPosition(575, 600);
 
-			Effect_Green[i]=new shortAnimax(Green);
+			Effect_Green[i]=new smallAnimax(Green);
 			Effect_Green[i].setPosition(700, 600);
 
-			Effect_Blue[i]=new shortAnimax(Blue);
+			Effect_Blue[i]=new smallAnimax(Blue);
 			Effect_Blue[i].setPosition(825, 600);
 		}
 
-		change_enebar = new shortAnimax(enebar);
+		change_enebar = new smallAnimax(enebar);
 		change_enebar.setPosition(640, 50);
 
 
@@ -816,15 +816,18 @@ implements SurfaceHolder.Callback{
 
 			//TAG BOSS 前警告=========================================
 			if(mp.getCurrentPosition()>boss_show-warning_time&&!warning_flag){
-				warning.setDuration(warning_time);
+				/*warning.setDuration(warning_time);
 				warning.start(mp.getCurrentPosition());
-				sp.play(warning_sound, activity.mp_Voiume, activity.mp_Voiume, 0, 0, 1);
+				sp.play(warning_sound, activity.mp_Voiume, activity.mp_Voiume, 0, 0, 1);*/
+				int tt=mp.getCurrentPosition();
+				Bitmap testt=Graphic.LoadBitmap(getResources(), R.drawable.boss_delet00000, 1280, 720);
+				Log.v("test", ""+(mp.getCurrentPosition()-tt));
 				warning_flag=true;
 			}
-			if(warning.getFlag()){
+			/*if(warning.getFlag()){
 				Log.v("ani", ""+warning.getCount());
-			}
-			warning.drawEffect_time(mp.getCurrentPosition()/*1*/, canvas, paint);
+			}*/
+			//warning.drawEffect_time(mp.getCurrentPosition()/*1*/, canvas, paint);
 			//BOSS 前警告------------------------------------------------------------------------
 
 			btn_circle.setBottomTo(false);	
@@ -1101,7 +1104,7 @@ implements SurfaceHolder.Callback{
 		activity.percent = percent;
 		startFlag=true;
 
-		warning.recycle();
+		//warning.recycle();
 		
 		bg.recycle();   //背景
 		sight.recycle();  //準星

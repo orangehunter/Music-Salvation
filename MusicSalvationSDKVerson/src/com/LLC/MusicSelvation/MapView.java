@@ -156,7 +156,6 @@ implements SurfaceHolder.Callback{
 	//FLAG宣告區域
 	int menuFlag = 0;   //世界地圖左半部
 	int stageFlag = 0;  //右半部
-	int modelFlag=0;
 
 	int mbgx = -500;
 	int mbgx2 = 13;
@@ -351,10 +350,10 @@ implements SurfaceHolder.Callback{
 		sp=new SoundPool(5, AudioManager.STREAM_MUSIC, 5);
 		sp_id=new int[5];
 		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
-		sp_id[1]=sp.load(activity, R.raw.drum, 1);
-		sp_id[2]=sp.load(activity, R.raw.drum, 1);
-		sp_id[3]=sp.load(activity, R.raw.drum, 1);
-		sp_id[4]=sp.load(activity, R.raw.drum, 1);
+		sp_id[1]=sp.load(activity, R.raw.drum_cymbal, 1);
+		sp_id[2]=sp.load(activity, R.raw.drum_snare, 1);
+		sp_id[3]=sp.load(activity, R.raw.fall, 1);
+		sp_id[4]=sp.load(activity, R.raw.voice_dog, 1);
 
 		Constant.Flag=true;
 		new Thread(){
@@ -569,14 +568,14 @@ implements SurfaceHolder.Callback{
 					model.drawBtm(canvas, paint,right_board_x-86, 667);
 
 					//追加條件:當Flag = 0 會顯示easy=================================================
-					if(modelFlag==0){
+					if(activity.difficulty==0){
 
 						Graphic.drawPic(canvas, right_easy_ch, right_board_x-86, 655, 0, 255, paint);
 						//追加條件Flag = 0 會顯示easy-----------------------------------------------
-					}else if(modelFlag==1){
+					}else if(activity.difficulty==1){
 
 						Graphic.drawPic(canvas, right_normal_ch, right_board_x-86, 667, 0, 255, paint);	
-					}else if(modelFlag==2){
+					}else if(activity.difficulty==2){
 
 						Graphic.drawPic(canvas, right_hard_ch, right_board_x-86, 667, 0, 255, paint);	
 					}
@@ -617,14 +616,14 @@ implements SurfaceHolder.Callback{
 			//當stageFlag不等於0，就會顯示難易度與選擇難易度
 			if(stageFlag !=0){
 				//追加條件:當Flag = 0 會顯示easy=================================================
-				if(modelFlag==0){
+				if(activity.difficulty==0){
 					Graphic.drawPic(canvas, right_easy_ch, right_board_x-86, 655, 0, 255, paint);
 					//追加條件Flag = 0 會顯示easy-----------------------------------------------
 
-				}else if(modelFlag==1){
+				}else if(activity.difficulty==1){
 					Graphic.drawPic(canvas, right_normal_ch, right_board_x-86, 655, 0, 255, paint);
 
-				}else if(modelFlag==2){
+				}else if(activity.difficulty==2){
 					Graphic.drawPic(canvas, right_hard_ch, right_board_x-86, 655, 0, 255, paint);
 
 				}
@@ -644,15 +643,15 @@ implements SurfaceHolder.Callback{
 					Graphic.drawPic(canvas, right_chmodel, 741, 588, 0, 255, paint);
 
 					//追加透明度變化，目前選擇的難度為亮，其餘難度為暗=======================================
-					if(modelFlag==0){
+					if(activity.difficulty==0){
 						easy.drawBtm(canvas, paint, 255);
 						normal.drawBtm(canvas, paint,150);
 						hard.drawBtm(canvas, paint, 150);
-					}else if(modelFlag == 1){
+					}else if(activity.difficulty == 1){
 						easy.drawBtm(canvas, paint, 150);
 						normal.drawBtm(canvas, paint,255);
 						hard.drawBtm(canvas, paint, 150);
-					}else if(modelFlag == 2){
+					}else if(activity.difficulty == 2){
 						easy.drawBtm(canvas, paint, 150);
 						normal.drawBtm(canvas, paint,150);
 						hard.drawBtm(canvas, paint, 255);
@@ -952,17 +951,14 @@ implements SurfaceHolder.Callback{
 					}
 					if(model.getBottom()){
 						if(easy.isIn(pointx, pointy)){
-							modelFlag=0;
 							activity.difficulty=0;//gameview難度參數
 							model.setBottomTo(false);
 						}
 						if(normal.isIn(pointx, pointy)){
-							modelFlag=1;
 							activity.difficulty=1;//gameview難度參數
 							model.setBottomTo(false);
 						}
 						if(hard.isIn(pointx, pointy)){
-							modelFlag=2;
 							activity.difficulty=2;//gameview難度參數
 							model.setBottomTo(false);
 						}
@@ -1147,9 +1143,6 @@ implements SurfaceHolder.Callback{
 
 		System.gc();
 		Constant.Flag=false;
-		//把選擇的難易度傳給MainActivity供其他View使用=========================
-		activity.modelFlag = modelFlag;
-		//把選擇的難易度傳給MainActivity供其他View使用-------------------------
 		sp.release();
 	}
 

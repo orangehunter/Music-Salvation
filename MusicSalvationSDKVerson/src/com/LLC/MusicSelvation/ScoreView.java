@@ -291,12 +291,12 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, freely, 290, 40, 0, 255, paint);
 
 			//Ãø©ö«×
-			if(activity.modelFlag == 0)
+			if(activity.difficulty == 0)
 			{
 			Graphic.drawPic(canvas, easy, 1150, 45, 0, 255, paint);
-			}else if(activity.modelFlag == 1){
+			}else if(activity.difficulty == 1){
 			Graphic.drawPic(canvas, normal, 1150, 45, 0, 255, paint);
-			}else if(activity.modelFlag == 2){
+			}else if(activity.difficulty == 2){
 			Graphic.drawPic(canvas, hard, 1150, 45, 0, 255, paint);
 			}
 

@@ -141,15 +141,37 @@ implements SurfaceHolder.Callback{
 	boolean ene_flag;
 	//能量條切換---------------------------------------------
 	
+
+	int boss_show;
+	int boss_kill;
+	boolean boss_Flag;
+	boolean boss_attack_Flag;
+	boolean beam_attack;
+	int boss_y=242;
+	int boss_x;
+	int boss_x_side=1025;
+	int boss_x_middle=640;
 	
 	//BOSS 前警告==
-	int warning_time=5000;
-	Bitmap warning_pic[]=new Bitmap[60];
-	smallAnimax warning;
+	int warning_time=2000;
+	Bitmap warning;
+	int warning_alpha;
+	int warning_alpha_flag;
 	int warning_sound;
 	boolean warning_flag;
 	//BOSS 前警告--
-
+	
+	//BOSS 攻擊==
+	Bottom attack;
+	Bitmap attack_pic_round;
+	Bitmap attack_pic;
+	boolean attack_flag;
+	boolean attack_flag2;
+	int attack_rot;
+	int attack_rot_flag;
+	//BOSS 攻擊--
+	
+	
 	Number score;
 
 	int hp = 20;
@@ -159,15 +181,6 @@ implements SurfaceHolder.Callback{
 	int hp_to_yellow=12;
 	int hp_to_red = 6;
 
-
-	int boss_show;
-	int boss_kill;
-	boolean boss_Flag;
-	boolean boss_attack_Flag;
-	int boss_y=242;
-	int boss_x;
-	int boss_x_side=1025;
-	int boss_x_middle=640;
 
 	int combo=0;
 	int maxcombo = 0;
@@ -397,14 +410,21 @@ implements SurfaceHolder.Callback{
 		enebar[9] = Graphic.LoadBitmap(getResources(), R.drawable.enebar09, 1280, 28);
 
 		//BOSS 前警告==
-		/*for(int i=0;i<warning_pic.length;i++){
-		 warning_pic[i]=Graphic.LoadBitmap(getResources(), R.drawable.boss_delet00000+i, 1280, 720,4);//LoadBitmap(LoadBitmap(R.drawable.boss_delet00000+i,3), 1280, 720);
-		}*/
-		 //warning=new shortAnimax(warning_pic);
-		 //warning.setPosition(1280/2, 720/2);
+		warning=Graphic.LoadBitmap(getResources(), R.drawable.warning, 1280, 178);
+		warning_alpha=0;
 		warning_sound=sp.load(activity, R.raw.warning, 1);
 		warning_flag=false;
 		//BOSS 前警告--
+		
+		//BOSS 攻擊==
+		attack_pic=Graphic.LoadBitmap(getResources(), R.drawable.boss_sight2, 288, 284);
+		attack_pic_round=Graphic.LoadBitmap(getResources(), R.drawable.boss_sight, 288, 284);
+		attack=new Bottom(activity, attack_pic, attack_pic, 1280/2, 495);
+		attack_flag=false;
+		attack_flag2=false;
+		attack_rot=0;
+		attack_rot_flag=10;
+		//BOSS 攻擊--
 
 		for(int i=0;i<Effect_numbers;i++){
 			Effect_Cyan[i]=new smallAnimax(Cyan);
@@ -472,10 +492,10 @@ implements SurfaceHolder.Callback{
 		
 		sp_id=new int[5];
 		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
-		sp_id[1]=sp.load(activity, R.raw.drum, 1);
-		sp_id[2]=sp.load(activity, R.raw.drum, 1);
-		sp_id[3]=sp.load(activity, R.raw.drum, 1);
-		sp_id[4]=sp.load(activity, R.raw.drum, 1);
+		sp_id[1]=sp.load(activity, R.raw.drum_cymbal, 1);
+		sp_id[2]=sp.load(activity, R.raw.drum_snare, 1);
+		sp_id[3]=sp.load(activity, R.raw.fall, 1);
+		sp_id[4]=sp.load(activity, R.raw.voice_dog, 1);
 
 		Constant.Flag=true;
 		new Thread(){
@@ -805,31 +825,50 @@ implements SurfaceHolder.Callback{
 			//Graphic.drawPic(canvas, hpfont_red, 95, 50, 0, 255, paint);
 
 			//難易度
-			if(activity.modelFlag == 0)
+			if(activity.difficulty == 0)
 			{
 				Graphic.drawPic(canvas, game_easy, 1180, 105, 0, 255, paint);
-			}else if(activity.modelFlag == 1){
+			}else if(activity.difficulty == 1){
 				Graphic.drawPic(canvas, game_normal, 1180, 105, 0, 255, paint);
-			}else if(activity.modelFlag == 2){
+			}else if(activity.difficulty == 2){
 				Graphic.drawPic(canvas, game_hard, 1180, 105, 0, 255, paint);
 			}
 
 			//TAG BOSS 前警告=========================================
-			if(mp.getCurrentPosition()>boss_show-warning_time&&!warning_flag){
-				/*warning.setDuration(warning_time);
-				warning.start(mp.getCurrentPosition());
-				sp.play(warning_sound, activity.mp_Voiume, activity.mp_Voiume, 0, 0, 1);*/
-				int tt=mp.getCurrentPosition();
-				Bitmap testt=Graphic.LoadBitmap(getResources(), R.drawable.boss_delet00000, 1280, 720);
-				Log.v("test", ""+(mp.getCurrentPosition()-tt));
+			if(mp.getCurrentPosition()>boss_show-warning_time&&mp.getCurrentPosition()<boss_show&&!warning_flag){
+				sp.play(warning_sound, activity.mp_Voiume, activity.mp_Voiume, 0, 0, 1);
 				warning_flag=true;
 			}
-			/*if(warning.getFlag()){
-				Log.v("ani", ""+warning.getCount());
-			}*/
-			//warning.drawEffect_time(mp.getCurrentPosition()/*1*/, canvas, paint);
+			if(warning_flag){
+				if(warning_alpha<=10){
+					warning_alpha_flag=255;
+				}
+				if(warning_alpha>240){
+					warning_alpha_flag=0;
+				}
+				warning_alpha=Coordinate.AnalogSpeedMove(warning_alpha, warning_alpha_flag);
+				Graphic.drawPic(canvas, warning, 1280/2, 720/2, 0, warning_alpha, paint);
+				if(mp.getCurrentPosition()>boss_show&&warning_alpha<=10){
+					warning_flag=false;
+				}
+			}
 			//BOSS 前警告------------------------------------------------------------------------
-
+			
+			//BOSS 攻擊============================================
+			if(boss_attack_Flag&&!attack_flag&&!attack_flag2){
+				attack_flag=true;
+				attack_flag2=true;
+			}
+			if(attack_flag){
+				attack_rot+=attack_rot_flag;
+				if(attack_rot>=360){
+					attack_rot=attack_rot%360;
+				}
+				Graphic.drawPic(canvas, attack_pic_round, 1280/2, 495, attack_rot, 255, paint);
+				attack.drawBtm(canvas, paint);
+			}
+			//BOSS 攻擊----------------------------------------------------------------------------
+			
 			btn_circle.setBottomTo(false);	
 			btn_square.setBottomTo(false);	
 			btn_triangle.setBottomTo(false);	
@@ -969,7 +1008,14 @@ implements SurfaceHolder.Callback{
 				}
 			}
 			//PAUSE按鈕功能----------------------------------------------
-
+			
+			//BOSS 攻擊按鈕=============================================
+			if(attack.isIn(pointx, pointy)&&attack_flag){
+				attack_flag=false;
+				beam_attack=true;
+			}
+			//BOSS 攻擊按鈕--------------------------------------------------------------------------
+			
 			//返回遊戲、從頭開始、返回關卡選擇按鈕功能================================
 			if(btn_pause.getBottom()){   //必須在PAUSE按鈕為TRUE的時候才生效
 
@@ -987,7 +1033,6 @@ implements SurfaceHolder.Callback{
 
 				}
 			}
-
 			//返回遊戲、從頭開始、返回關卡選擇按鈕功能---------------------------------
 
 
@@ -1217,7 +1262,7 @@ implements SurfaceHolder.Callback{
 		btn_re_start.recycle();
 		btn_re_map.recycle();
 		//宣告PAUSE、返回遊戲、從頭開始、返回關卡地圖按鈕--------------------------------------------------
-
+		warning.recycle();
 
 		for(int i=0;i<10;i++){
 			enebar[i].recycle() ;

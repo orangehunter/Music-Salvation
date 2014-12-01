@@ -68,10 +68,6 @@ public class MainActivity extends Activity{
 	int [][]hight_rank=new int [levels][3];
 	//選關參數-------------------------------------
 	
-	//用來辨識難易度的FLAG===========================
-	int modelFlag;
-	//用來辨識難易度的FLAG---------------------------
-	
 	//存檔用參數====================================
 	float mp_Voiume;
 	float sp_Voiume;
@@ -474,7 +470,7 @@ public class MainActivity extends Activity{
 			sp_num=json.getInt("sp_num");
 			speed=json.getInt("game_speed");
 			timing=json.getDouble("game_timing");
-			animax_buffer=json.optInt("animax_buffer", 3);
+			animax_buffer=json.optInt("animax_buffer", 7);
 			
 			for(int i=0;i<levels;i++){
 				for(int j=0;j<levels;j++){
@@ -495,7 +491,7 @@ public class MainActivity extends Activity{
 			sp_num=0;
 			speed=1;
 			timing=0;
-			animax_buffer=3;
+			animax_buffer=7;
 			for(int i=0;i<levels;i++){
 				for(int j=0;j<3;j++){
 					hight_score[i][j]=0;
@@ -566,9 +562,9 @@ public class MainActivity extends Activity{
 	@Override 
 	public void onPause(){
 		Constant.setFlag(false);
-		/*try{
+	/*	try{
 		if(mainview.back_mp.isPlaying())
-			mainview.back_mp.stop();
+			mainview.back_mp.pause();
 		}catch(Exception e){
 			Log.e("pause", ""+e);
 		}*/

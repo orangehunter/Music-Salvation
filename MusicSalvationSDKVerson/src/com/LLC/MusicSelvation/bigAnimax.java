@@ -14,6 +14,7 @@ public class bigAnimax {
 
 	int last_draw;
 	double counter;
+	double counter_ret;
 	double speed;
 
 	double count_unit;
@@ -30,7 +31,9 @@ public class bigAnimax {
 
 	Bitmap bit[];
 
-	Thread line;
+	Thread line[];
+	Runnable run;
+	int count;
 
 	public bigAnimax(MainActivity activity,int length,int width,int hight,int R){
 		this.activity=activity;
@@ -50,25 +53,31 @@ public class bigAnimax {
 				}
 			}else{
 				if(bit[i]==null){
-					bit[i]=Graphic.LoadBitmap(activity.getResources(), r+i, pic_width, pic_hight);
+					bit[i]=Graphic.LoadBitmap(activity.getResources(), r+i, pic_width, pic_hight,2);
 				}
 			}
 		}
 	}
 
-	public void setBuffer(){
-		if(line!=null){
-			line=null;
-		}
-		line=new Thread(new Runnable(){
+	public void setRunable(){
+		run=new Runnable(){
 			@Override
 			public void run() {
-				int buffer=((int)counter)+activity.animax_buffer;
+			
+				count++;
+				int buffer=count+activity.animax_buffer;
 				if(buffer<animaxLength){
 					try{
-						bit[((int)counter)-1].recycle();
-						bit[buffer]=Graphic.LoadBitmap(activity.getResources(), r+buffer, pic_width, pic_hight);
+						if(bit[count-1]!=null){
+						bit[count-1].recycle();
+						}
+						if(bit[buffer]==null){
+						bit[buffer]=Graphic.LoadBitmap(activity.getResources(), r+buffer, pic_width, pic_hight,2);
+						Log.v("LoadAnimax", ""+buffer);
+						}
+						
 					}catch(OutOfMemoryError e){
+						animax_flag=false;
 						Log.e("bigAnimax","Not enough Memory");
 						activity.animax_buffer--;
 						activity.writeData();
@@ -76,7 +85,26 @@ public class bigAnimax {
 					}
 				}
 			}
-		});
+		};
+	}
+
+	public void setBuffer(){
+		if(line!=null){
+			line=null;
+		}
+		setRunable();
+		line=new Thread[activity.animax_buffer];
+		for(int i=0;i<activity.animax_buffer;i++){
+			line[i]=new Thread(run);
+		}
+	}
+	public void startBuffer(){
+		for(int i=0;i<activity.animax_buffer;i++){
+			if(!line[i].isAlive()){
+				line[i].run();
+				break;
+			}
+		}
 	}
 	public void setPosition(int x,int y){//設定位置
 		this.x=x;
@@ -87,14 +115,18 @@ public class bigAnimax {
 		this.count_unit=(animaxLength*1.0)/(this.duration*1.0);
 		this.speed=0;
 		this.start_position=CurrentPosition;
+		count=0;
 		this.counter=0;
+		counter_ret=0;
 		this.last_draw=0;
 		animax_flag=true;
 	}
 	public void startBySpeed(double speed){//啟動(無設定長度)
 		this.speed=speed;
 		this.duration=0;
+		count=0;
 		counter=0;
+		counter_ret=0;
 		this.last_draw=0;
 		animax_flag=true;	
 	}
@@ -116,7 +148,7 @@ public class bigAnimax {
 	public void drawAnimax(int CurrentPosition,Canvas canvas,Paint paint){
 		if(animax_flag){
 			if(speed==0){
-				counter=count_unit*(CurrentPosition-start_position);
+				counter=count_unit*(CurrentPosition-start_position)-counter_ret;
 
 			}else if(duration==0){
 				if(!pause_flag){
@@ -124,17 +156,23 @@ public class bigAnimax {
 				}
 			}
 			if(((int)counter)<animaxLength){
-				if(((int)counter)>last_draw){
+				int t=((int)counter)-last_draw;
+				if(t==1){
 					last_draw=((int)counter);
-					line.start();
+					startBuffer();
+				}else if(t>1){
+					counter_ret+=1;
+					counter--;
 				}
 				try{
-				Graphic.drawPic(canvas, bit[((int)counter)], x, y, 0, 255, paint);
+					Graphic.drawPic(canvas, bit[((int)counter)], x, y, 0, 255, paint);
 				}catch(NullPointerException e){
+					Graphic.drawPic(canvas, bit[((int)counter)-1], x, y, 0, 255, paint);
+					/*animax_flag=false;
 					Log.e("bigAnimax","Not enough buffer");
 					activity.animax_buffer++;
 					activity.writeData();
-					setBuffer();
+					setBuffer();*/
 				}
 			}else{
 				animax_flag=false;

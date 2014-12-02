@@ -29,8 +29,8 @@ public class Graphic {
         bmpFactoryOptions.inJustDecodeBounds = true;
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream,null,bmpFactoryOptions);
         
-        int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)Coordinate.CoordinateY(y));
-        int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)Coordinate.CoordinateX(x));
+        int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/y);//(float)Coordinate.CoordinateY(y));
+        int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/x);//(float)Coordinate.CoordinateX(x));
         
         if (heightRatio > 1 || widthRatio > 1)
         {
@@ -45,6 +45,7 @@ public class Graphic {
         bmpFactoryOptions.inJustDecodeBounds = false;
         inputStream = rs.openRawResource(r);
         bitmap = BitmapFactory.decodeStream(inputStream,null, bmpFactoryOptions);
+        bitmap=bitSize(bitmap,x,y);
         try {
 			inputStream.reset();
 		} catch (IOException e) {

@@ -162,13 +162,12 @@ implements SurfaceHolder.Callback{
 	//BOSS 前警告--
 	
 	//BOSS 攻擊==
-	Bottom attack;
+	gameChartBottom attack;
 	Bitmap attack_pic_round;
 	Bitmap attack_pic;
+	Bitmap attack_sight;
 	boolean attack_flag;
 	boolean attack_flag2;
-	int attack_rot;
-	int attack_rot_flag;
 	//BOSS 攻擊--
 	
 	
@@ -419,11 +418,10 @@ implements SurfaceHolder.Callback{
 		//BOSS 攻擊==
 		attack_pic=Graphic.LoadBitmap(getResources(), R.drawable.boss_sight2, 288, 284);
 		attack_pic_round=Graphic.LoadBitmap(getResources(), R.drawable.boss_sight, 288, 284);
-		attack=new Bottom(activity, attack_pic, attack_pic, 1280/2, 495);
+		attack_sight=Graphic.LoadBitmap(getResources(), R.drawable.boss_sihgt_gray, 288, 284);
+		attack=new gameChartBottom(-200, 495, 900, activity, attack_pic, attack_pic, 1280/2);
 		attack_flag=false;
 		attack_flag2=false;
-		attack_rot=0;
-		attack_rot_flag=10;
 		//BOSS 攻擊--
 
 		for(int i=0;i<Effect_numbers;i++){
@@ -858,14 +856,12 @@ implements SurfaceHolder.Callback{
 			if(boss_attack_Flag&&!attack_flag&&!attack_flag2){
 				attack_flag=true;
 				attack_flag2=true;
+				attack.start(mp.getCurrentPosition(), 3000, 0);
 			}
 			if(attack_flag){
-				attack_rot+=attack_rot_flag;
-				if(attack_rot>=360){
-					attack_rot=attack_rot%360;
-				}
-				Graphic.drawPic(canvas, attack_pic_round, 1280/2, 495, attack_rot, 255, paint);
-				attack.drawBtm(canvas, paint);
+				Graphic.drawPic(canvas, attack_pic_round, 1280/2, 495, (mp.getCurrentPosition()/10)%360, 255, paint);
+				Graphic.drawPic(canvas, attack_sight, 1280/2, 495, 0, 255, paint);
+				attack.drawChartBottom(mp.getCurrentPosition(), canvas, paint);
 			}
 			//BOSS 攻擊----------------------------------------------------------------------------
 			
@@ -1010,9 +1006,11 @@ implements SurfaceHolder.Callback{
 			//PAUSE按鈕功能----------------------------------------------
 			
 			//BOSS 攻擊按鈕=============================================
-			if(attack.isIn(pointx, pointy)&&attack_flag){
+			if(attack.btm.isIn(pointx, pointy)&&attack_flag){
+				if((attack.start_time+3000)-mp.getCurrentPosition()<300&&(attack.start_time+3000)-mp.getCurrentPosition()>-300){
 				attack_flag=false;
 				beam_attack=true;
+				}
 			}
 			//BOSS 攻擊按鈕--------------------------------------------------------------------------
 			
@@ -1184,7 +1182,15 @@ implements SurfaceHolder.Callback{
 		lazer_green.recycle();
 		lazer_yellow.recycle();
 		//光束----------------------------------------------------
-
+		//BOSS 前警告==
+		warning.recycle();
+		//BOSS 前警告--
+		//BOSS 攻擊==
+		attack.recycle();
+		attack_pic_round.recycle();
+		attack_pic.recycle();
+		attack_sight.recycle();
+		//BOSS 攻擊--
 		track.recycle();  //軌道
 
 		virus_red.recycle();
@@ -1262,7 +1268,6 @@ implements SurfaceHolder.Callback{
 		btn_re_start.recycle();
 		btn_re_map.recycle();
 		//宣告PAUSE、返回遊戲、從頭開始、返回關卡地圖按鈕--------------------------------------------------
-		warning.recycle();
 
 		for(int i=0;i<10;i++){
 			enebar[i].recycle() ;

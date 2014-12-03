@@ -338,15 +338,17 @@ public final class R {
         public static final int zero=0x7f020144;
     }
     public static final class raw {
-        public static final int drum_cymbal=0x7f030000;
-        public static final int drum_snare=0x7f030001;
-        public static final int fall=0x7f030002;
-        public static final int freely_tomorrow=0x7f030003;
-        public static final int llc=0x7f030004;
-        public static final int tambourine=0x7f030005;
-        public static final int tell_your_world_piano=0x7f030006;
-        public static final int voice_dog=0x7f030007;
-        public static final int warning=0x7f030008;
+        public static final int beam_cut=0x7f030000;
+        public static final int boss_del=0x7f030001;
+        public static final int drum_cymbal=0x7f030002;
+        public static final int drum_snare=0x7f030003;
+        public static final int fall=0x7f030004;
+        public static final int freely_tomorrow=0x7f030005;
+        public static final int llc=0x7f030006;
+        public static final int tambourine=0x7f030007;
+        public static final int tell_your_world_piano=0x7f030008;
+        public static final int voice_dog=0x7f030009;
+        public static final int warning=0x7f03000a;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

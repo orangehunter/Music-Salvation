@@ -140,7 +140,7 @@ implements SurfaceHolder.Callback{
 	smallAnimax change_enebar;
 	boolean ene_flag;
 	//能量條切換---------------------------------------------
-	
+
 
 	int boss_show;
 	int boss_kill;
@@ -151,7 +151,7 @@ implements SurfaceHolder.Callback{
 	int boss_x;
 	int boss_x_side=1025;
 	int boss_x_middle=640;
-	
+
 	//BOSS 前警告==
 	int warning_time=2000;
 	Bitmap warning;
@@ -160,7 +160,7 @@ implements SurfaceHolder.Callback{
 	int warning_sound;
 	boolean warning_flag;
 	//BOSS 前警告--
-	
+
 	//BOSS 攻擊==
 	gameChartBottom attack;
 	Bitmap attack_pic_round;
@@ -168,17 +168,37 @@ implements SurfaceHolder.Callback{
 	Bitmap attack_sight;
 	boolean attack_flag;
 	boolean attack_flag2;
+
+	bigAnimax beam;
+	int beam_num=20;
+	int beam_time=2500;
+	int beam_sound;
+	boolean beam_flag;
+
+	bigAnimax boss_del;
+	int boss_del_num=36;
+	int boss_del_time=5000;
+	int boss_del_sound;
+	boolean boss_del_flag;
 	//BOSS 攻擊--
-	
-	
+
+
 	Number score;
 
-	int hp = 20;
+	double hp_point[][]={{0.5,0.3,0.2,0.3},{0.3,0.1,0.1,0.3},{0.1,0.1,0.0,0.5}};
+	double hp = 20;
 	int hp_max=20;
 	int hp_x;
+	int hp_x_last;
 	int hp_color=Color.GREEN;
 	int hp_to_yellow=12;
 	int hp_to_red = 6;
+
+	double en_point[]={2,1,0.5};
+	double en = 0;
+	int en_max=100;
+	int en_x;
+	int en_color=Color.CYAN;
 
 
 	int combo=0;
@@ -265,7 +285,7 @@ implements SurfaceHolder.Callback{
 	}*/
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		sp=new SoundPool(6, AudioManager.STREAM_MUSIC, 5);
+		sp=new SoundPool(4, AudioManager.STREAM_MUSIC, 5);
 		combo=0;
 		maxcombo = 0;
 		sc_nice= 0;
@@ -276,6 +296,9 @@ implements SurfaceHolder.Callback{
 		sc_score = 0;
 		time_dis=3000/activity.speed;
 		this.hp=this.hp_max;
+		hp_x=182;
+		hp_x_last=182;
+		en=0;
 		/*int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 	              | View.SYSTEM_UI_FLAG_FULLSCREEN;
 		this.setSystemUiVisibility(uiOptions);*/
@@ -414,7 +437,7 @@ implements SurfaceHolder.Callback{
 		warning_sound=sp.load(activity, R.raw.warning, 1);
 		warning_flag=false;
 		//BOSS 前警告--
-		
+
 		//BOSS 攻擊==
 		attack_pic=Graphic.LoadBitmap(getResources(), R.drawable.boss_sight2, 288, 284);
 		attack_pic_round=Graphic.LoadBitmap(getResources(), R.drawable.boss_sight, 288, 284);
@@ -422,6 +445,17 @@ implements SurfaceHolder.Callback{
 		attack=new gameChartBottom(-200, 495, 900, activity, attack_pic, attack_pic, 1280/2);
 		attack_flag=false;
 		attack_flag2=false;
+
+		beam=new bigAnimax(activity, beam_num, 900, 450, R.drawable.beam_00);
+		beam.setPosition(1280/2, 720/2);
+		beam_sound=sp.load(getContext(), R.raw.beam_cut, 1);
+		beam_attack=false;
+		beam_flag=true;
+
+		boss_del=new bigAnimax(activity, boss_del_num, 640, 500, R.drawable.boss_del00000);
+		boss_del.setPosition(640, 242);
+		boss_del_sound=sp.load(getContext(), R.raw.boss_del, 1);
+		boss_del_flag=true;
 		//BOSS 攻擊--
 
 		for(int i=0;i<Effect_numbers;i++){
@@ -487,7 +521,7 @@ implements SurfaceHolder.Callback{
 			}
 		});
 
-		
+
 		sp_id=new int[5];
 		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
 		sp_id[1]=sp.load(activity, R.raw.drum_cymbal, 1);
@@ -672,11 +706,7 @@ implements SurfaceHolder.Callback{
 				Hitcount = 0;
 			}
 			//判定顯示--------------------------------------------------------
-			//TAG HP檢查==========================================================
-			if(hp_x==182+0*55){
-				activity.changeView(4);
-			}
-			//HP檢查----------------------------------------------------------
+
 
 			int now_time=mp.getCurrentPosition();
 			for(int i=0;i<chartObject;i++){
@@ -763,21 +793,37 @@ implements SurfaceHolder.Callback{
 			}
 			//特效光繪圖----------------------------------------------------------------------------
 
-
-
-			hp_x=Coordinate.AnalogSpeedMove(hp_x, 182+hp*55);
-			hp_color=Color.GREEN;
-			if(hp_x!= 182+hp*55){
-				hp_color=Color.argb(255, 132, 0, 20);
-			}else if(hp<hp_to_yellow&& hp>hp_to_red){
-				hp_color=Color.YELLOW;
-			}else if(hp<=hp_to_red){
-				hp_color=Color.RED;
-			}
 			Graphic.drawPic(canvas, titlebar, 641, 31, 0, 255, paint);
-			Graphic.drawLine(canvas, hp_color, 190, 50, hp_x, 50, 16, paint);
+			if(!ene_flag){
+				hp_x=Coordinate.AnalogSpeedMove(hp_x, 182+(int)hp*55);
+				hp_color=Color.GREEN;
+				if(hp_x!= 182+hp*55){
+					if(hp_x<hp_x_last){
+						hp_color=Color.argb(255, 132, 0, 20);
+					}else{
+						hp_color=Color.argb(255, 181,230, 29);
+					}
+				}else {
+					hp_x_last=hp_x;
+					if(hp<hp_to_yellow&& hp>hp_to_red){
+						hp_color=Color.YELLOW;
+					}
+					if(hp<=hp_to_red){
+						hp_color=Color.RED;
+					}
+				}
+				Graphic.drawLine(canvas, hp_color, 190, 50, hp_x, 50, 16, paint);
+			}else{
+				en_x=Coordinate.AnalogSpeedMove(en_x, 182+(int)en*11);
+				Graphic.drawLine(canvas, en_color, 190, 50, en_x, 50, 16, paint);
+			}
 			//Graphic.drawPic(canvas, hpbar, 730, 50, 0, 255, paint);
 			//Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
+			//TAG HP檢查==========================================================
+			if(hp_x<=182+0*55){
+				activity.changeView(4);
+			}
+			//HP檢查----------------------------------------------------------
 			//能量條切換特效==========================================================================
 			if(!change_enebar.getFlag()){
 				if(ene_flag){
@@ -851,7 +897,7 @@ implements SurfaceHolder.Callback{
 				}
 			}
 			//BOSS 前警告------------------------------------------------------------------------
-			
+
 			//BOSS 攻擊============================================
 			if(boss_attack_Flag&&!attack_flag&&!attack_flag2){
 				attack_flag=true;
@@ -862,9 +908,25 @@ implements SurfaceHolder.Callback{
 				Graphic.drawPic(canvas, attack_pic_round, 1280/2, 495, (mp.getCurrentPosition()/10)%360, 255, paint);
 				Graphic.drawPic(canvas, attack_sight, 1280/2, 495, 0, 255, paint);
 				attack.drawChartBottom(mp.getCurrentPosition(), canvas, paint);
+				if(!attack.getFlag()){
+					activity.changeView(4);
+				}
+			}
+			if(beam_attack){
+				if(beam_flag){
+					beam.startByTime(mp.getCurrentPosition(), beam_time);
+					sp.play(beam_sound, activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+					beam_flag=false;
+				}else{
+					if(!beam.getFlag()){
+
+					}
+				}
+				beam.drawAnimax(mp.getCurrentPosition(), canvas, paint);
+
 			}
 			//BOSS 攻擊----------------------------------------------------------------------------
-			
+
 			btn_circle.setBottomTo(false);	
 			btn_square.setBottomTo(false);	
 			btn_triangle.setBottomTo(false);	
@@ -1004,16 +1066,16 @@ implements SurfaceHolder.Callback{
 				}
 			}
 			//PAUSE按鈕功能----------------------------------------------
-			
+
 			//BOSS 攻擊按鈕=============================================
 			if(attack.btm.isIn(pointx, pointy)&&attack_flag){
 				if((attack.start_time+3000)-mp.getCurrentPosition()<300&&(attack.start_time+3000)-mp.getCurrentPosition()>-300){
-				attack_flag=false;
-				beam_attack=true;
+					attack_flag=false;
+					beam_attack=true;
 				}
 			}
 			//BOSS 攻擊按鈕--------------------------------------------------------------------------
-			
+
 			//返回遊戲、從頭開始、返回關卡選擇按鈕功能================================
 			if(btn_pause.getBottom()){   //必須在PAUSE按鈕為TRUE的時候才生效
 
@@ -1072,14 +1134,17 @@ implements SurfaceHolder.Callback{
 	}
 	//TAG 分數
 	public void scoreAdd(int dis){
-		if(this.hp!=this.hp_max){
-			if(this.hp<this.hp_max){
-				this.hp++;
+		if(dis<3){
+			if(!ene_flag){
+				if(hp<hp_max){
+					hp+=hp_point[activity.difficulty][dis];
+				}
+			}else{
+				en+=en_point[activity.difficulty];
 			}
 		}
 		switch(dis){
 		case 0:  //NICE
-
 			percent++;
 			combo++;
 			sc_score+=200;
@@ -1116,7 +1181,9 @@ implements SurfaceHolder.Callback{
 		Hitcount = 255;
 	}
 	public void scoreLess(){
-		this.hp--;
+		if(!ene_flag){
+			this.hp-=hp_point[activity.difficulty][3];
+		}
 		combo = 0;
 		sc_miss++;
 		Hitflag = 4;
@@ -1148,7 +1215,7 @@ implements SurfaceHolder.Callback{
 		startFlag=true;
 
 		//warning.recycle();
-		
+
 		bg.recycle();   //背景
 		sight.recycle();  //準星
 		boss.recycle();
@@ -1190,6 +1257,8 @@ implements SurfaceHolder.Callback{
 		attack_pic_round.recycle();
 		attack_pic.recycle();
 		attack_sight.recycle();
+		beam.recycle();
+		boss_del.recycle();
 		//BOSS 攻擊--
 		track.recycle();  //軌道
 

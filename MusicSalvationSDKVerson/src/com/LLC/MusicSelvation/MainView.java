@@ -99,13 +99,13 @@ implements SurfaceHolder.Callback{
 		main_back=			Graphic.bitSize(LoadBitmap( R.drawable.main_back3), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
 		main_back2=			Graphic.bitSize(LoadBitmap( R.drawable.main_back2), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
 		main_title=			Graphic.bitSize(LoadBitmap( R.drawable.main_title ),730 ,269 );
-		main_touchstart=Graphic.bitSize(LoadBitmap( R.drawable.main_touchstart ), 594, 85);
+		main_touchstart=	Graphic.bitSize(LoadBitmap( R.drawable.main_touchstart ), 594, 85);
 		main_left=			Graphic.bitSize(LoadBitmap( R.drawable.main_left ),(440/2), (583/2));
 		main_right=			Graphic.bitSize(LoadBitmap( R.drawable.main_right), (666/2), (644/2));
-		start =  Graphic.bitSize(LoadBitmap( R.drawable.start), 314,85);
-		exit  =  Graphic.bitSize(LoadBitmap( R.drawable.exit), 314,85);
-		startbtm = new Bottom(activity, start,start, 640, 518);
-		exitbtm = new Bottom(activity, exit, exit, 640, 643);
+		start =  			Graphic.bitSize(LoadBitmap( R.drawable.start), 314,85);
+		exit  =  			Graphic.bitSize(LoadBitmap( R.drawable.exit), 314,85);
+		startbtm = 	new Bottom(activity, start,start, 640, 518);
+		exitbtm = 	new Bottom(activity, exit, exit, 640, 643);
 
 		//載入音樂=============================================================
 
@@ -114,7 +114,7 @@ implements SurfaceHolder.Callback{
 		back_mp.setLooping(true);
 		back_mp.start();
 		
-		sp=new SoundPool(2, AudioManager.STREAM_MUSIC, 5);
+		sp=new SoundPool(4, AudioManager.STREAM_MUSIC, 5);
 		btn_se[0] = sp.load(activity, R.raw.start, 1);
 		btn_se[1] = sp.load(activity, R.raw.title_touch, 1);
 		//載入音樂-------------------------------------------------------------
@@ -289,9 +289,10 @@ implements SurfaceHolder.Callback{
 		main_touchstart.recycle();
 		startbtm.recycle();
 		exitbtm.recycle();
+		back_mp.stop();
+		sp.release();
 		System.gc();
 		Constant.Flag=false;
-		back_mp.stop();
 	}
 
 

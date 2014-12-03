@@ -457,6 +457,63 @@ implements SurfaceHolder.Callback{
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
+		bg.recycle();
+		titlebar.recycle();
+		rightbar.recycle();
+		leftbar.recycle();
+		rankbar.recycle();
+		clearbar.recycle();
+		line.recycle();
+
+		freely.recycle();
+		totalvirus.recycle();
+		nice.recycle();
+		hit.recycle();
+		safe.recycle();
+		miss.recycle();
+		max_combo.recycle();
+		score.recycle();
+		highscore.recycle();
+		quest_stage.recycle();
+		bossclear.recycle();
+		rank.recycle();
+		clear.recycle();
+		failed.recycle();
+
+		easy.recycle();
+		normal.recycle();
+		hard.recycle();
+
+		y.recycle();
+		n.recycle();
+		num_grey.recycle();
+		num_white.recycle();
+		num_red.recycle();
+		num_yellow.recycle();
+		num_green.recycle();
+		num_cyan.recycle();
+		num_blue.recycle();
+
+		rank_s.recycle();
+		rank_a.recycle();
+		rank_b.recycle();
+		rank_c.recycle();
+		rank_d.recycle();
+		rank_e.recycle();
+		rank_f.recycle();
+		
+		//離開與再挑戰、更新紀錄圖片宣告===========================================
+		exit.recycle();
+		again.recycle();
+		rank_new.recycle();
+		rank_gold.recycle();
+		rank_record.recycle();
+		score_record.recycle();
+		//成績數字==============================================================================
+		exit_btm.recycle();
+		again_btm.recycle();
+		num.recycle();
+		sp.release();
 		Constant.Flag=false;
 	}
 

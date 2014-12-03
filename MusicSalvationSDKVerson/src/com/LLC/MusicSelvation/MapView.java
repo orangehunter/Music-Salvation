@@ -347,14 +347,13 @@ implements SurfaceHolder.Callback{
 		normal  = new Bottom(activity, right_normal_ch, right_normal, 741, 588);
 		hard  = new Bottom(activity, right_hard_ch, right_hard, 741, 662);
 
-
-		//TAG 增加SP可容納的音效量，並放進新的音效===============================
+		
 		mp = MediaPlayer.create(this.getContext(), R.raw.map_bgm);
 		mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
 		mp.setLooping(true);
 		mp.start();
 		
-		sp=new SoundPool(11, AudioManager.STREAM_MUSIC, 5);
+		sp=new SoundPool(4, AudioManager.STREAM_MUSIC, 5);
 		sp_id=new int[11];
 		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
 		sp_id[1]=sp.load(activity, R.raw.drum_cymbal, 1);

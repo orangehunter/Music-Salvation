@@ -10,6 +10,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -91,6 +93,11 @@ implements SurfaceHolder.Callback{
 	int sc_score ;
 	int sc_rank;
 	//儲存遊戲判定用參數---------------------------------------
+	
+	//TAG 按鈕音宣告=======================================
+	SoundPool sp;
+	int btn_se;
+	//TAG 按鈕音宣告---------------------------------------
 
 	int touch_flag=0;
 	boolean clear_flag;
@@ -182,6 +189,12 @@ implements SurfaceHolder.Callback{
 		rank_record = Graphic.bitSize(LoadBitmap(R.drawable.rank_record), 610, 180);
 		score_record = Graphic.bitSize(LoadBitmap(R.drawable.score_record), 655, 160);
 		//離開與再挑戰、更新紀錄特效---------------------------------------------
+		sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 5);
+		btn_se = sp.load(activity, R.raw.sv_btn, 1);
+		
+		//按鈕音=========================================
+		
+		//按鈕音--------------------------
 		
 		exit_btm = new Bottom(activity, exit, exit, 1120, 670);
 		again_btm = new Bottom(activity, again, again, 825, 670);
@@ -416,9 +429,12 @@ implements SurfaceHolder.Callback{
 				}*/
 				if(exit_btm.isIn(pointx, pointy)){
 					activity.changeView(2);
+					sp.play(btn_se, activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 				}
 				if(again_btm.isIn(pointx, pointy)){
+					sp.play(btn_se, activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 					activity.changeView(3);
+					
 				}
 			}
 			deJump = false;

@@ -72,6 +72,11 @@ implements SurfaceHolder.Callback{
 
 	//背景音樂宣告------------------------------------
 
+	//音效宣告=======================================
+	SoundPool sp;
+	int btn_se[] = new int[2];
+	//音效宣告---------------------------------------
+	
 	Paint paint;			//畫筆的參考
 	int i=0,j=10;
 	MainActivity activity;
@@ -108,6 +113,10 @@ implements SurfaceHolder.Callback{
 		back_mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
 		back_mp.setLooping(true);
 		back_mp.start();
+		
+		sp=new SoundPool(2, AudioManager.STREAM_MUSIC, 5);
+		btn_se[0] = sp.load(activity, R.raw.start, 1);
+		btn_se[1] = sp.load(activity, R.raw.title_touch, 1);
 		//載入音樂-------------------------------------------------------------
 
 
@@ -206,6 +215,7 @@ implements SurfaceHolder.Callback{
 			{
 			case MotionEvent.ACTION_DOWN://按下
 				if(deJump == true){
+					sp.play(btn_se[1], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 					mainFlag=1;
 				}
 				deJump = false;
@@ -225,9 +235,11 @@ implements SurfaceHolder.Callback{
 			case MotionEvent.ACTION_DOWN://按下
 				if(deJump==true){//防止彈跳part1
 					if(startbtm.isIn(pointx, pointy)){
+						sp.play(btn_se[0], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						this.toEditView = true;
 					}
 					if(exitbtm.isIn(pointx, pointy)){
+						sp.play(btn_se[0], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						exitbtm.setBottomTo(true);
 					}
 				}

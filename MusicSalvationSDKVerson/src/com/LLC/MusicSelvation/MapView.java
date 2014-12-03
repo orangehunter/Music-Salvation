@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -138,7 +139,7 @@ implements SurfaceHolder.Callback{
 	//箭頭按鈕宣告------------------------------------------------
 
 
-
+	MediaPlayer mp;
 	SoundPool sp;
 	int sp_id[];
 
@@ -347,13 +348,25 @@ implements SurfaceHolder.Callback{
 		hard  = new Bottom(activity, right_hard_ch, right_hard, 741, 662);
 
 
-		sp=new SoundPool(5, AudioManager.STREAM_MUSIC, 5);
-		sp_id=new int[5];
+		//TAG 增加SP可容納的音效量，並放進新的音效===============================
+		mp = MediaPlayer.create(this.getContext(), R.raw.map_bgm);
+		mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
+		mp.setLooping(true);
+		mp.start();
+		
+		sp=new SoundPool(11, AudioManager.STREAM_MUSIC, 5);
+		sp_id=new int[11];
 		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
 		sp_id[1]=sp.load(activity, R.raw.drum_cymbal, 1);
 		sp_id[2]=sp.load(activity, R.raw.drum_snare, 1);
 		sp_id[3]=sp.load(activity, R.raw.fall, 1);
 		sp_id[4]=sp.load(activity, R.raw.voice_dog, 1);
+		sp_id[5]=sp.load(activity, R.raw.left_menu_on, 1);
+		sp_id[6]=sp.load(activity, R.raw.left_menu_off, 1);
+		sp_id[7]=sp.load(activity, R.raw.leftm_btn, 1);
+		sp_id[8]=sp.load(activity, R.raw.left_num, 1);
+		sp_id[9]=sp.load(activity, R.raw.stagebtn, 1);
+		sp_id[10]=sp.load(activity, R.raw.start, 1);
 
 		Constant.Flag=true;
 		new Thread(){
@@ -385,6 +398,12 @@ implements SurfaceHolder.Callback{
 			super.onDraw(canvas);
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
+			
+			if(!mp.isPlaying()){
+				mp.prepareAsync();
+				mp.start();
+			}
+			
 			Graphic.drawPic(canvas, wmap, 1280/2, 720/2, 0, 255, paint);//地圖
 			if(stbtn01.getBottom()){
 				Graphic.drawPic(canvas, stage01btn0, 644, 609, 0, 255, paint);
@@ -676,9 +695,11 @@ implements SurfaceHolder.Callback{
 				//左半部選單按鈕事件====================================
 				if(menubtm.isIn(pointx, pointy)){
 					if(menuFlag == 0){
+						sp.play(sp_id[5], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						menuFlag = 1;
 					}
 					else if(menuFlag == 1){
+						sp.play(sp_id[6], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						left_btm1.setBottomTo(false);
 						left_btm2.setBottomTo(false);
 						left_btm3.setBottomTo(false);
@@ -692,6 +713,7 @@ implements SurfaceHolder.Callback{
 				{
 					if(left_btm1.isIn(pointx, pointy)){
 						if(!left_btm1.getBottom()){
+							sp.play(sp_id[7], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 							left_btm1.setBottomTo(true);
 							left_btm2.setBottomTo(false);
 							left_btm3.setBottomTo(false);
@@ -706,7 +728,7 @@ implements SurfaceHolder.Callback{
 					else if(left_btm2.isIn(pointx, pointy))
 					{
 						if(!left_btm2.getBottom()){
-
+							sp.play(sp_id[7], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 							left_btm1.setBottomTo(false);
 							left_btm2.setBottomTo(true);
 							left_btm3.setBottomTo(false);
@@ -720,6 +742,7 @@ implements SurfaceHolder.Callback{
 					}
 					else if(left_btm3.isIn(pointx, pointy)){
 						if(!left_btm3.getBottom()){
+							sp.play(sp_id[7], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 							left_btm1.setBottomTo(false);
 							left_btm2.setBottomTo(false);
 							left_btm3.setBottomTo(true);
@@ -734,6 +757,7 @@ implements SurfaceHolder.Callback{
 					}
 					else if(left_btm4.isIn(pointx, pointy)){
 						if(!left_btm4.getBottom()){
+							sp.play(sp_id[7], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 							left_btm1.setBottomTo(false);
 							left_btm2.setBottomTo(false);
 							left_btm3.setBottomTo(false);
@@ -747,6 +771,7 @@ implements SurfaceHolder.Callback{
 					}
 					else if(left_btm5.isIn(pointx, pointy)){
 						if(!left_btm5.getBottom()){
+							
 							activity.changeView(1);
 
 						}
@@ -853,21 +878,25 @@ implements SurfaceHolder.Callback{
 					{
 						if(speed_left_arrow.isIn(pointx, pointy)){
 							if(set_speed > 6){
+								sp.play(sp_id[8], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 								set_speed--;
 							}
 						}
 						if(speed_right_arrow.isIn(pointx, pointy)){
 							if(set_speed < 10){
+								sp.play(sp_id[8], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 								set_speed++;
 							}
 						}
 						if(timing_left_arrow.isIn(pointx, pointy)){
 							if(set_timing > 0){
+								sp.play(sp_id[8], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 								set_timing--;
 							}
 						}
 						if(timing_right_arrow.isIn(pointx, pointy)){
 							if(set_timing < 10){
+								sp.play(sp_id[8], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 								set_timing++;
 							}
 						}
@@ -880,7 +909,7 @@ implements SurfaceHolder.Callback{
 				//右半部關卡按鈕事件開始====================================================
 				if(stbtn01.isIn(pointx, pointy)){
 					if(!stbtn01.getBottom()){
-
+						sp.play(sp_id[10],activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						stageFlag = 1;
 						activity.level=0;//設定gameview 關卡參數
 						activity.difficulty=0;//gameview難度參數
@@ -900,7 +929,7 @@ implements SurfaceHolder.Callback{
 				//第二關==================================================
 				if(stbtn02.isIn(pointx, pointy)){
 					if(!stbtn02.getBottom()){
-
+						sp.play(sp_id[10], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						stageFlag = 2;
 						activity.level=1;//設定gameview 關卡參數
 						activity.difficulty=0;//gameview難度參數
@@ -919,7 +948,7 @@ implements SurfaceHolder.Callback{
 				//第三關==================================================
 				if(stbtn03.isIn(pointx, pointy)){
 					if(!stbtn03.getBottom()){
-
+						sp.play(sp_id[10], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						stageFlag = 3;
 						activity.level=2;//設定gameview 關卡參數
 						activity.difficulty=0;//gameview難度參數
@@ -938,27 +967,33 @@ implements SurfaceHolder.Callback{
 
 				if(stageFlag!=0){
 					if(start.isIn(pointx, pointy)){
+						sp.play(sp_id[10], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						activity.changeView(3);
 					}
 
 					//難易度調整按鈕事件
 					if(model.isIn(pointx, pointy)){
 						if(model.getBottom()){
+							
 							model.setBottomTo(false);
 						}else{
 							model.setBottomTo(true);
+							sp.play(sp_id[9], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						}
 					}
 					if(model.getBottom()){
 						if(easy.isIn(pointx, pointy)){
+							sp.play(sp_id[9], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 							activity.difficulty=0;//gameview難度參數
 							model.setBottomTo(false);
 						}
 						if(normal.isIn(pointx, pointy)){
+							sp.play(sp_id[9], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 							activity.difficulty=1;//gameview難度參數
 							model.setBottomTo(false);
 						}
 						if(hard.isIn(pointx, pointy)){
+							sp.play(sp_id[9], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 							activity.difficulty=2;//gameview難度參數
 							model.setBottomTo(false);
 						}
@@ -1144,6 +1179,7 @@ implements SurfaceHolder.Callback{
 		System.gc();
 		Constant.Flag=false;
 		sp.release();
+		mp.stop();
 	}
 
 

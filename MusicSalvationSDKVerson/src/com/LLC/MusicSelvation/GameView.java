@@ -186,7 +186,7 @@ implements SurfaceHolder.Callback{
 	Number score;
 
 	double hp_point[][]={{0.5,0.3,0.2,0.3},{0.3,0.1,0.1,0.3},{0.1,0.1,0.0,0.5}};
-	double hp = 20;
+	double hp;
 	int hp_max=20;
 	int hp_x;
 	int hp_x_last;
@@ -195,20 +195,21 @@ implements SurfaceHolder.Callback{
 	int hp_to_red = 6;
 
 	double en_point[]={2,1,0.5};
-	double en = 0;
+	double en;
+	double en_II;
 	int en_max=100;
 	int en_x;
 	int en_color=Color.CYAN;
 
 
-	int combo=0;
-	int maxcombo = 0;
-	int sc_nice= 0;
-	int sc_hit= 0;
-	int sc_safe= 0;
-	int sc_miss= 0;
-	int percent = 0;
-	int sc_score = 0;
+	int combo;
+	int maxcombo;
+	int sc_nice;
+	int sc_hit;
+	int sc_safe;
+	int sc_miss;
+	int percent;
+	int sc_score;
 
 	//TAG 控制判定顯示FLAG==============================
 	int Hitflag = 0;
@@ -296,9 +297,9 @@ implements SurfaceHolder.Callback{
 		sc_score = 0;
 		time_dis=3000/activity.speed;
 		this.hp=this.hp_max;
-		hp_x=182;
-		hp_x_last=182;
-		en=0;
+		hp_x=190;
+		hp_x_last=190;
+		en=90;
 		/*int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 	              | View.SYSTEM_UI_FLAG_FULLSCREEN;
 		this.setSystemUiVisibility(uiOptions);*/
@@ -452,10 +453,11 @@ implements SurfaceHolder.Callback{
 		beam_attack=false;
 		beam_flag=true;
 
+		
 		boss_del=new bigAnimax(activity, boss_del_num, 640, 500, R.drawable.boss_del00000);
 		boss_del.setPosition(640, 242);
 		boss_del_sound=sp.load(getContext(), R.raw.boss_del, 1);
-		boss_del_flag=true;
+		boss_del_flag=false;
 		//BOSS 攻擊--
 
 		for(int i=0;i<Effect_numbers;i++){
@@ -797,7 +799,7 @@ implements SurfaceHolder.Callback{
 			if(!ene_flag){
 				hp_x=Coordinate.AnalogSpeedMove(hp_x, 182+(int)hp*55);
 				hp_color=Color.GREEN;
-				if(hp_x!= 182+hp*55){
+				if(hp_x!= 190+hp*55){
 					if(hp_x<hp_x_last){
 						hp_color=Color.argb(255, 132, 0, 20);
 					}else{
@@ -814,7 +816,7 @@ implements SurfaceHolder.Callback{
 				}
 				Graphic.drawLine(canvas, hp_color, 190, 50, hp_x, 50, 16, paint);
 			}else{
-				en_x=Coordinate.AnalogSpeedMove(en_x, 182+(int)en*11);
+				en_x=Coordinate.AnalogSpeedMove(en_x, 190+(int)en*11);
 				Graphic.drawLine(canvas, en_color, 190, 50, en_x, 50, 16, paint);
 			}
 			//Graphic.drawPic(canvas, hpbar, 730, 50, 0, 255, paint);
@@ -836,7 +838,9 @@ implements SurfaceHolder.Callback{
 			//能量條切換特效--------------------------------------------------------------------------
 			// TAG BOSS 模式狀態=======================================================================
 			if(mp.getCurrentPosition()>boss_show){
+				if(!boss_del_flag){
 				Graphic.drawPic(canvas, boss, boss_x, boss_y, 0, 255, paint);
+				}
 				if(!ene_flag){
 					change_enebar.start();
 					ene_flag=true;
@@ -919,11 +923,20 @@ implements SurfaceHolder.Callback{
 					beam_flag=false;
 				}else{
 					if(!beam.getFlag()){
-
+						if(en_II>=80){
+							boss_del_flag=true;
+							boss_del.startByTime(mp.getCurrentPosition(), boss_del_time);
+							sp.play(boss_del_sound, activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
+						}else{
+						boss_del_flag=false;
+						}
+						beam_attack=false;
 					}
 				}
 				beam.drawAnimax(mp.getCurrentPosition(), canvas, paint);
-
+			}
+			if(boss_del_flag){
+				boss_del.drawAnimax(mp.getCurrentPosition(), canvas, paint);
 			}
 			//BOSS 攻擊----------------------------------------------------------------------------
 
@@ -1072,6 +1085,8 @@ implements SurfaceHolder.Callback{
 				if((attack.start_time+3000)-mp.getCurrentPosition()<300&&(attack.start_time+3000)-mp.getCurrentPosition()>-300){
 					attack_flag=false;
 					beam_attack=true;
+					en_II=en;
+					en=0;
 				}
 			}
 			//BOSS 攻擊按鈕--------------------------------------------------------------------------
@@ -1140,7 +1155,9 @@ implements SurfaceHolder.Callback{
 					hp+=hp_point[activity.difficulty][dis];
 				}
 			}else{
-				en+=en_point[activity.difficulty];
+				if(en<en_max){
+					en+=en_point[activity.difficulty];
+				}
 			}
 		}
 		switch(dis){

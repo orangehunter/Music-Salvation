@@ -51,13 +51,13 @@ implements SurfaceHolder.Callback{
 
 	Bitmap y;
 	Bitmap n;
-	Bitmap num_grey;
+	/*Bitmap num_grey;
 	Bitmap num_white;
 	Bitmap num_red;
 	Bitmap num_yellow;
 	Bitmap num_green;
 	Bitmap num_cyan;
-	Bitmap num_blue;
+	Bitmap num_blue;*/
 
 	Bitmap rank_s;
 	Bitmap rank_a;
@@ -166,12 +166,12 @@ implements SurfaceHolder.Callback{
 		y = Graphic.bitSize(LoadBitmap(R.drawable.y), 30, 50);
 		n = Graphic.bitSize(LoadBitmap(R.drawable.n), 30, 50);
 
-		num_grey = Graphic.bitSize(LoadBitmap(R.drawable.num_gray), 350, 50);
+		/*num_grey = Graphic.bitSize(LoadBitmap(R.drawable.num_gray), 350, 50);
 		num_red = Graphic.bitSize(LoadBitmap(R.drawable.num_red), 350, 50);
 		num_yellow = Graphic.bitSize(LoadBitmap(R.drawable.num_yellow), 350, 50);
 		num_green = Graphic.bitSize(LoadBitmap(R.drawable.num_green), 350, 50);
 		num_blue = Graphic.bitSize(LoadBitmap(R.drawable.num_blue), 350, 50);
-		num_cyan = Graphic.bitSize(LoadBitmap(R.drawable.num_cyan), 350, 50);
+		num_cyan = Graphic.bitSize(LoadBitmap(R.drawable.num_cyan), 350, 50);*/
 
 		rank_f = Graphic.bitSize(LoadBitmap(R.drawable.r_f), 86, 146);
 		rank_e = Graphic.bitSize(LoadBitmap(R.drawable.r_e), 99, 152);
@@ -486,13 +486,13 @@ implements SurfaceHolder.Callback{
 
 		y.recycle();
 		n.recycle();
-		num_grey.recycle();
+		/*num_grey.recycle();
 		num_white.recycle();
 		num_red.recycle();
 		num_yellow.recycle();
 		num_green.recycle();
 		num_cyan.recycle();
-		num_blue.recycle();
+		num_blue.recycle();*/
 
 		rank_s.recycle();
 		rank_a.recycle();

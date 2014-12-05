@@ -195,11 +195,10 @@ implements SurfaceHolder.Callback{
 	int stagecount = 0;
 
 
-	//最高分紀錄與RANK===============================
-	int score;
-	int rank;
+	//RANK===============================
+	Bitmap rank[];
+	//RANK------------------------------
 	Number num;
-	//最高分紀錄與RANK------------------------------
 
 	Paint paint;			//畫筆的參考
 	int i=0,j=5;
@@ -218,6 +217,7 @@ implements SurfaceHolder.Callback{
 	}
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		
 		paint = new Paint();//建立畫筆
 		paint.setAntiAlias(true);//開啟抗鋸齒
 		wmap =Graphic.bitSize(LoadBitmap( R.drawable.wmap), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
@@ -330,7 +330,23 @@ implements SurfaceHolder.Callback{
 		stbtn01 = new Bottom(activity, stage01btn , stage01btn0 , 644, 609);
 		stbtn02 = new Bottom(activity, stage01btn , stage01btn0 , 815, 165);
 		stbtn03 = new Bottom(activity, stage01btn , stage01btn0 , 430, 335);
-
+		switch (activity.sp_num) {
+		case 0:
+			sebtm1.setBottomTo(true);
+			break;
+		case 1:
+			sebtm2.setBottomTo(true);
+			break;
+		case 2:
+			sebtm3.setBottomTo(true);
+			break;
+		case 3:
+			sebtm4.setBottomTo(true);
+			break;
+		case 4:
+			sebtm5.setBottomTo(true);
+			break;
+		}
 
 		mp_Volume_bar=new MySeekBar(activity, volBar, volbtn, -300, 259);
 		mp_Volume_bar.setSeekBarFloat((int)(activity.mp_Voiume*100));
@@ -347,12 +363,12 @@ implements SurfaceHolder.Callback{
 		normal  = new Bottom(activity, right_normal_ch, right_normal, 741, 588);
 		hard  = new Bottom(activity, right_hard_ch, right_hard, 741, 662);
 
-		
+
 		mp = MediaPlayer.create(this.getContext(), R.raw.map_bgm);
 		mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
 		mp.setLooping(true);
 		mp.start();
-		
+
 		sp=new SoundPool(4, AudioManager.STREAM_MUSIC, 5);
 		sp_id=new int[11];
 		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
@@ -366,7 +382,9 @@ implements SurfaceHolder.Callback{
 		sp_id[8]=sp.load(activity, R.raw.left_num, 1);
 		sp_id[9]=sp.load(activity, R.raw.stagebtn, 1);
 		sp_id[10]=sp.load(activity, R.raw.start, 1);
-
+		
+		rank[0]=Graphic.LoadBitmap(getResources(), R.drawable.r_s, leftbtmmx1, 80);
+		
 		Constant.Flag=true;
 		new Thread(){
 			@SuppressLint("WrongCall")
@@ -397,12 +415,12 @@ implements SurfaceHolder.Callback{
 			super.onDraw(canvas);
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
-			
+
 			if(!mp.isPlaying()){
 				mp.prepareAsync();
 				mp.start();
 			}
-			
+
 			Graphic.drawPic(canvas, wmap, 1280/2, 720/2, 0, 255, paint);//地圖
 			if(stbtn01.getBottom()){
 				Graphic.drawPic(canvas, stage01btn0, 644, 609, 0, 255, paint);
@@ -633,6 +651,7 @@ implements SurfaceHolder.Callback{
 
 			//當stageFlag不等於0，就會顯示難易度與選擇難易度
 			if(stageFlag !=0){
+				
 				//追加條件:當Flag = 0 會顯示easy=================================================
 				if(activity.difficulty==0){
 					Graphic.drawPic(canvas, right_easy_ch, right_board_x-86, 655, 0, 255, paint);
@@ -770,7 +789,7 @@ implements SurfaceHolder.Callback{
 					}
 					else if(left_btm5.isIn(pointx, pointy)){
 						if(!left_btm5.getBottom()){
-							
+
 							activity.changeView(1);
 
 						}
@@ -973,7 +992,7 @@ implements SurfaceHolder.Callback{
 					//難易度調整按鈕事件
 					if(model.isIn(pointx, pointy)){
 						if(model.getBottom()){
-							
+
 							model.setBottomTo(false);
 						}else{
 							model.setBottomTo(true);
@@ -1174,7 +1193,7 @@ implements SurfaceHolder.Callback{
 		//箭頭按鈕宣告================================================
 		// arrow.recycle();
 		//箭頭按鈕宣告--------------------------------------------------------------------------------
-
+		num.recycle();
 		System.gc();
 		Constant.Flag=false;
 		sp.release();

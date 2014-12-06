@@ -301,6 +301,9 @@ implements SurfaceHolder.Callback{
 		hp_x=190;
 		hp_x_last=190;
 		en=0;
+		if(activity.speed==0){
+			activity.speed=1;
+		}
 		time_dis=3000/activity.speed;
 		warning_alpha=0;
 		warning_flag=false;

@@ -586,16 +586,16 @@ implements SurfaceHolder.Callback{
 					json=activity.read( "freely_tomorrow"+difficulty[activity.difficulty]);
 					break;
 				case 1 :
-					Log.v("Load Charts", "kokoronashi"+difficulty[activity.difficulty]);
+					Log.v("Load Charts", "spica"+difficulty[activity.difficulty]);
 					this.boss_show=201000;
 					boss_kill=186000;
-					json=activity.read( "kokoronashi"+difficulty[activity.difficulty]);
+					json=activity.read( "spica"+difficulty[activity.difficulty]);
 					break;
 				case 2 :
-					Log.v("Load Charts", "spica"+difficulty[activity.difficulty]);
+					Log.v("Load Charts", "kokoronashi"+difficulty[activity.difficulty]);
 					this.boss_show=222000;
 					boss_kill=263000;
-					json=activity.read( "spica"+difficulty[activity.difficulty]);
+					json=activity.read( "kokoronashi"+difficulty[activity.difficulty]);
 					break;
 				}
 				if(json!=null){

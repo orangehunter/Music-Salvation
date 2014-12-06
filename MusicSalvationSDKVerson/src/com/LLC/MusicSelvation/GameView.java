@@ -772,7 +772,7 @@ implements SurfaceHolder.Callback{
 			if(!ene_flag){
 				hp_x=Coordinate.AnalogSpeedMove(hp_x, 190+(int)hp*55);
 				hp_color=Color.GREEN;
-				if(hp_x!= 190+hp*55){
+				if(hp_x!= 190+(int)hp*55){
 					if(hp_x<hp_x_last){
 						hp_color=Color.argb(255, 132, 0, 20);
 					}else{

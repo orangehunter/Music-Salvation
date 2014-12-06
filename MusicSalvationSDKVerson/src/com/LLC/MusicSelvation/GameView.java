@@ -180,7 +180,7 @@ implements SurfaceHolder.Callback{
 
 	Number score;
 
-	double hp_point[][]={{0.5,0.3,0.2,0.3},{0.3,0.1,0.1,0.3},{0.1,0.1,0.0,0.5}};
+	double hp_point[][]={{0.5,0.3,0.2,0.3},{0.3,0.1,0.1,0.5},{0.1,0.1,0.0,0.8}};
 	double hp;
 	int hp_max=20;
 	int hp_x;
@@ -567,20 +567,20 @@ implements SurfaceHolder.Callback{
 				switch(activity.level){//關卡
 				case 0 :
 					Log.v("Load Charts", "freely_tomorrow"+difficulty[activity.difficulty]);
-					this.boss_show=202000;//TAG BOSS進場時間
-					boss_kill=235000;
+					this.boss_show=158000;//TAG BOSS進場時間
+					boss_kill=231000;
 					json=activity.read( "freely_tomorrow"+difficulty[activity.difficulty]);
 					break;
 				case 1 :
 					Log.v("Load Charts", "spica"+difficulty[activity.difficulty]);
-					this.boss_show=201000;
-					boss_kill=186000;
+					this.boss_show=164000;
+					boss_kill=230000;
 					json=activity.read( "spica"+difficulty[activity.difficulty]);
 					break;
 				case 2 :
 					Log.v("Load Charts", "kokoronashi"+difficulty[activity.difficulty]);
 					this.boss_show=222000;
-					boss_kill=263000;
+					boss_kill=260000;
 					json=activity.read( "kokoronashi"+difficulty[activity.difficulty]);
 					break;
 				}

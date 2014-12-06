@@ -44,11 +44,11 @@ public class MainActivity extends Activity{
 	Intent intent;
 	Intent deintent;
 	Uri uri;
-	
+
 	//影片選擇====================================
 	int video_select=0;
 	//影片選擇------------------------------------------------------------
-	
+
 	//判定與分數===================================
 	int virus = 0;  //病毒數量
 	int percent = 0; //判定是否過關數量
@@ -58,16 +58,18 @@ public class MainActivity extends Activity{
 	int miss = 0;
 	int score = 0;
 	int combo = 0;  
+	boolean boss_delete;
 	//判定與分數-----------------------------------
-	
+
 	//選關參數=====================================
 	int level;//關卡
 	int levels=3;//關卡總數
 	int difficulty;//難度
 	int [][]hight_score=new int [levels][3];
 	int [][]hight_rank=new int [levels][3];
+	Boolean [][]level_clear=new Boolean[levels][3];
 	//選關參數-------------------------------------
-	
+
 	//存檔用參數====================================
 	float mp_Voiume;
 	float sp_Voiume;
@@ -122,7 +124,7 @@ public class MainActivity extends Activity{
 		}
 	};
 
-	
+
 	protected void startVideo(){
 		if(video==null){
 			video=new Video(this);
@@ -363,7 +365,7 @@ public class MainActivity extends Activity{
 
 		try {
 			File sdCard = Environment.getExternalStorageDirectory();
-			File dir = new File (sdCard.getAbsolutePath() + "/charts");
+			File dir = new File (sdCard.getAbsolutePath() + "/MusicSelvation_datas/charts");
 			dir.mkdirs();
 			File files = new File(dir, turnUriToName(uri)+".chart");
 			FileInputStream file =new FileInputStream(files);
@@ -393,7 +395,7 @@ public class MainActivity extends Activity{
 
 		try {
 			File sdCard = Environment.getExternalStorageDirectory();
-			File dir = new File (sdCard.getAbsolutePath() + "/charts");
+			File dir = new File (sdCard.getAbsolutePath() + "/MusicSelvation_datas/charts");
 			dir.mkdirs();
 			File files = new File(dir, name+".chart");
 			FileInputStream file =new FileInputStream(files);
@@ -429,11 +431,11 @@ public class MainActivity extends Activity{
 		}
 		try {
 			File sdCard = Environment.getExternalStorageDirectory();
-			File dir = new File (sdCard.getAbsolutePath() + "/charts");
+			File dir = new File (sdCard.getAbsolutePath() + "/MusicSelvation_datas/charts");
 			dir.mkdirs();
 			File file = new File(dir, turnUriToName(uri)+".chart");
 			FileOutputStream writer =new FileOutputStream(file);
-			
+
 			//String fileName=turnUriToName(uri)+".chart";
 			//FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);
 			writer.write(json.toString().getBytes());
@@ -447,7 +449,7 @@ public class MainActivity extends Activity{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void readData(){//TAG 存檔讀取
 		String fileName="Data.save";
 		JSONObject json=null;
@@ -456,7 +458,7 @@ public class MainActivity extends Activity{
 
 		try {
 			File sdCard = Environment.getExternalStorageDirectory();
-			File dir = new File (sdCard.getAbsolutePath() + "/charts/data");
+			File dir = new File (sdCard.getAbsolutePath() + "/MusicSelvation_datas/data");
 			dir.mkdirs();
 			File files = new File(dir,fileName);
 			FileInputStream file =new FileInputStream(files);
@@ -470,13 +472,14 @@ public class MainActivity extends Activity{
 			sp_num=json.getInt("sp_num");
 			speed=json.getInt("game_speed");
 			timing=json.getDouble("game_timing");
-			animax_buffer=json.optInt("animax_buffer", 7);
-			
+			animax_buffer=json.optInt("animax_buffer", 3);
+
 			for(int i=0;i<levels;i++){
-				for(int j=0;j<levels;j++){
+				for(int j=0;j<3;j++){
 					if(json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j)!=null){
 						hight_score[i][j]=json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).optInt("hight_score");
 						hight_rank[i][j]=json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).optInt("hight_rank");
+						level_clear[i][j]=json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).optBoolean("level_clear", false);
 					}else{			
 						hight_score[i][j]=0;
 						hight_rank[i][j]=0;
@@ -491,9 +494,10 @@ public class MainActivity extends Activity{
 			sp_num=0;
 			speed=1;
 			timing=0;
-			animax_buffer=7;
+			animax_buffer=3;
 			for(int i=0;i<levels;i++){
 				for(int j=0;j<3;j++){
+					level_clear[i][j]=false;
 					hight_score[i][j]=0;
 					hight_rank[i][j]=0;
 				}
@@ -509,7 +513,7 @@ public class MainActivity extends Activity{
 			e.printStackTrace();
 		};
 	}
-	
+
 	public  void writeData(){//存檔寫入
 		JSONObject json=new JSONObject();
 		try {
@@ -519,7 +523,7 @@ public class MainActivity extends Activity{
 			json.put("game_speed",speed);
 			json.put("game_timing", timing);
 			json.put("animax_buffer", animax_buffer);
-			
+
 			json.put("level_data", new JSONArray());
 			for(int i=0;i<levels;i++){
 				json.optJSONArray("level_data").put(i, new JSONArray());
@@ -527,6 +531,7 @@ public class MainActivity extends Activity{
 					json.optJSONArray("level_data").optJSONArray(i).put(j, new JSONObject());
 					json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).put("hight_score",hight_score[i][j]);
 					json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).put("hight_rank",hight_rank[i][j]);
+					json.optJSONArray("level_data").optJSONArray(i).optJSONObject(j).put("level_clear",level_clear[i][j]);
 				}
 			}
 		} catch (JSONException e) {
@@ -537,7 +542,7 @@ public class MainActivity extends Activity{
 			/*String fileName="Data.save";
 			FileOutputStream writer = openFileOutput(fileName, Context.MODE_PRIVATE);*/
 			File sdCard = Environment.getExternalStorageDirectory();
-			File dir = new File (sdCard.getAbsolutePath() + "/charts/data");
+			File dir = new File (sdCard.getAbsolutePath() + "/MusicSelvation_datas/data");
 			dir.mkdirs();
 			File file = new File(dir, "Data.save");
 			FileOutputStream writer =new FileOutputStream(file);
@@ -562,7 +567,7 @@ public class MainActivity extends Activity{
 	@Override 
 	public void onPause(){
 		Constant.setFlag(false);
-	/*	try{
+		/*	try{
 		if(mainview.back_mp.isPlaying())
 			mainview.back_mp.pause();
 		}catch(Exception e){
@@ -575,5 +580,5 @@ public class MainActivity extends Activity{
 		writeData();
 		super.onDestroy();
 	}
-	
+
 }

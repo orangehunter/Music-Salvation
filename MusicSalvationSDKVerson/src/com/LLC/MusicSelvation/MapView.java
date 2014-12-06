@@ -1099,6 +1099,8 @@ implements SurfaceHolder.Callback{
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
+		activity.speed=set_speed-5;
+		activity.timing=set_timing-5;
 		wmap.recycle();
 		left_back.recycle();
 		left_exit.recycle();    //<<箭頭-淺色  離開MENU用

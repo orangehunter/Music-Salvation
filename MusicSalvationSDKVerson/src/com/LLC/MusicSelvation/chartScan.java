@@ -13,6 +13,7 @@ public class chartScan {
 	int scan_time_flag;
 	Timer timer;
 	TimerTask task;
+	MainActivity activity;
 
 	String view;	
 
@@ -39,7 +40,8 @@ public class chartScan {
 	,BtT=new JSONObject()
 	,BtX=new JSONObject();
 
-	public chartScan(JSONObject R,JSONObject S,JSONObject T,JSONObject X,int time_dis,String view){
+	public chartScan(MainActivity activity,JSONObject R,JSONObject S,JSONObject T,JSONObject X,int time_dis,String view){
+		this.activity=activity;
 		this.view=view;
 		dis=time_dis;
 		build(R,S,T,X);
@@ -97,7 +99,7 @@ public class chartScan {
 		if(this.view.equals("EditView")){
 			scan_time_flag=EditView.mp.getCurrentPosition();
 		}else if(this.view.equals("GameView")){
-			scan_time_flag=GameView.mp.getCurrentPosition();
+			scan_time_flag=GameView.mp.getCurrentPosition()+(activity.timing*10);
 		}
 		scan_time_flag=(scan_time_flag+dis)/100;
 		//Log.v("ChartScan",String.valueOf(scan_time_flag));

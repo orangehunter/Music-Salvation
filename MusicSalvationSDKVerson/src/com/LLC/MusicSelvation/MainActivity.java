@@ -74,7 +74,7 @@ public class MainActivity extends Activity{
 	float mp_Voiume;
 	float sp_Voiume;
 	int sp_num;
-	double timing;
+	int timing;
 	int speed;
 	int animax_buffer;
 	//存檔用參數-------------------------------------
@@ -471,7 +471,7 @@ public class MainActivity extends Activity{
 			sp_Voiume=Float.valueOf(json.getString("sp_Voiume"));
 			sp_num=json.getInt("sp_num");
 			speed=json.optInt("game_speed",1);
-			timing=json.getDouble("game_timing");
+			timing=json.getInt("game_timing");
 			animax_buffer=json.optInt("animax_buffer", 3);
 
 			for(int i=0;i<levels;i++){

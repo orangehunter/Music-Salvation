@@ -609,7 +609,7 @@ implements SurfaceHolder.Callback{
 						e.printStackTrace();
 					}
 					activity.virus=BtR.length()+BtS.length()+BtT.length()+BtX.length();
-					cs=new chartScan(BtR,BtS,BtT,BtX,time_dis,"GameView");
+					cs=new chartScan(activity,BtR,BtS,BtT,BtX,time_dis,"GameView");
 					cs.Start();
 				}else{
 					Log.e("GameView","找不到譜面檔");
@@ -697,7 +697,7 @@ implements SurfaceHolder.Callback{
 			//判定顯示--------------------------------------------------------
 
 
-			int now_time=mp.getCurrentPosition();
+			int now_time=mp.getCurrentPosition()+(activity.timing*10);
 			for(int i=0;i<chartObject;i++){
 				if(cr_btm[i].getFlag()){
 					if(cr_btm[i].drawChartBottom(now_time, canvas, paint)){

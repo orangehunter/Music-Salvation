@@ -207,7 +207,7 @@ implements SurfaceHolder.Callback {
 							e.printStackTrace();
 						}
 					}
-					chartscan=new chartScan(BtR,BtS,BtT,BtX,target_dis,"EditView");
+					chartscan=new chartScan(activity,BtR,BtS,BtT,BtX,target_dis,"EditView");
 				}
 			}
 			//©³¦â

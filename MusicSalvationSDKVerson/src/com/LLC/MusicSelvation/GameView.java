@@ -2,6 +2,8 @@ package com.LLC.MusicSelvation;
 //
 
 import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +33,7 @@ implements SurfaceHolder.Callback{
 
 
 	boolean startFlag=true;
+	boolean mp_complete_flag;
 	Bitmap bg;   //­I´º
 	Bitmap sight;  //·Ç¬P
 	Bitmap boss;
@@ -286,6 +289,7 @@ implements SurfaceHolder.Callback{
 	}*/
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		mp_complete_flag=false;
 		sp=new SoundPool(4, AudioManager.STREAM_MUSIC, 5);
 		combo=0;
 		maxcombo = 0;
@@ -299,7 +303,7 @@ implements SurfaceHolder.Callback{
 		this.hp=this.hp_max;
 		hp_x=190;
 		hp_x_last=190;
-		en=90;
+		en=0;
 		/*int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 	              | View.SYSTEM_UI_FLAG_FULLSCREEN;
 		this.setSystemUiVisibility(uiOptions);*/
@@ -515,11 +519,12 @@ implements SurfaceHolder.Callback{
 			cx_btm[i]=new gameChartBottom(-100,600,820,activity, chart_x, chart_x,825);
 		}
 
+		
 		mp=MediaPlayer.create(this.getContext(), R.raw.freely_tomorrow);
 		mp.setOnCompletionListener(new OnCompletionListener() {
 			@Override
 			public void onCompletion(MediaPlayer mp) {
-				activity.changeView(4);
+				mp_complete_flag=true;
 			}
 		});
 
@@ -939,6 +944,9 @@ implements SurfaceHolder.Callback{
 					btn_xx.setBottomTo(true);
 					break;
 				}
+			}
+			if(mp_complete_flag&&!boss_del.getFlag()){
+				activity.changeView(4);
 			}
 		}
 	}

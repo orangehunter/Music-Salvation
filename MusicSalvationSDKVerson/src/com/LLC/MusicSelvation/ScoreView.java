@@ -323,7 +323,9 @@ implements SurfaceHolder.Callback{
 			Graphic.drawPic(canvas, miss, 120, 520, 0, 255, paint);
 			Graphic.drawPic(canvas, max_combo, 845, 300, 0, 255, paint);
 			//Graphic.drawPic(canvas, quest_stage, 880, 390, 0, 255, paint);
+			if(activity.boss_delete){
 			Graphic.drawPic(canvas, bossclear, 900, 390, 0, 255, paint);
+			}
 			Graphic.drawPic(canvas, score, 120, 610, 0, 255, paint);
 			Graphic.drawPic(canvas, highscore, 200, 675, 0, 255, paint);
 			Graphic.drawPic(canvas, rank, 760, 560, 0, 255, paint);

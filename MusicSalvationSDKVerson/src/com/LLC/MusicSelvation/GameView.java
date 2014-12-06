@@ -564,51 +564,22 @@ implements SurfaceHolder.Callback{
 				boss_attack_Flag=false;
 				ene_flag=false;
 				boss_x=boss_x_side;
-
+				String difficulty[]={"_easy","_normal","_hard"};
 				switch(activity.level){//關卡
 				case 0 :
-					this.boss_show=6000;//TAG BOSS進場時間
-					boss_kill=9000;
-					switch(activity.difficulty){//難度
-					case 0 :
-						json=activity.read( "freely_tomorrow.mp3");
-						break;
-					case 1 :
-
-						break;
-					case 2 :
-
-						break;
-					}
+					this.boss_show=202000;//TAG BOSS進場時間
+					boss_kill=235000;
+					json=activity.read( "freely_tomorrow"+difficulty[activity.difficulty]);
 					break;
 				case 1 :
-					this.boss_show=0;
-					boss_kill=0;
-					switch(activity.difficulty){
-					case 0 :
-
-						break;
-					case 1 :
-
-						break;
-					case 2 :
-
-						break;
-					}
+					this.boss_show=201000;
+					boss_kill=186000;
+					json=activity.read( "kokoronashi"+difficulty[activity.difficulty]);
 					break;
 				case 2 :
-					this.boss_show=0;
-					switch(activity.difficulty){
-					case 0 :
-
-						break;
-					case 1 :
-
-						break;
-					case 2 :
-
-						break;
-					}
+					this.boss_show=222000;
+					boss_kill=263000;
+					json=activity.read( "spica"+difficulty[activity.difficulty]);
 					break;
 				}
 				if(json!=null){
@@ -924,11 +895,14 @@ implements SurfaceHolder.Callback{
 				}else{
 					if(!beam.getFlag()){
 						if(en_II>=80){
+							activity.level_clear[activity.level][activity.difficulty]=true;
+							activity.boss_delete=true;
 							boss_del_flag=true;
 							boss_del.startByTime(mp.getCurrentPosition(), boss_del_time);
 							sp.play(boss_del_sound, activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						}else{
 						boss_del_flag=false;
+						activity.boss_delete=false;
 						}
 						beam_attack=false;
 					}

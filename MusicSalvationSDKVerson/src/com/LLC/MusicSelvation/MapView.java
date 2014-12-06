@@ -62,6 +62,7 @@ implements SurfaceHolder.Callback{
 	Bitmap right_stage01;
 	Bitmap right_freely;
 	Bitmap right_boss01;
+	Bitmap right_boss01_gray;
 	Bitmap right_st01Font;
 	Bitmap right_easy;
 	Bitmap right_normal;
@@ -247,7 +248,8 @@ implements SurfaceHolder.Callback{
 		right_chmodel = Graphic.bitSize(LoadBitmap(R.drawable.right_chmodel), 250, 250);
 		right_stage01 = Graphic.bitSize(LoadBitmap(R.drawable.right_stage01), 266, 62);
 		right_freely = Graphic.bitSize(LoadBitmap(R.drawable.right_freely), 378, 58);
-		right_boss01 = Graphic.bitSize(LoadBitmap(R.drawable.right_boss01), 402, 246);
+		right_boss01 =Graphic.bitSize(LoadBitmap(R.drawable.boss_color), 402, 246);
+		right_boss01_gray= Graphic.bitSize(LoadBitmap(R.drawable.right_boss01), 402, 246);
 		right_st01Font = Graphic.bitSize(LoadBitmap(R.drawable.right_stage01infor), 389, 336);
 		right_easy = Graphic.bitSize(LoadBitmap(R.drawable.easyv2), 205, 80);
 		right_normal = Graphic.bitSize(LoadBitmap(R.drawable.normalv2psd), 205, 80);
@@ -627,7 +629,11 @@ implements SurfaceHolder.Callback{
 				right_board_x=Coordinate.AnalogSpeedMove(right_board_x, 1062);
 				Graphic.drawPic(canvas, right_board, right_board_x, 355, 0, 255, paint);
 				Graphic.drawPic(canvas, right_stage01, right_board_x+11, 37, 0, 255, paint);
+				if(activity.level_clear[activity.level][activity.difficulty]){
 				Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
+				}else{
+					Graphic.drawPic(canvas, right_boss01_gray, right_board_x-1, 179, 0, 255, paint);
+				}
 				Graphic.drawPic(canvas, right_st01Font, right_board_x-4, 465, 0, 255, paint);
 				start.drawBtm(canvas, paint,right_board_x+101, 655,x2);
 				model.drawBtm(canvas, paint,right_board_x-86, 667);
@@ -637,7 +643,11 @@ implements SurfaceHolder.Callback{
 				right_board_x=Coordinate.AnalogSpeedMove(right_board_x, 1062);
 				Graphic.drawPic(canvas, right_board, right_board_x, 355, 0, 255, paint);
 				Graphic.drawPic(canvas, right_stage2, right_board_x+11, 37, 0, 255, paint);
-				Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
+				if(activity.level_clear[activity.level][activity.difficulty]){
+					Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
+					}else{
+						Graphic.drawPic(canvas, right_boss01_gray, right_board_x-1, 179, 0, 255, paint);
+					}
 				Graphic.drawPic(canvas, right_stage02info, right_board_x-4, 465, 0, 255, paint);
 				start.drawBtm(canvas, paint,right_board_x+101, 655,x2);
 				model.drawBtm(canvas, paint,right_board_x-86, 667);
@@ -647,7 +657,11 @@ implements SurfaceHolder.Callback{
 				right_board_x=Coordinate.AnalogSpeedMove(right_board_x, 1062);
 				Graphic.drawPic(canvas, right_board, right_board_x, 355, 0, 255, paint);
 				Graphic.drawPic(canvas, right_stage3, right_board_x+11, 37, 0, 255, paint);
-				Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
+				if(activity.level_clear[activity.level][activity.difficulty]){
+					Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
+					}else{
+						Graphic.drawPic(canvas, right_boss01_gray, right_board_x-1, 179, 0, 255, paint);
+					}
 				Graphic.drawPic(canvas, right_stage03info, right_board_x-4, 465, 0, 255, paint);
 				start.drawBtm(canvas, paint,right_board_x+101, 655,x2);
 				model.drawBtm(canvas, paint,right_board_x-86, 667);

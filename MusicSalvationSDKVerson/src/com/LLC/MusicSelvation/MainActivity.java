@@ -470,7 +470,7 @@ public class MainActivity extends Activity{
 			mp_Voiume=Float.valueOf(json.getString("mp_Voiume"));
 			sp_Voiume=Float.valueOf(json.getString("sp_Voiume"));
 			sp_num=json.getInt("sp_num");
-			speed=json.getInt("game_speed");
+			speed=json.optInt("game_speed",1);
 			timing=json.getDouble("game_timing");
 			animax_buffer=json.optInt("animax_buffer", 3);
 

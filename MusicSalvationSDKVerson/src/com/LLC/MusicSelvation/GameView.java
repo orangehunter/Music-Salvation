@@ -40,7 +40,7 @@ implements SurfaceHolder.Callback{
 	Bitmap game_easy;
 	Bitmap game_normal;
 	Bitmap game_hard;
-	Bitmap freely;
+	Bitmap title;
 
 
 	Bitmap circle;
@@ -389,7 +389,7 @@ implements SurfaceHolder.Callback{
 		hpbar = Graphic.LoadBitmap(getResources(), R.drawable.hpbar2, 1100, 23);
 		hpfont = Graphic.LoadBitmap(getResources(), R.drawable.hpfont0, 80, 25);
 		hpfont_red = Graphic.LoadBitmap(getResources(), R.drawable.hpfont_red0, 80, 25);
-		freely = Graphic.LoadBitmap(getResources(), R.drawable.freely, 260, 30);
+		title = Graphic.LoadBitmap(getResources(), R.drawable.freely, 260, 30);
 		boss = Graphic.LoadBitmap(getResources(), R.drawable.boss1, 200, 185);
 
 		rank_f = Graphic.LoadBitmap(getResources(), R.drawable.r_f, 86, 146);
@@ -846,7 +846,7 @@ implements SurfaceHolder.Callback{
 			}
 			// BOSS ¼Ò¦¡ª¬ºA-------------------------------------------------------------------------------------------------------------------------
 
-			Graphic.drawPic(canvas, freely, 132, 20, 0, 255, paint);
+			Graphic.drawPic(canvas, title, 132, 20, 0, 255, paint);
 			score.setSize(20, 30);
 			score.drawNumberRightStart(1250, 20, sc_score, Number.Wite, canvas, paint);
 
@@ -956,7 +956,7 @@ implements SurfaceHolder.Callback{
 					break;
 				}
 			}
-			if(mp_complete_flag&&!boss_del.getFlag()){
+			if(mp_complete_flag&&!beam_attack&&!boss_del.getFlag()){
 				activity.changeView(4);
 			}
 		}
@@ -1245,7 +1245,7 @@ implements SurfaceHolder.Callback{
 		game_easy.recycle();
 		game_normal.recycle();
 		game_hard.recycle();
-		freely.recycle();
+		title.recycle();
 
 
 		circle.recycle();

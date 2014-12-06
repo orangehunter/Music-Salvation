@@ -287,10 +287,8 @@ implements SurfaceHolder.Callback{
 	    options.inSampleSize = scale;
 	    return options;
 	}*/
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
+	public void Reset(){
 		mp_complete_flag=false;
-		sp=new SoundPool(4, AudioManager.STREAM_MUSIC, 5);
 		combo=0;
 		maxcombo = 0;
 		sc_nice= 0;
@@ -299,14 +297,25 @@ implements SurfaceHolder.Callback{
 		sc_miss= 0;
 		percent = 0;
 		sc_score = 0;
-		time_dis=3000/activity.speed;
 		this.hp=this.hp_max;
 		hp_x=190;
 		hp_x_last=190;
 		en=0;
-		/*int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-	              | View.SYSTEM_UI_FLAG_FULLSCREEN;
-		this.setSystemUiVisibility(uiOptions);*/
+		time_dis=3000/activity.speed;
+		warning_alpha=0;
+		warning_flag=false;
+		attack_flag=false;
+		attack_flag2=false;
+		beam_attack=false;
+		beam_flag=true;
+		boss_del_flag=false;
+		Constant.Flag=true;
+	}
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		
+		sp=new SoundPool(4, AudioManager.STREAM_MUSIC, 5);
+		
 		paint = new Paint();//建立畫筆
 		paint.setAntiAlias(true);//開啟抗鋸齒
 
@@ -438,9 +447,7 @@ implements SurfaceHolder.Callback{
 
 		//BOSS 前警告==
 		warning=Graphic.LoadBitmap(getResources(), R.drawable.warning, 1280, 178);
-		warning_alpha=0;
 		warning_sound=sp.load(activity, R.raw.warning, 1);
-		warning_flag=false;
 		//BOSS 前警告--
 
 		//BOSS 攻擊==
@@ -448,20 +455,15 @@ implements SurfaceHolder.Callback{
 		attack_pic_round=Graphic.LoadBitmap(getResources(), R.drawable.boss_sight, 288, 284);
 		attack_sight=Graphic.LoadBitmap(getResources(), R.drawable.boss_sihgt_gray, 288, 284);
 		attack=new gameChartBottom(-200, 495, 900, activity, attack_pic, attack_pic, 1280/2);
-		attack_flag=false;
-		attack_flag2=false;
 
 		beam=new bigAnimax(activity, beam_num, 900, 450, R.drawable.beam_00);
 		beam.setPosition(1280/2, 720/2);
 		beam_sound=sp.load(getContext(), R.raw.beam_cut, 1);
-		beam_attack=false;
-		beam_flag=true;
 
-		
+
 		boss_del=new bigAnimax(activity, boss_del_num, 640, 500, R.drawable.boss_del00000);
 		boss_del.setPosition(640, 242);
 		boss_del_sound=sp.load(getContext(), R.raw.boss_del, 1);
-		boss_del_flag=false;
 		//BOSS 攻擊--
 
 		for(int i=0;i<Effect_numbers;i++){
@@ -539,7 +541,7 @@ implements SurfaceHolder.Callback{
 		sp_id[3]=sp.load(activity, R.raw.fall, 1);
 		sp_id[4]=sp.load(activity, R.raw.voice_dog, 1);
 
-		Constant.Flag=true;
+		Reset();
 		new Thread(){
 			@SuppressLint("WrongCall")
 			public void run()
@@ -821,7 +823,7 @@ implements SurfaceHolder.Callback{
 			// TAG BOSS 模式狀態=======================================================================
 			if(mp.getCurrentPosition()>boss_show){
 				if(!boss_del_flag){
-				Graphic.drawPic(canvas, boss, boss_x, boss_y, 0, 255, paint);
+					Graphic.drawPic(canvas, boss, boss_x, boss_y, 0, 255, paint);
 				}
 				if(!ene_flag){
 					change_enebar.start();
@@ -912,8 +914,8 @@ implements SurfaceHolder.Callback{
 							boss_del.startByTime(mp.getCurrentPosition(), boss_del_time);
 							sp.play(boss_del_sound, activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						}else{
-						boss_del_flag=false;
-						activity.boss_delete=false;
+							boss_del_flag=false;
+							activity.boss_delete=false;
 						}
 						beam_attack=false;
 					}
@@ -1060,9 +1062,11 @@ implements SurfaceHolder.Callback{
 			//PAUSE按鈕功能==============================================
 			if(btn_pause.isIn(pointx, pointy)){
 				if(!btn_pause.getBottom()){
+					pause();
 					btn_pause.setBottomTo(true);
 				}
 				else if(btn_pause.getBottom()){
+					resume();
 					btn_pause.setBottomTo(false);
 				}
 			}
@@ -1083,11 +1087,13 @@ implements SurfaceHolder.Callback{
 			if(btn_pause.getBottom()){   //必須在PAUSE按鈕為TRUE的時候才生效
 
 				if(btn_re_play.isIn(pointx, pointy)){
-					//TODO 返回遊戲
+					resume();
 					btn_pause.setBottomTo(false);
 				}
 				if(btn_re_start.isIn(pointx, pointy)){
-					//TODO 從頭開始
+					Reset();
+					mp.seekTo(0);
+					resume();
 					btn_pause.setBottomTo(false);
 				}
 				if(btn_re_map.isIn(pointx, pointy)){
@@ -1200,7 +1206,16 @@ implements SurfaceHolder.Callback{
 		if(activity.sp_num!=-1)
 			sp.play(sp_id[activity.sp_num], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 	}
-
+	public void pause(){
+		if(mp.isPlaying()){
+			mp.pause();
+		}
+	}
+	public void resume(){
+		if(!mp.isPlaying()){
+			mp.start();
+		}
+	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,int height) {

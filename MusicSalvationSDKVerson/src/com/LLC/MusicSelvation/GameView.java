@@ -139,6 +139,7 @@ implements SurfaceHolder.Callback{
 
 	int boss_show;
 	int boss_kill;
+	int boss_kill_delay=3000;
 	boolean boss_Flag;
 	boolean boss_attack_Flag;
 	boolean beam_attack;
@@ -825,7 +826,7 @@ implements SurfaceHolder.Callback{
 						}else{
 							boss_attack_Flag=true;
 						}
-					}else if(mp.getCurrentPosition()>boss_kill){
+					}else if(mp.getCurrentPosition()>boss_kill-boss_kill_delay){
 						boss_Flag=true;
 					}
 				}
@@ -879,7 +880,7 @@ implements SurfaceHolder.Callback{
 			if(boss_attack_Flag&&!attack_flag&&!attack_flag2){
 				attack_flag=true;
 				attack_flag2=true;
-				attack.start(mp.getCurrentPosition(), 3000, 0);
+				attack.start(mp.getCurrentPosition(), boss_kill_delay, 0);
 			}
 			if(attack_flag){
 				Graphic.drawPic(canvas, attack_pic_round, 1280/2, 495, (mp.getCurrentPosition()/10)%360, 255, paint);

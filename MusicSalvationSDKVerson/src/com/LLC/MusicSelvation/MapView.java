@@ -47,7 +47,7 @@ implements SurfaceHolder.Callback{
 	Bitmap timing_back;
 	Bitmap timing_r_arrow;
 	Bitmap timing_l_arrow;
-	Bitmap timing_num[] = new Bitmap [11];
+	Bitmap timing_num[] = new Bitmap [16];
 	//速度與判定圖片宣告----------------------------------------
 
 
@@ -308,6 +308,11 @@ implements SurfaceHolder.Callback{
 		timing_num[8] = Graphic.bitSize(LoadBitmap(R.drawable.three),48 ,48 );
 		timing_num[9] = Graphic.bitSize(LoadBitmap(R.drawable.four),48 ,48 );
 		timing_num[10] = Graphic.bitSize(LoadBitmap(R.drawable.five),48 ,48 );
+		timing_num[11] = Graphic.bitSize(LoadBitmap(R.drawable.num_06),48 ,48 );
+		timing_num[12] = Graphic.bitSize(LoadBitmap(R.drawable.num_07),48 ,48 );
+		timing_num[13] = Graphic.bitSize(LoadBitmap(R.drawable.num_08),48 ,48 );
+		timing_num[14] = Graphic.bitSize(LoadBitmap(R.drawable.num_09),48 ,48 );
+		timing_num[15] = Graphic.bitSize(LoadBitmap(R.drawable.num_10),48 ,48 );
 		//速度與判定----------------------------------------------------------------------
 
 		menubtm = new Bottom(activity, left_exitback, left_exitback, 110, 35);
@@ -936,7 +941,7 @@ implements SurfaceHolder.Callback{
 							}
 						}
 						if(timing_right_arrow.isIn(pointx, pointy)){
-							if(set_timing < 10){
+							if(set_timing < 15){
 								sp.play(sp_id[8], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 								set_timing++;
 							}

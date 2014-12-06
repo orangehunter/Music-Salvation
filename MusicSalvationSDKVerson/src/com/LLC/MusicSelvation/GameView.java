@@ -60,13 +60,6 @@ implements SurfaceHolder.Callback{
 
 	//浮游砲宣告-----------------------------------------------
 
-	//TAG 光束===================================================
-	Bitmap lazer_red;
-	Bitmap lazer_blue;
-	Bitmap lazer_green;
-	Bitmap lazer_yellow;
-	//光束----------------------------------------------------
-
 	Bitmap track;  //軌道
 
 	Bitmap virus_red;
@@ -364,11 +357,6 @@ implements SurfaceHolder.Callback{
 		d_red = Graphic.LoadBitmap(getResources(), R.drawable.d_red, 250, 170);
 		d_green = Graphic.LoadBitmap(getResources(), R.drawable.d_green, 260, 130);
 		d_yellow = Graphic.LoadBitmap(getResources(), R.drawable.d_yellow, 260, 130);
-		lazer_red = Graphic.LoadBitmap(getResources(), R.drawable.lazer_r, 220, 125);
-		lazer_blue = Graphic.LoadBitmap(getResources(), R.drawable.lazer_b, 215, 112);
-		lazer_green = Graphic.LoadBitmap(getResources(), R.drawable.lazer_g2, 290, 50);
-		lazer_yellow = Graphic.LoadBitmap(getResources(), R.drawable.lazer_y2, 275, 50);
-
 		//浮游砲與光束------------------------------------------------------------------------
 
 
@@ -389,7 +377,7 @@ implements SurfaceHolder.Callback{
 		hpbar = Graphic.LoadBitmap(getResources(), R.drawable.hpbar2, 1100, 23);
 		hpfont = Graphic.LoadBitmap(getResources(), R.drawable.hpfont0, 80, 25);
 		hpfont_red = Graphic.LoadBitmap(getResources(), R.drawable.hpfont_red0, 80, 25);
-		title = Graphic.LoadBitmap(getResources(), R.drawable.freely, 260, 30);
+		title = Graphic.LoadBitmap(getResources(), R.drawable.game_title_1+activity.level, 260, 30);
 		boss = Graphic.LoadBitmap(getResources(), R.drawable.boss1, 200, 185);
 
 		rank_f = Graphic.LoadBitmap(getResources(), R.drawable.r_f, 86, 146);
@@ -784,7 +772,7 @@ implements SurfaceHolder.Callback{
 
 			Graphic.drawPic(canvas, titlebar, 641, 31, 0, 255, paint);
 			if(!ene_flag){
-				hp_x=Coordinate.AnalogSpeedMove(hp_x, 182+(int)hp*55);
+				hp_x=Coordinate.AnalogSpeedMove(hp_x, 190+(int)hp*55);
 				hp_color=Color.GREEN;
 				if(hp_x!= 190+hp*55){
 					if(hp_x<hp_x_last){
@@ -809,7 +797,7 @@ implements SurfaceHolder.Callback{
 			//Graphic.drawPic(canvas, hpbar, 730, 50, 0, 255, paint);
 			//Graphic.drawPic(canvas, hpfont, 95, 50, 0, 255, paint);
 			//TAG HP檢查==========================================================
-			if(hp_x<=182+0*55){
+			if(hp_x<=190+0*55){
 				activity.changeView(4);
 			}
 			//HP檢查----------------------------------------------------------
@@ -1265,13 +1253,7 @@ implements SurfaceHolder.Callback{
 		d_green.recycle();
 
 		//浮游砲宣告-----------------------------------------------
-
-		//光束===================================================
-		lazer_red.recycle();
-		lazer_blue.recycle();
-		lazer_green.recycle();
-		lazer_yellow.recycle();
-		//光束----------------------------------------------------
+		
 		//BOSS 前警告==
 		warning.recycle();
 		//BOSS 前警告--

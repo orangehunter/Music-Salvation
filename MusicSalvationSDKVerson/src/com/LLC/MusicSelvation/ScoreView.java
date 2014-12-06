@@ -30,7 +30,7 @@ implements SurfaceHolder.Callback{
 	Bitmap clearbar;
 	Bitmap line;
 
-	Bitmap freely;
+	Bitmap title;
 	Bitmap totalvirus;
 	Bitmap nice;
 	Bitmap hit;
@@ -144,7 +144,7 @@ implements SurfaceHolder.Callback{
 		clearbar = Graphic.bitSize(LoadBitmap(R.drawable.clear_bar), 620, 150);
 		line     = Graphic.bitSize(LoadBitmap(R.drawable.line), 625, 2);
 
-		freely   = Graphic.bitSize(LoadBitmap(R.drawable.title), 560, 65);
+		title   = Graphic.bitSize(LoadBitmap(R.drawable.score_title_1+activity.level), 560, 65);
 		totalvirus = Graphic.bitSize(LoadBitmap(R.drawable.totalvirus), 410, 60);
 		nice = Graphic.bitSize(LoadBitmap(R.drawable.sv_nice), 165, 60);
 		hit  = Graphic.bitSize(LoadBitmap(R.drawable.sv_hit), 125, 60);
@@ -301,7 +301,7 @@ implements SurfaceHolder.Callback{
 			if(new_score_flag)
 			Graphic.drawPic(canvas, score_record, 325, 640, 0, 255, paint);
 
-			Graphic.drawPic(canvas, freely, 290, 40, 0, 255, paint);
+			Graphic.drawPic(canvas, title, 290, 40, 0, 255, paint);
 
 			//Ãø©ö«×
 			if(activity.difficulty == 0)
@@ -467,7 +467,7 @@ implements SurfaceHolder.Callback{
 		clearbar.recycle();
 		line.recycle();
 
-		freely.recycle();
+		title.recycle();
 		totalvirus.recycle();
 		nice.recycle();
 		hit.recycle();

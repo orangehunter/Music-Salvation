@@ -308,15 +308,19 @@ implements SurfaceHolder.Callback{
 	}
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		
+
 		sp=new SoundPool(4, AudioManager.STREAM_MUSIC, 5);
-		
+
 		paint = new Paint();//建立畫筆
 		paint.setAntiAlias(true);//開啟抗鋸齒
 
 		score =new Number(getResources());
+		if(activity.level<2){
+			bg=Graphic.LoadBitmap(getResources(), R.drawable.gamemap01, 1280, 720);
+		}else{
+			bg=Graphic.LoadBitmap(getResources(), R.drawable.stage03_bg, 1280, 720);
+		}
 
-		bg = 	Graphic.LoadBitmap(getResources(), R.drawable.gamemap01, 1280, 720);//LoadBitmap(LoadBitmap(R.drawable.gamemap01), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
 		sight =	Graphic.LoadBitmap(getResources(), R.drawable.sightv2, 100, 100);
 		//cpu   = Graphic.LoadBitmap(LoadBitmap(R.drawable.cpu_chips), 162, 162);
 
@@ -943,7 +947,7 @@ implements SurfaceHolder.Callback{
 					break;
 				}
 			}
-			
+
 		}
 	}
 	@Override
@@ -1250,7 +1254,7 @@ implements SurfaceHolder.Callback{
 		d_green.recycle();
 
 		//浮游砲宣告-----------------------------------------------
-		
+
 		//BOSS 前警告==
 		warning.recycle();
 		//BOSS 前警告--

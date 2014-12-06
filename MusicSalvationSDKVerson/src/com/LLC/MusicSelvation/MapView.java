@@ -383,7 +383,13 @@ implements SurfaceHolder.Callback{
 		sp_id[9]=sp.load(activity, R.raw.stagebtn, 1);
 		sp_id[10]=sp.load(activity, R.raw.start, 1);
 		
-		rank[0]=Graphic.LoadBitmap(getResources(), R.drawable.r_s, leftbtmmx1, 80);
+		num=new Number(getResources());
+		num.setSize(30, 40);
+		rank=new Bitmap[7];
+		rank[6]=Graphic.LoadBitmap(getResources(), R.drawable.r_s, 45,60);
+		for(int i=0;i<=5;i++){
+			rank[i]=Graphic.LoadBitmap(getResources(), R.drawable.r_f-i, 45, 60);
+		}
 		
 		Constant.Flag=true;
 		new Thread(){
@@ -651,7 +657,10 @@ implements SurfaceHolder.Callback{
 
 			//當stageFlag不等於0，就會顯示難易度與選擇難易度
 			if(stageFlag !=0){
-				
+				if(activity.hight_rank[activity.level][activity.difficulty]!=0){
+				Graphic.drawPic(canvas, rank[activity.hight_rank[activity.level][activity.difficulty]-1], right_board_x+68, 585, 0, 255, paint);
+				}
+				num.drawNumberLeftStart(right_board_x-10, 528, activity.hight_score[activity.level][activity.difficulty], Number.Wite, canvas, paint);
 				//追加條件:當Flag = 0 會顯示easy=================================================
 				if(activity.difficulty==0){
 					Graphic.drawPic(canvas, right_easy_ch, right_board_x-86, 655, 0, 255, paint);
@@ -1194,6 +1203,9 @@ implements SurfaceHolder.Callback{
 		// arrow.recycle();
 		//箭頭按鈕宣告--------------------------------------------------------------------------------
 		num.recycle();
+		for(int i=0;i<rank.length;i++){
+			rank[i].recycle();
+		}
 		System.gc();
 		Constant.Flag=false;
 		sp.release();

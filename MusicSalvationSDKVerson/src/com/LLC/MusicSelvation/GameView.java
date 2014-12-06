@@ -33,7 +33,6 @@ implements SurfaceHolder.Callback{
 
 
 	boolean startFlag=true;
-	boolean mp_complete_flag;
 	Bitmap bg;   //­I´º
 	Bitmap sight;  //·Ç¬P
 	Bitmap boss;
@@ -281,7 +280,6 @@ implements SurfaceHolder.Callback{
 	    return options;
 	}*/
 	public void Reset(){
-		mp_complete_flag=false;
 		combo=0;
 		maxcombo = 0;
 		sc_nice= 0;
@@ -520,7 +518,7 @@ implements SurfaceHolder.Callback{
 		mp.setOnCompletionListener(new OnCompletionListener() {
 			@Override
 			public void onCompletion(MediaPlayer mp) {
-				mp_complete_flag=true;
+				activity.changeView(4);
 			}
 		});
 
@@ -944,9 +942,7 @@ implements SurfaceHolder.Callback{
 					break;
 				}
 			}
-			if(mp_complete_flag&&!beam_attack&&!boss_del.getFlag()){
-				activity.changeView(4);
-			}
+			
 		}
 	}
 	@Override

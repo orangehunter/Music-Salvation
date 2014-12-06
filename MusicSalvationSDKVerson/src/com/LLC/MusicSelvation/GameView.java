@@ -575,16 +575,19 @@ implements SurfaceHolder.Callback{
 				String difficulty[]={"_easy","_normal","_hard"};
 				switch(activity.level){//關卡
 				case 0 :
+					Log.v("Load Charts", "freely_tomorrow"+difficulty[activity.difficulty]);
 					this.boss_show=202000;//TAG BOSS進場時間
 					boss_kill=235000;
 					json=activity.read( "freely_tomorrow"+difficulty[activity.difficulty]);
 					break;
 				case 1 :
+					Log.v("Load Charts", "kokoronashi"+difficulty[activity.difficulty]);
 					this.boss_show=201000;
 					boss_kill=186000;
 					json=activity.read( "kokoronashi"+difficulty[activity.difficulty]);
 					break;
 				case 2 :
+					Log.v("Load Charts", "spica"+difficulty[activity.difficulty]);
 					this.boss_show=222000;
 					boss_kill=263000;
 					json=activity.read( "spica"+difficulty[activity.difficulty]);

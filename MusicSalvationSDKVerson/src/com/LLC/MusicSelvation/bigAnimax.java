@@ -166,6 +166,7 @@ public class bigAnimax {
 				}
 				try{
 					Graphic.drawPic(canvas, bit[((int)counter)], x, y, 0, 255, paint);
+					Log.v("drawAnimax",""+((int)counter));
 				}catch(NullPointerException e){
 					Graphic.drawPic(canvas, bit[((int)counter)-1], x, y, 0, 255, paint);
 					/*animax_flag=false;

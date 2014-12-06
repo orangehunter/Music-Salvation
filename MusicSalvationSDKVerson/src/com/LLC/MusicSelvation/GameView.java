@@ -197,7 +197,7 @@ implements SurfaceHolder.Callback{
 	int hp_to_yellow=12;
 	int hp_to_red = 6;
 
-	double en_point[]={2,1,0.5};
+	double en_point[]={5,3,1.5};
 	double en;
 	double en_II;
 	int en_max=100;
@@ -519,8 +519,11 @@ implements SurfaceHolder.Callback{
 			cx_btm[i]=new gameChartBottom(-100,600,820,activity, chart_x, chart_x,825);
 		}
 
-		
-		mp=MediaPlayer.create(this.getContext(), R.raw.freely_tomorrow);
+		int song[]=new int[3];
+		song[0]=R.raw.freely_tomorrow;
+		song[1]=R.raw.spica;
+		song[2]=R.raw.kokoronashi;
+		mp=MediaPlayer.create(this.getContext(), song[activity.level]);
 		mp.setOnCompletionListener(new OnCompletionListener() {
 			@Override
 			public void onCompletion(MediaPlayer mp) {

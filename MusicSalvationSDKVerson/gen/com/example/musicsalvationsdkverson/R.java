@@ -337,30 +337,32 @@ public final class R {
         public static final int zero=0x7f020143;
     }
     public static final class raw {
-        public static final int beam_cut=0x7f030000;
-        public static final int boss_del=0x7f030001;
-        public static final int drum_cymbal=0x7f030002;
-        public static final int drum_snare=0x7f030003;
-        public static final int fall=0x7f030004;
-        public static final int freely_tomorrow=0x7f030005;
-        public static final int kokoronashi=0x7f030006;
-        public static final int left_menu_off=0x7f030007;
-        public static final int left_menu_on=0x7f030008;
-        public static final int left_num=0x7f030009;
-        public static final int leftm_btn=0x7f03000a;
-        public static final int llc=0x7f03000b;
-        public static final int map_bgm=0x7f03000c;
-        public static final int se03=0x7f03000d;
-        public static final int spica=0x7f03000e;
-        public static final int stagebtn=0x7f03000f;
-        public static final int start=0x7f030010;
-        public static final int sv_btn=0x7f030011;
-        public static final int tambourine=0x7f030012;
-        public static final int tell_your_world_piano=0x7f030013;
-        public static final int title_touch=0x7f030014;
-        public static final int v=0x7f030015;
-        public static final int voice_dog=0x7f030016;
-        public static final int warning=0x7f030017;
+        public static final int access=0x7f030000;
+        public static final int beam_cut=0x7f030001;
+        public static final int boss_del=0x7f030002;
+        public static final int drum_cymbal=0x7f030003;
+        public static final int drum_snare=0x7f030004;
+        public static final int fall=0x7f030005;
+        public static final int freely_tomorrow=0x7f030006;
+        public static final int kokoronashi=0x7f030007;
+        public static final int left_menu_off=0x7f030008;
+        public static final int left_menu_on=0x7f030009;
+        public static final int left_num=0x7f03000a;
+        public static final int leftm_btn=0x7f03000b;
+        public static final int llc=0x7f03000c;
+        public static final int map_bgm=0x7f03000d;
+        public static final int se03=0x7f03000e;
+        public static final int spica=0x7f03000f;
+        public static final int stagebtn=0x7f030010;
+        public static final int start=0x7f030011;
+        public static final int story=0x7f030012;
+        public static final int sv_btn=0x7f030013;
+        public static final int tambourine=0x7f030014;
+        public static final int tell_your_world_piano=0x7f030015;
+        public static final int title_touch=0x7f030016;
+        public static final int v=0x7f030017;
+        public static final int voice_dog=0x7f030018;
+        public static final int warning=0x7f030019;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

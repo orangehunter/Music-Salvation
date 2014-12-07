@@ -1014,7 +1014,8 @@ implements SurfaceHolder.Callback{
 				if(stageFlag!=0){
 					if(start.isIn(pointx, pointy)){
 						sp.play(sp_id[10], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
-						activity.changeView(3);
+						activity.video_select=2;
+						activity.changeView(0);
 					}
 
 					//難易度調整按鈕事件

@@ -251,7 +251,8 @@ implements SurfaceHolder.Callback{
 					if(startbtm.isIn(pointx, pointy)){
 						//進入地圖畫面
 						if(this.toEditView){
-							activity.changeView(2);
+							activity.video_select=1;
+							activity.changeView(0);
 						}
 					}
 

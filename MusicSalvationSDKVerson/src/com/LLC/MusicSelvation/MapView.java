@@ -218,7 +218,8 @@ implements SurfaceHolder.Callback{
 	}
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		
+		set_speed=activity.speed+5;
+		set_timing=activity.timing+5;
 		paint = new Paint();//建立畫筆
 		paint.setAntiAlias(true);//開啟抗鋸齒
 		wmap =Graphic.bitSize(LoadBitmap( R.drawable.wmap), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);

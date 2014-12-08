@@ -199,7 +199,8 @@ implements SurfaceHolder.Callback{
 		exit_btm = new Bottom(activity, exit, exit, 1120, 670);
 		again_btm = new Bottom(activity, again, again, 825, 670);
 		//判定是否過關==============================================================================
-		if(activity.percent > ((int)activity.virus*0.7) )  //如果打擊率超過70%
+		//條件修正
+		if(activity.percent > ((int)activity.virus*0.7)&& activity.boss_delete)  //如果打擊率超過70%並且擊殺BOSS
 		{
 			clear_flag=true;
 			//FULL COMBO判定為S級
@@ -226,7 +227,7 @@ implements SurfaceHolder.Callback{
 		{
 			clear_flag=false;
 			//打擊率超過60% 低於70%為D
-			if(activity.percent > ((int)activity.virus*0.6) && activity.percent < ((int)activity.virus*0.7))
+			if(activity.percent > ((int)activity.virus*0.6))
 			{
 				sc_rank=3;
 			}
@@ -367,7 +368,7 @@ implements SurfaceHolder.Callback{
 
 			num.setSize(30, 55);
 
-			num.drawNumberRightStart(620, 605, sc_score, Number.Wite, canvas, paint);
+			num.drawNumberRightStart(620, 610, sc_score, Number.Wite, canvas, paint);
 			num.drawNumberRightStart(620, 675, activity.hight_score[activity.level][activity.difficulty], Number.Wite, canvas, paint);
 			//數字------------------------------------------------------------------------------------
 

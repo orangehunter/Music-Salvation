@@ -19,7 +19,7 @@ public class Video extends SurfaceView {
 	int view[]={	1,
 			2,
 			3,
-			4};
+			1};
 	@SuppressWarnings("deprecation")
 	public Video(final MainActivity activity){
 		super(activity.getApplicationContext());

@@ -12,6 +12,9 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
@@ -204,18 +207,37 @@ public class MainActivity extends Activity{
 		System.exit(0);//離開游戲
 	}
 
-	public void callToast(String what)//Toast訊息傳送
+	public void callAlartDialog(String what)//Alert訊息傳送
 	{
 		Message msg = toastHandler.obtainMessage(1,what); 
 		toastHandler.sendMessage(msg);
 	} 
-	Handler toastHandler = new Handler(){//處理各個SurfaceView傳送的Toast訊息
+	Handler toastHandler = new Handler(){//處理各個SurfaceView傳送的Alert訊息
 		public void handleMessage(Message msg) {
-			createToast((String)msg.obj);
+			createAlartDialog((String)msg.obj);
 		}
 	};
-	public void createToast(String msg){//顯示Toast
-		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+	public void createAlartDialog(String msg){//顯示Alert
+		
+		Builder MyAlertDialog = new AlertDialog.Builder(this);
+		MyAlertDialog.setTitle("恭喜!");
+		MyAlertDialog.setMessage("您破關了!\n現在隱藏要素已經解鎖囉\n回標題畫面看看吧！");
+		//建立按下按鈕
+		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener()
+		{
+		public void onClick(DialogInterface dialog, int which) {
+		changeView(1);
+		}
+		};
+		DialogInterface.OnClickListener noClick = new DialogInterface.OnClickListener()
+		{
+		public void onClick(DialogInterface dialog, int which) {
+		
+		}
+		};
+		MyAlertDialog.setPositiveButton("確認",OkClick );
+		MyAlertDialog.setNegativeButton("取消",noClick );
+		MyAlertDialog.show();
 	}
 
 	@Override

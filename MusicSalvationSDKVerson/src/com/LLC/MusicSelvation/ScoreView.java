@@ -203,6 +203,9 @@ implements SurfaceHolder.Callback{
 		if(activity.percent > ((int)activity.virus*0.7)&& activity.boss_delete)  //如果打擊率超過70%並且擊殺BOSS
 		{
 			clear_flag=true;
+			if(activity.level==2){
+				activity.callAlartDialog("");
+			}
 			//FULL COMBO判定為S級
 			if(activity.combo == activity.virus){   
 				sc_rank=7;

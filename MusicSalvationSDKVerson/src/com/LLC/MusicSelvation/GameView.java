@@ -581,8 +581,12 @@ implements SurfaceHolder.Callback{
 					break;
 				case 1 :
 					Log.v("Load Charts", "spica"+difficulty[activity.difficulty]);
-					this.boss_show=164000;
-					boss_kill=230000;
+					//this.boss_show=164000;
+					//boss_kill=230000;
+					this.boss_show=5000;
+					boss_kill=10000;
+					percent=50000;
+					en=90;
 					json=activity.read( "spica"+difficulty[activity.difficulty]);
 					break;
 				case 2 :
@@ -1158,7 +1162,7 @@ implements SurfaceHolder.Callback{
 		case 0:  //NICE
 			percent++;
 			combo++;
-			sc_score+=200;
+			sc_score+=200*2;
 			sc_nice++;
 			Hitflag = 1;
 			if(combo > maxcombo)
@@ -1169,7 +1173,7 @@ implements SurfaceHolder.Callback{
 		case 1: //HIT
 			percent++;
 			combo++;
-			sc_score+=100;
+			sc_score+=100*2;
 			sc_hit++;
 			Hitflag = 2;
 			if(combo > maxcombo)
@@ -1180,7 +1184,7 @@ implements SurfaceHolder.Callback{
 		case 2:  //SAFE
 			percent++;
 			combo = 0;
-			sc_score += 50;
+			sc_score += 50*2;
 			sc_safe++;
 			Hitflag = 3;
 			if(combo > maxcombo)

@@ -203,7 +203,7 @@ implements SurfaceHolder.Callback {
 							BtT=json.getJSONObject("T");
 							BtX=json.getJSONObject("X");
 						} catch (JSONException e) {
-							activity.callToast("輸入json失敗");
+							Log.e("EditView","輸入json失敗");
 							e.printStackTrace();
 						}
 					}
@@ -229,7 +229,7 @@ implements SurfaceHolder.Callback {
 					try {
 						BtR.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
-						activity.callToast("產生R失敗");
+						Log.e("EditView","產生R失敗");
 						e.printStackTrace();
 					}
 					for(int i=0;i<chartObject;i++){
@@ -245,7 +245,7 @@ implements SurfaceHolder.Callback {
 					try {
 						BtS.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
-						activity.callToast("產生S失敗");
+						Log.e("EditView","產生S失敗");
 						e.printStackTrace();
 					}
 					for(int i=0;i<chartObject;i++){
@@ -261,7 +261,7 @@ implements SurfaceHolder.Callback {
 					try {
 						BtT.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
-						activity.callToast("產生T失敗");
+						Log.e("EditView","產生T失敗");
 						e.printStackTrace();
 					}
 					for(int i=0;i<chartObject;i++){
@@ -277,7 +277,7 @@ implements SurfaceHolder.Callback {
 					try {
 						BtX.put(Integer.toString(mp.getCurrentPosition()/accuracy), true);
 					} catch (JSONException e) {
-						activity.callToast("產生X失敗");
+						Log.e("EditView","產生X失敗");
 						e.printStackTrace();
 					}
 					for(int i=0;i<chartObject;i++){

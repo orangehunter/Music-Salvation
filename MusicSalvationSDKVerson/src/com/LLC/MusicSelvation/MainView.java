@@ -14,6 +14,7 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.provider.MediaStore.Audio;
 import android.provider.MediaStore.Audio.Media;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -34,7 +35,7 @@ implements SurfaceHolder.Callback{
 	Bitmap main_right;
 	Bitmap main_title;
 	Bitmap main_touchstart;
-	
+
 	Bitmap left_xia;
 	Bitmap right_miku;
 	Bitmap staff;
@@ -42,7 +43,7 @@ implements SurfaceHolder.Callback{
 	Bottom startbtm;
 	Bottom exitbtm;
 	Bottom staffList;
-	
+
 
 
 	int mainFlag=0;
@@ -84,7 +85,7 @@ implements SurfaceHolder.Callback{
 	SoundPool sp;
 	int btn_se[] = new int[2];
 	//音效宣告---------------------------------------
-	
+
 	Paint paint;			//畫筆的參考
 	int i=0,j=10;
 	MainActivity activity;
@@ -115,7 +116,7 @@ implements SurfaceHolder.Callback{
 		right_miku =        Graphic.bitSize(LoadBitmap( R.drawable.mikuv3_img2), 620, 717);
 		start =  			Graphic.bitSize(LoadBitmap( R.drawable.start), 314,85);
 		exit  =  			Graphic.bitSize(LoadBitmap( R.drawable.exit), 314,85);
-		
+
 		startbtm = 	new Bottom(activity, start,start, 640, 518);
 		exitbtm = 	new Bottom(activity, exit, exit, 640, 643);
 		hidden_flag=false;
@@ -124,24 +125,24 @@ implements SurfaceHolder.Callback{
 				hidden_flag=true;
 			}
 		}
+		Log.v("mainView", ""+hidden_flag);
 		if(hidden_flag){
-		staff =Graphic.bitSize(LoadBitmap(R.drawable.staff), 314, 85);
-		startbtm.move(640, 450);
-		exitbtm.move(640, 550);
-		staffList=	new Bottom(activity,staff,staff,640,650);
+			staff =Graphic.bitSize(LoadBitmap(R.drawable.staff), 314, 85);
+			startbtm.move(640, 450);
+			exitbtm.move(640, 550);
+			staffList=	new Bottom(activity,staff,staff,640,650);
 		}
 
 		//載入音樂=============================================================
 		if(!hidden_flag){
-		back_mp=MediaPlayer.create(this.getContext(), R.raw.tell_your_world_piano);
+			back_mp=MediaPlayer.create(this.getContext(), R.raw.tell_your_world_piano);
 		}else{
-		back_mp=MediaPlayer.create(this.getContext(), R.raw.tellpiano);
+			back_mp=MediaPlayer.create(this.getContext(), R.raw.tellpiano);
 		}
 		back_mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
 		back_mp.setLooping(true);
 		back_mp.start();
-		//back_mp[1].start();
-		
+
 		sp=new SoundPool(4, AudioManager.STREAM_MUSIC, 5);
 		btn_se[0] = sp.load(activity, R.raw.start, 1);
 		btn_se[1] = sp.load(activity, R.raw.title_touch, 1);
@@ -179,21 +180,24 @@ implements SurfaceHolder.Callback{
 			super.onDraw(canvas);
 			canvas.clipRect(new Rect(0,0,Constant.SCREEN_WIDTH,Constant.SCREEN_HIGHT));//只在螢幕範圍內繪制圖片
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
-			Graphic.drawPic(canvas, main_back, 1280/2, 720/2, 0, 255, paint);//背景
 
 			if(!back_mp.isPlaying()){
 				back_mp.prepareAsync();
 				back_mp.start();
 			}
-
-			if(apa<= 10){
-				a =7;
-			} 
-			if(apa >240){
-				a = -7;
+			if(!hidden_flag){
+				if(apa<= 10){
+					a =7;
+				} 
+				if(apa >240){
+					a = -7;
+				}
+				apa+= a;
+				Graphic.drawPic(canvas, main_back, 1280/2, 720/2, 0, 255, paint);//背景
+				Graphic.drawPic(canvas, main_back2, 1280/2, 720/2, 0, apa, paint);
+			}else{
+				Graphic.drawPic(canvas, main_back3, 1280/2, 720/2, 0, 255, paint);//背景
 			}
-			apa+= a;
-			Graphic.drawPic(canvas, main_back2, 1280/2, 720/2, 0, apa, paint);
 
 			if(mainFlag==0){
 				if(i<250)
@@ -228,9 +232,11 @@ implements SurfaceHolder.Callback{
 				if(alpha2 <100){
 					alpha = 10;
 				}*/
-				alpha2=255;
-				startbtm.drawBtm(canvas, paint,alpha2);
-				exitbtm.drawBtm(canvas, paint,alpha2);
+				startbtm.drawBtm(canvas, paint);
+				exitbtm.drawBtm(canvas, paint);
+				if(hidden_flag){
+					staffList.drawBtm(canvas, paint);
+				}
 			}
 		}
 	}
@@ -269,6 +275,10 @@ implements SurfaceHolder.Callback{
 					if(exitbtm.isIn(pointx, pointy)){
 						sp.play(btn_se[0], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						exitbtm.setBottomTo(true);
+					}
+					if(staffList.isIn(pointx, pointy)&&hidden_flag){
+						activity.video_select=3;
+						activity.changeView(0);
 					}
 				}
 				deJump=false;
@@ -310,6 +320,7 @@ implements SurfaceHolder.Callback{
 	public void surfaceDestroyed(SurfaceHolder arg0) {//銷毀時被呼叫
 		main_back.recycle();
 		main_back2.recycle();
+		main_back3.recycle();
 		start.recycle();
 		exit.recycle();
 		main_left.recycle();

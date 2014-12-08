@@ -276,9 +276,11 @@ implements SurfaceHolder.Callback{
 						sp.play(btn_se[0], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						exitbtm.setBottomTo(true);
 					}
-					if(staffList.isIn(pointx, pointy)&&hidden_flag){
-						activity.video_select=3;
-						activity.changeView(0);
+					if(hidden_flag){
+						if(staffList.isIn(pointx, pointy)){
+							activity.video_select=3;
+							activity.changeView(0);
+						}
 					}
 				}
 				deJump=false;

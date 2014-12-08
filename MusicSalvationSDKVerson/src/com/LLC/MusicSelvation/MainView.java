@@ -26,15 +26,20 @@ implements SurfaceHolder.Callback{
 
 	Bitmap main_back;
 	Bitmap main_back2;
+	Bitmap main_back3;
 	Bitmap start;
 	Bitmap exit;
 	Bitmap main_left;
 	Bitmap main_right;
 	Bitmap main_title;
 	Bitmap main_touchstart;
+	
+	Bitmap left_xia;
+	Bitmap right_miku;
 
 	Bottom startbtm;
 	Bottom exitbtm;
+	
 
 
 	int mainFlag=0;
@@ -57,18 +62,18 @@ implements SurfaceHolder.Callback{
 
 	int mlx=-220;
 	int mlx1=220-60;
-	int mly=360+140;
+	int mly=700;
 
 	int mrx=1280+333;
 	int mrx1=1280-333+190;
-	int mry=360+140;
+	int mry=700;
 
 	int alpha = 5;
 	int alpha2 = 0;
 
-	//背景音樂宣告====================================
+	//背景音樂宣告，更改為陣列====================================
 
-	MediaPlayer back_mp;
+	MediaPlayer back_mp[] = new MediaPlayer[2];
 
 	//背景音樂宣告------------------------------------
 
@@ -98,10 +103,13 @@ implements SurfaceHolder.Callback{
 		paint.setAntiAlias(true);//開啟抗鋸齒
 		main_back=			Graphic.bitSize(LoadBitmap( R.drawable.main_back3), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
 		main_back2=			Graphic.bitSize(LoadBitmap( R.drawable.main_back2), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
+		main_back3=			Graphic.bitSize(LoadBitmap( R.drawable.tellyouworld), Constant.DEFULT_WITH, Constant.DEFULT_HIGHT);
 		main_title=			Graphic.bitSize(LoadBitmap( R.drawable.main_title ),730 ,269 );
 		main_touchstart=	Graphic.bitSize(LoadBitmap( R.drawable.main_touchstart ), 594, 85);
 		main_left=			Graphic.bitSize(LoadBitmap( R.drawable.main_left ),(440/2), (583/2));
 		main_right=			Graphic.bitSize(LoadBitmap( R.drawable.main_right), (666/2), (644/2));
+		left_xia =          Graphic.bitSize(LoadBitmap( R.drawable.xia), 385, 717);
+		right_miku =        Graphic.bitSize(LoadBitmap( R.drawable.mikuv3_img2), 620, 717);
 		start =  			Graphic.bitSize(LoadBitmap( R.drawable.start), 314,85);
 		exit  =  			Graphic.bitSize(LoadBitmap( R.drawable.exit), 314,85);
 		startbtm = 	new Bottom(activity, start,start, 640, 518);
@@ -109,10 +117,14 @@ implements SurfaceHolder.Callback{
 
 		//載入音樂=============================================================
 
-		back_mp=MediaPlayer.create(this.getContext(), R.raw.tell_your_world_piano);
-		back_mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
-		back_mp.setLooping(true);
-		back_mp.start();
+		back_mp[0]=MediaPlayer.create(this.getContext(), R.raw.tell_your_world_piano);
+		back_mp[1]=MediaPlayer.create(this.getContext(), R.raw.tellpiano);
+		back_mp[0].setVolume(activity.mp_Voiume, activity.mp_Voiume);
+		back_mp[1].setVolume(activity.mp_Voiume, activity.mp_Voiume);
+		back_mp[0].setLooping(true);
+		back_mp[1].setLooping(true);
+		back_mp[0].start();
+		//back_mp[1].start();
 		
 		sp=new SoundPool(4, AudioManager.STREAM_MUSIC, 5);
 		btn_se[0] = sp.load(activity, R.raw.start, 1);
@@ -153,9 +165,9 @@ implements SurfaceHolder.Callback{
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, main_back, 1280/2, 720/2, 0, 255, paint);//背景
 
-			if(!back_mp.isPlaying()){
-				back_mp.prepareAsync();
-				back_mp.start();
+			if(!back_mp[0].isPlaying()){
+				back_mp[0].prepareAsync();
+				back_mp[0].start();
 			}
 
 			if(apa<= 10){
@@ -187,10 +199,10 @@ implements SurfaceHolder.Callback{
 				Graphic.drawPic(canvas, main_title, mtx, mty, 0, 255, paint);//Title
 				mty=Coordinate.AnalogSpeedMove(mty, mty2);
 
-				Graphic.drawPic(canvas, main_left, mlx, mly, 0, 255, paint);//Left
+				Graphic.drawPic(canvas, left_xia, mlx, mly, 0, 255, paint);//Left
 				mlx=Coordinate.AnalogSpeedMove(mlx, mlx1);
 
-				Graphic.drawPic(canvas, main_right, mrx, mry, 0, 255, paint);//Right
+				Graphic.drawPic(canvas, right_miku, mrx, mry, 0, 255, paint);//Right
 				mrx=Coordinate.AnalogSpeedMove(mrx, mrx1);
 
 				/*alpha2+=alpha;
@@ -287,10 +299,13 @@ implements SurfaceHolder.Callback{
 		main_left.recycle();
 		main_right.recycle();
 		main_title.recycle();
+		left_xia.recycle();
+		right_miku.recycle();
 		main_touchstart.recycle();
 		startbtm.recycle();
 		exitbtm.recycle();
-		back_mp.stop();
+		back_mp[0].stop();
+		back_mp[1].stop();
 		sp.release();
 		System.gc();
 		Constant.Flag=false;

@@ -528,12 +528,15 @@ implements SurfaceHolder.Callback{
 		});
 
 
-		sp_id=new int[5];
+		sp_id=new int[6];
 		sp_id[0]=sp.load(activity, R.raw.tambourine, 1);
 		sp_id[1]=sp.load(activity, R.raw.drum_cymbal, 1);
 		sp_id[2]=sp.load(activity, R.raw.drum_snare, 1);
 		sp_id[3]=sp.load(activity, R.raw.fall, 1);
 		sp_id[4]=sp.load(activity, R.raw.voice_dog, 1);
+		
+		//PAUSE用效果音
+		sp_id[5]=sp.load(activity, R.raw.stagebtn, 1);
 
 		Reset();
 		new Thread(){
@@ -1054,8 +1057,10 @@ implements SurfaceHolder.Callback{
 			//PAUSE按鈕功能==============================================
 			if(btn_pause.isIn(pointx, pointy)){
 				if(!btn_pause.getBottom()){
+					sp.play(sp_id[5], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 					pause();
 					btn_pause.setBottomTo(true);
+					
 				}
 				else if(btn_pause.getBottom()){
 					resume();
@@ -1079,16 +1084,19 @@ implements SurfaceHolder.Callback{
 			if(btn_pause.getBottom()){   //必須在PAUSE按鈕為TRUE的時候才生效
 
 				if(btn_re_play.isIn(pointx, pointy)){
+					sp.play(sp_id[5], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 					resume();
 					btn_pause.setBottomTo(false);
 				}
 				if(btn_re_start.isIn(pointx, pointy)){
+					sp.play(sp_id[5], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 					Reset();
 					mp.seekTo(0);
 					resume();
 					btn_pause.setBottomTo(false);
 				}
 				if(btn_re_map.isIn(pointx, pointy)){
+					sp.play(sp_id[5], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 					activity.changeView(2);
 					btn_pause.setBottomTo(false);
 

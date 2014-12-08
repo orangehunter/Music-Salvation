@@ -172,8 +172,8 @@ implements SurfaceHolder.Callback{
 	boolean beam_flag;
 
 	bigAnimax boss_del;
-	int boss_del_num=36;
-	int boss_del_time=5000;
+	int boss_del_num=28;
+	int boss_del_time=3000;
 	int boss_del_sound;
 	boolean boss_del_flag;
 	//BOSS §ðÀ»--
@@ -455,7 +455,7 @@ implements SurfaceHolder.Callback{
 		beam_sound=sp.load(getContext(), R.raw.beam_cut, 1);
 
 
-		boss_del=new bigAnimax(activity, boss_del_num, 640, 500, R.drawable.boss_del00000);
+		boss_del=new bigAnimax(activity, boss_del_num, 640, 500, R.drawable.boss_del00008);
 		boss_del.setPosition(640, 242);
 		boss_del_sound=sp.load(getContext(), R.raw.boss_del, 1);
 		//BOSS §ðÀ»--

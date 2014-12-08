@@ -71,9 +71,9 @@ implements SurfaceHolder.Callback{
 	int alpha = 5;
 	int alpha2 = 0;
 
-	//背景音樂宣告====================================
+	//背景音樂宣告，更改為陣列====================================
 
-	MediaPlayer back_mp;
+	MediaPlayer back_mp[] = new MediaPlayer[2];
 
 	//背景音樂宣告------------------------------------
 
@@ -117,10 +117,14 @@ implements SurfaceHolder.Callback{
 
 		//載入音樂=============================================================
 
-		back_mp=MediaPlayer.create(this.getContext(), R.raw.tell_your_world_piano);
-		back_mp.setVolume(activity.mp_Voiume, activity.mp_Voiume);
-		back_mp.setLooping(true);
-		back_mp.start();
+		back_mp[0]=MediaPlayer.create(this.getContext(), R.raw.tell_your_world_piano);
+		back_mp[1]=MediaPlayer.create(this.getContext(), R.raw.tellpiano);
+		back_mp[0].setVolume(activity.mp_Voiume, activity.mp_Voiume);
+		back_mp[1].setVolume(activity.mp_Voiume, activity.mp_Voiume);
+		back_mp[0].setLooping(true);
+		back_mp[1].setLooping(true);
+		back_mp[0].start();
+		//back_mp[1].start();
 		
 		sp=new SoundPool(4, AudioManager.STREAM_MUSIC, 5);
 		btn_se[0] = sp.load(activity, R.raw.start, 1);
@@ -161,9 +165,9 @@ implements SurfaceHolder.Callback{
 			canvas.drawColor(Color.BLACK);//界面設定為黑色
 			Graphic.drawPic(canvas, main_back, 1280/2, 720/2, 0, 255, paint);//背景
 
-			if(!back_mp.isPlaying()){
-				back_mp.prepareAsync();
-				back_mp.start();
+			if(!back_mp[0].isPlaying()){
+				back_mp[0].prepareAsync();
+				back_mp[0].start();
 			}
 
 			if(apa<= 10){
@@ -300,7 +304,8 @@ implements SurfaceHolder.Callback{
 		main_touchstart.recycle();
 		startbtm.recycle();
 		exitbtm.recycle();
-		back_mp.stop();
+		back_mp[0].stop();
+		back_mp[1].stop();
 		sp.release();
 		System.gc();
 		Constant.Flag=false;

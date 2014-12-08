@@ -14,10 +14,12 @@ public class Video extends SurfaceView {
 	SurfaceHolder sh;
 	int video[]={	R.raw.llc,
 			R.raw.story,
-			R.raw.access};
+			R.raw.access,
+			R.raw.staff_csu};
 	int view[]={	1,
 			2,
-			3};
+			3,
+			4};
 	@SuppressWarnings("deprecation")
 	public Video(final MainActivity activity){
 		super(activity.getApplicationContext());

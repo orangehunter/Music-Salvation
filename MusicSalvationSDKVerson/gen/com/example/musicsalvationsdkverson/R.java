@@ -345,16 +345,17 @@ public final class R {
         public static final int map_bgm=0x7f03000d;
         public static final int se03=0x7f03000e;
         public static final int spica=0x7f03000f;
-        public static final int stagebtn=0x7f030010;
-        public static final int start=0x7f030011;
-        public static final int story=0x7f030012;
-        public static final int sv_btn=0x7f030013;
-        public static final int tambourine=0x7f030014;
-        public static final int tell_your_world_piano=0x7f030015;
-        public static final int title_touch=0x7f030016;
-        public static final int v=0x7f030017;
-        public static final int voice_dog=0x7f030018;
-        public static final int warning=0x7f030019;
+        public static final int staff_csu=0x7f030010;
+        public static final int stagebtn=0x7f030011;
+        public static final int start=0x7f030012;
+        public static final int story=0x7f030013;
+        public static final int sv_btn=0x7f030014;
+        public static final int tambourine=0x7f030015;
+        public static final int tell_your_world_piano=0x7f030016;
+        public static final int title_touch=0x7f030017;
+        public static final int v=0x7f030018;
+        public static final int voice_dog=0x7f030019;
+        public static final int warning=0x7f03001a;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

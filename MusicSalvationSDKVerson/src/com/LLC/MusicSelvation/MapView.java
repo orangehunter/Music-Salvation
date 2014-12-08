@@ -127,7 +127,9 @@ implements SurfaceHolder.Callback{
 	Bottom sebtm5;
 
 	Bottom stbtn01;
+	boolean st_02_flag;
 	Bottom stbtn02;  //第二關按鈕
+	boolean st_03_flag;
 	Bottom stbtn03;  //第三關按鈕
 	Bottom easy;
 	Bottom normal;
@@ -338,6 +340,18 @@ implements SurfaceHolder.Callback{
 		stbtn01 = new Bottom(activity, stage01btn , stage01btn0 , 644, 609);
 		stbtn02 = new Bottom(activity, stage01btn , stage01btn0 , 815, 165);
 		stbtn03 = new Bottom(activity, stage01btn , stage01btn0 , 430, 335);
+
+		st_02_flag=false;
+		st_03_flag=false;
+		for(int j=0;j<3;j++){
+			if(activity.level_clear[0][j]){
+				st_02_flag=true;
+			}
+			if(activity.level_clear[1][j]){
+				st_03_flag=true;
+			}
+		}
+
 		switch (activity.sp_num) {
 		case 0:
 			sebtm1.setBottomTo(true);
@@ -390,7 +404,7 @@ implements SurfaceHolder.Callback{
 		sp_id[8]=sp.load(activity, R.raw.left_num, 1);
 		sp_id[9]=sp.load(activity, R.raw.stagebtn, 1);
 		sp_id[10]=sp.load(activity, R.raw.start, 1);
-		
+
 		num=new Number(getResources());
 		num.setSize(30, 40);
 		rank=new Bitmap[7];
@@ -398,7 +412,7 @@ implements SurfaceHolder.Callback{
 		for(int i=0;i<=5;i++){
 			rank[i]=Graphic.LoadBitmap(getResources(), R.drawable.r_f-i, 45, 60);
 		}
-		
+
 		Constant.Flag=true;
 		new Thread(){
 			@SuppressLint("WrongCall")
@@ -444,17 +458,21 @@ implements SurfaceHolder.Callback{
 			}
 
 			//2、3關按鈕==============================================================
-			if(stbtn02.getBottom()){
-				Graphic.drawPic(canvas, stage01btn0, 815, 165, 0, 255, paint);
-				stbtn02.drawBtm(canvas, paint,x2);
-			}else{
-				stbtn02.drawBtm(canvas, paint);
+			if(st_02_flag){
+				if(stbtn02.getBottom()){
+					Graphic.drawPic(canvas, stage01btn0, 815, 165, 0, 255, paint);
+					stbtn02.drawBtm(canvas, paint,x2);
+				}else{
+					stbtn02.drawBtm(canvas, paint);
+				}
 			}
-			if(stbtn03.getBottom()){
-				Graphic.drawPic(canvas, stage01btn0, 430, 335, 0, 255, paint);
-				stbtn03.drawBtm(canvas, paint,x2);
-			}else{
-				stbtn03.drawBtm(canvas, paint);
+			if(st_03_flag){
+				if(stbtn03.getBottom()){
+					Graphic.drawPic(canvas, stage01btn0, 430, 335, 0, 255, paint);
+					stbtn03.drawBtm(canvas, paint,x2);
+				}else{
+					stbtn03.drawBtm(canvas, paint);
+				}
 			}
 
 			//2、3關按鈕-------------------------------------------------------------
@@ -636,7 +654,7 @@ implements SurfaceHolder.Callback{
 				Graphic.drawPic(canvas, right_board, right_board_x, 355, 0, 255, paint);
 				Graphic.drawPic(canvas, right_stage01, right_board_x+11, 37, 0, 255, paint);
 				if(activity.level_clear[activity.level][activity.difficulty]){
-				Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
+					Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
 				}else{
 					Graphic.drawPic(canvas, right_boss01_gray, right_board_x-1, 179, 0, 255, paint);
 				}
@@ -651,9 +669,9 @@ implements SurfaceHolder.Callback{
 				Graphic.drawPic(canvas, right_stage2, right_board_x+11, 37, 0, 255, paint);
 				if(activity.level_clear[activity.level][activity.difficulty]){
 					Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
-					}else{
-						Graphic.drawPic(canvas, right_boss01_gray, right_board_x-1, 179, 0, 255, paint);
-					}
+				}else{
+					Graphic.drawPic(canvas, right_boss01_gray, right_board_x-1, 179, 0, 255, paint);
+				}
 				Graphic.drawPic(canvas, right_stage02info, right_board_x-4, 465, 0, 255, paint);
 				start.drawBtm(canvas, paint,right_board_x+101, 655,x2);
 				model.drawBtm(canvas, paint,right_board_x-86, 667);
@@ -665,9 +683,9 @@ implements SurfaceHolder.Callback{
 				Graphic.drawPic(canvas, right_stage3, right_board_x+11, 37, 0, 255, paint);
 				if(activity.level_clear[activity.level][activity.difficulty]){
 					Graphic.drawPic(canvas, right_boss01, right_board_x-1, 179, 0, 255, paint);
-					}else{
-						Graphic.drawPic(canvas, right_boss01_gray, right_board_x-1, 179, 0, 255, paint);
-					}
+				}else{
+					Graphic.drawPic(canvas, right_boss01_gray, right_board_x-1, 179, 0, 255, paint);
+				}
 				Graphic.drawPic(canvas, right_stage03info, right_board_x-4, 465, 0, 255, paint);
 				start.drawBtm(canvas, paint,right_board_x+101, 655,x2);
 				model.drawBtm(canvas, paint,right_board_x-86, 667);
@@ -678,7 +696,7 @@ implements SurfaceHolder.Callback{
 			//當stageFlag不等於0，就會顯示難易度與選擇難易度
 			if(stageFlag !=0){
 				if(activity.hight_rank[activity.level][activity.difficulty]!=0){
-				Graphic.drawPic(canvas, rank[activity.hight_rank[activity.level][activity.difficulty]-1], right_board_x+68, 585, 0, 255, paint);
+					Graphic.drawPic(canvas, rank[activity.hight_rank[activity.level][activity.difficulty]-1], right_board_x+68, 585, 0, 255, paint);
 				}
 				num.drawNumberLeftStart(right_board_x-10, 528, activity.hight_score[activity.level][activity.difficulty], Number.Wite, canvas, paint);
 				//追加條件:當Flag = 0 會顯示easy=================================================
@@ -974,7 +992,7 @@ implements SurfaceHolder.Callback{
 					}
 				}
 				//第二關==================================================
-				if(stbtn02.isIn(pointx, pointy)){
+				if(stbtn02.isIn(pointx, pointy)&&st_02_flag){
 					if(!stbtn02.getBottom()){
 						sp.play(sp_id[10], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						stageFlag = 2;
@@ -993,7 +1011,7 @@ implements SurfaceHolder.Callback{
 				}
 				//第二關--------------------------------------------------------
 				//第三關==================================================
-				if(stbtn03.isIn(pointx, pointy)){
+				if(stbtn03.isIn(pointx, pointy)&&st_03_flag){
 					if(!stbtn03.getBottom()){
 						sp.play(sp_id[10], activity.sp_Voiume, activity.sp_Voiume, 0, 0, 1);
 						stageFlag = 3;

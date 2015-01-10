@@ -581,10 +581,10 @@ implements SurfaceHolder.Callback{
 					break;
 				case 1 :
 					Log.v("Load Charts", "spica"+difficulty[activity.difficulty]);
-					//this.boss_show=164000;
-					//boss_kill=230000;
-					this.boss_show=5000;
-					boss_kill=10000;
+					this.boss_show=164000;
+					boss_kill=230000;
+					//this.boss_show=5000;
+					//boss_kill=10000;
 					percent=50000;
 					en=90;
 					json=activity.read( "spica"+difficulty[activity.difficulty]);
